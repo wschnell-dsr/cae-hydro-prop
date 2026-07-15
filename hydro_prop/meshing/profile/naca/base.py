@@ -75,8 +75,10 @@ class NACAProfile(Profile, ABC):
         self._norm_x_distribution = np.linspace(self.norm_range[0], self.norm_range[1], tmp_n_points)
 
     def norm_thickness_y(self, arg_x: float) -> float:
-        a0, a1, a2, a3, a4 = 1.4845, -0.630, -1.758, 1.4215, -0.5075
-        tmp_y = 2.0 * self._max_thickness * (a0 * np.sqrt(arg_x) + a1 * arg_x + a2 * arg_x**2 + a3 * arg_x**3 + a4 * arg_x**4)
+        tmp_y = 0.0
+        if arg_x < 1.0:
+            a0, a1, a2, a3, a4 = 1.4845, -0.630, -1.758, 1.4215, -0.5075
+            tmp_y = 2.0 * self._max_thickness * (a0 * np.sqrt(arg_x) + a1 * arg_x + a2 * arg_x**2 + a3 * arg_x**3 + a4 * arg_x**4)
         return tmp_y
 
     def norm_thickness_dydx(self, arg_x: float) -> float:
