@@ -38,13 +38,13 @@ line-length = 144
 [tool.ruff]
 select = ["E", "F", "I", "N", "ERA", "NPY", "PL", "FLY", "RUF"]
 ignore = [
-    "RUF100",   # "unused noqa statements"
-    "PLR0911",  # "too many return statements"
-    "PLR0912",  # "too many branches"
-    "PLR0913",  # "too many arguments to function call"
-    "PLR0915",  # "too many statements in one function"
-    "PLW0603",  # "use of global statement to update identifiers"
-    "N999",  # "invalid module name (not snake_case)"
+    #"RUF100",   # "unused noqa statements"
+    #"PLR0911",  # "too many return statements"
+    #"PLR0912",  # "too many branches"
+    #"PLR0913",  # "too many arguments to function call"
+    #"PLR0915",  # "too many statements in one function"
+    #"PLW0603",  # "use of global statement to update identifiers"
+    #"N999",  # "invalid module name (not snake_case)"
 ]
 target-version = "py312"
 line-length = 144
@@ -60,6 +60,8 @@ strict = ["*"]
 pythonVersion = "3.12"
 reportMissingModuleSource = false
 ignore = [
-#    "atto_dry/datalog/*",
 ]
 pythonPlatform = "Linux"
+
+[tool.pylint]
+max-complexity = 25

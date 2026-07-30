@@ -3,17 +3,16 @@
 """ """
 
 import logging
+import os
 import logging.config
 import unittest
 
-from hydro_prop.meshing.profile import ProfileType
-from hydro_prop.meshing.blade import PitchDistributionType, ChordDistributionType
 from hydro_prop.meshing.propeller import PropCnf, Propeller
+from hydro_prop.meshing.meshing import MeshParameters
 
 import salome
 from salome.geom import geomBuilder
 from salome.smesh import smeshBuilder
-
 
 # pyright: reportUnknownMemberType=false
 # pyright: reportUnknownVariableType=false
@@ -51,42 +50,57 @@ class TestPropellerSalome(unittest.TestCase):
 
         tmp_prop_cnf: PropCnf = {
             "n_blades": 2,
-            "hub_length": 0.012,
-            "hub_offset": -0.001,
+            "hub_length": 0.020,
+            "hub_radius": 0.0045,
+            "blade_offset": 0.005,
             "blade_cnf": {
                 "key": "blade_1",
-                "profile_pnts": 100,
+                "profile_pnts": 50,
                 "radius_hub": 0.004,
                 "radius_tip": 0.020,
-                "radius_eps": 0.000001,
-                "radius_pnts": 15,
+                "radius_eps": 0.00005,
+                "radius_pnts": 10,
                 "profile_cnf": {
-                    "key": "NACA 0008",
-                    "profile_type": ProfileType.NACA,
-                    "profile_code": "0008"
+                    "key": "NACA 0012",
+                    "profile_type": "NACA",
+                    "profile_code": "0012"
                 },
                 "pitch_cnf": {
-                    "pitch_type": PitchDistributionType.LINEAR,
-                    "pitch_hub": 80.0,
-                    "pitch_tip": 30.0,
+                    "pitch_type": "LINEAR",
+                    "pitch_hub": 45.0,
+                    "pitch_tip": 80.0,
                 },
                 "chord_cnf": {
-                    "chord_type": ChordDistributionType.LINEAR,
-                    "chord_hub": 0.030,
+                    "chord_type": "ELLIPTIC",
+                    "chord_hub": 0.015,
                     "chord_tip": 0.001,
                 },
                 "skew_cnf": {
                     "exponent": 1.0,
-                    "skew_max": 0.0
+                    "skew_max": 20.0
                 },
                 "rake_cnf": {
                     "exponent": 1.0,
-                    "rake_max": 0.0
+                    "rake_max": 20.0
                 }
             }
         }
 
-        tmp_propeller = Propeller(tmp_prop_cnf, self.geompy, OO, OX, "propeller")
+        mesh_cnf: MeshParameters = {
+            "algorithm": "GMSH",
+            "min_size": 0.001,
+            "max_size": 0.001,
+            "fineness": "FINE",
+            "optimize": 1,
+            "second_order": 0
+        }
+
+        tmp_propeller = Propeller(tmp_prop_cnf, self.geompy, self.smesh, OO, OX)
+        tmp_propeller.gen_geom("propeller")
+        tmp_propeller.gen_mesh("propeller", mesh_cnf)
+
+        os.makedirs("testing/data/", exist_ok=True)
+        tmp_propeller.export_mesh("testing/data/")
 
 
 if __name__ == "__main__":

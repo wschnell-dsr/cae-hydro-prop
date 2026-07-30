@@ -53,7 +53,7 @@ class TestBladeSalome(unittest.TestCase):
             "profile_pnts": 100,
             "radius_hub": 0.006,
             "radius_tip": 0.020,
-            "radius_eps": 0.000001,
+            "radius_eps": 0.00001,
             "radius_pnts": 20,
             "profile_cnf": {
                 "key": "NACA 0008",
@@ -88,7 +88,7 @@ class TestBladeSalome(unittest.TestCase):
             "profile_pnts": 100,
             "radius_hub": 0.006,
             "radius_tip": 0.020,
-            "radius_eps": 0.000001,
+            "radius_eps": 0.00001,
             "radius_pnts": 20,
             "profile_cnf": {
                 "key": "NACA 0008",
@@ -101,7 +101,7 @@ class TestBladeSalome(unittest.TestCase):
                 "pitch_tip": 30.0,
             },
             "chord_cnf": {
-                "chord_type": ChordDistributionType.LINEAR,
+                "chord_type": ChordDistributionType.ELLIPTIC,
                 "chord_hub": 0.010,
                 "chord_tip": 0.001,
             },

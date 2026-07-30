@@ -1,0 +1,102 @@
+{
+    "meshing": {
+        "mesh_01": {
+            "ref_pnt": [0,0,0],
+            "ref_axis": [1,0,0],
+            "prop_cnf": {
+                "n_blades": 2,
+                "hub_length": 0.020,
+                "hub_radius": 0.0045,
+                "blade_offset": 0.005,
+                "blade_cnf": {
+                    "key": "blade_1",
+                    "profile_pnts": 50,
+                    "radius_hub": 0.004,
+                    "radius_tip": 0.020,
+                    "radius_eps": 0.00005,
+                    "radius_pnts": 10,
+                    "profile_cnf": {
+                        "key": "NACA 0012",
+                        "profile_type": "NACA",
+                        "profile_code": "0012"
+                    },
+                    "pitch_cnf": {
+                        "pitch_type": "LINEAR",
+                        "pitch_hub": 45.0,
+                        "pitch_tip": 80.0
+                    },
+                    "chord_cnf": {
+                        "chord_type": "ELLIPTIC",
+                        "chord_hub": 0.015,
+                        "chord_tip": 0.001
+                    },
+                    "skew_cnf": {
+                        "exponent": 1.0,
+                        "skew_max": 20.0
+                    },
+                    "rake_cnf": {
+                        "exponent": 1.0,
+                        "rake_max": 20.0
+                    }
+                }
+            },
+            "mesh_cnf": {
+                "algorithm": "GMSH",
+                "min_size": 0.001,
+                "max_size": 0.001,
+                "fineness": "FINE",
+                "optimize": 1,
+                "second_order": 0
+            }
+        },
+        "mesh_02": {
+            "ref_pnt": [0,0,0],
+            "ref_axis": [1,0,0],
+            "prop_cnf": {
+                "n_blades": 2,
+                "hub_length": 0.020,
+                "hub_radius": 0.0045,
+                "blade_offset": 0.005,
+                "blade_cnf": {
+                    "key": "blade_1",
+                    "profile_pnts": 100,
+                    "radius_hub": 0.004,
+                    "radius_tip": 0.020,
+                    "radius_eps": 0.00005,
+                    "radius_pnts": 20,
+                    "profile_cnf": {
+                        "key": "NACA 0012",
+                        "profile_type": "NACA",
+                        "profile_code": "0012"
+                    },
+                    "pitch_cnf": {
+                        "pitch_type": "LINEAR",
+                        "pitch_hub": 45.0,
+                        "pitch_tip": 80.0
+                    },
+                    "chord_cnf": {
+                        "chord_type": "ELLIPTIC",
+                        "chord_hub": 0.020,
+                        "chord_tip": 0.001
+                    },
+                    "skew_cnf": {
+                        "exponent": 1.0,
+                        "skew_max": 20.0
+                    },
+                    "rake_cnf": {
+                        "exponent": 1.0,
+                        "rake_max": 20.0
+                    }
+                }
+            },
+            "mesh_cnf": {
+                "algorithm": "NETGEN_1D2D3D",
+                "min_size": 0.00001,
+                "max_size": 0.0005,
+                "fineness": "FINE",
+                "optimize": 1,
+                "second_order": 0
+            }
+        }
+    }
+}

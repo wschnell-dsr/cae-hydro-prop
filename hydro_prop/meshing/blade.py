@@ -24,7 +24,7 @@ class ChordDistributionType(IntEnum):
 
 
 class ChordCnf(TypedDict):
-    chord_type: ChordDistributionType
+    chord_type: str
 
 
 class ChordLinearCnf(ChordCnf):
@@ -33,7 +33,8 @@ class ChordLinearCnf(ChordCnf):
 
 
 class ChordEllipticCnf(ChordCnf):
-    pass
+    chord_hub: float
+    chord_tip: float
 
 
 ChordCnfVariant: TypeAlias = Union[None, ChordCnf, ChordLinearCnf, ChordEllipticCnf]
@@ -47,7 +48,7 @@ class PitchDistributionType(IntEnum):
 
 
 class PitchCnf(TypedDict):
-    pitch_type: PitchDistributionType
+    pitch_type: str
 
 
 class PitchLinearCnf(PitchCnf):
@@ -109,10 +110,14 @@ class Blade:
         self.__chord = None
         self.blade = None
         self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
-        if self.pitch_type == PitchDistributionType.LINEAR:
+
+        if self.pitch_type == PitchDistributionType.LINEAR.name:
             self.__pitch = numpy.interp(self.__radii,  [self.radius_hub, self.radius_tip], [self.pitch_hub, self.pitch_tip])
-        if self.chord_type == PitchDistributionType.LINEAR:
+
+        if self.chord_type == ChordDistributionType.LINEAR.name:
             self.__chord = numpy.interp(self.__radii,  [self.radius_hub, self.radius_tip], [self.chord_hub, self.chord_tip])
+        elif self.chord_type == ChordDistributionType.ELLIPTIC.name:
+            self.__chord = self.chord_hub * numpy.sqrt(1.0 - self.__radii / self.radius_tip + self.chord_tip)
 
         path_pnts = []
         profile_wires = []
@@ -197,7 +202,7 @@ class Blade:
         return self.__cnf["chord_cnf"]["chord_tip"]
 
     @property
-    def pitch_type(self) -> PitchDistributionType:
+    def pitch_type(self) -> str:
         return self.__cnf["pitch_cnf"]["pitch_type"]
 
     @property
@@ -233,12 +238,12 @@ class Blade:
         return tmp_rake
 
     def cylinder_projection(self, arg_r: float, arg_x: numpy.ndarray, arg_y: numpy.ndarray) -> Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray]:
-        theta_rad = numpy.arctan2(arg_y, arg_r)
+        theta_rad = arg_y / arg_r
         tmp_skew_dx = arg_r * numpy.sin(numpy.deg2rad(self.get_skew(arg_r)))
         tmp_rake = numpy.deg2rad(self.get_rake(arg_r))
         x = arg_x + tmp_skew_dx
-        y = numpy.sin(theta_rad+tmp_rake) * arg_r
-        z = - numpy.cos(theta_rad+tmp_rake) * arg_r
+        y = numpy.sin(theta_rad + tmp_rake) * arg_r
+        z = numpy.cos(theta_rad + tmp_rake) * arg_r
         return (x, y, z)
 
 

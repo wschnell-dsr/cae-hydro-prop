@@ -10,6 +10,7 @@ os.chdir(os.environ["HYDRO_PROP_ROOT"])
 sys.path.append(os.environ["HYDRO_PROP_ROOT"])
 
 sys.argv = ["run_salome_test.py", "--test-dir=testing", "--test-pattern=*propeller_salome_test.py"]
+#sys.argv = ["run_salome_test.py", "--test-dir=testing", "--test-pattern=*meshing_test.py"]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

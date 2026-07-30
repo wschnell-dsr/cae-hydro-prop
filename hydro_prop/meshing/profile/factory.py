@@ -15,7 +15,7 @@ class ProfileType(IntEnum):
 
 class ProfileCnf(TypedDict):
     key: str
-    profile_type: ProfileType
+    profile_type: str
 
 
 class NACACnf(ProfileCnf):
@@ -28,7 +28,7 @@ ProfileCnfVariant: TypeAlias = Union[NACACnf]
 class ProfileFactory:
 
     def create(self, arg_cnf: ProfileCnfVariant) -> ProfileVariant:
-        if arg_cnf["profile_type"] == ProfileType.NACA:
+        if arg_cnf["profile_type"] == ProfileType.NACA.name:
             tmp_naca_factory = NACAFactory()
             return tmp_naca_factory.create(arg_cnf["profile_code"])
         else:
