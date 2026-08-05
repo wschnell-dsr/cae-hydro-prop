@@ -9,38 +9,20 @@ FoamFile
 {
     format      ascii;
     class       dictionary;
-    object      controlDict;
+    location    "constant";
+    object      MRFProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-solver          incompressibleFluid;
+MRF
+{
+    cellZone    propellerFrame;
 
-startFrom       latestTime;
+    origin      (0 0 0);
+    axis        (0 0 1);
 
-startTime       0;
-
-stopAt          endTime;
-
-endTime         100;
-
-deltaT          1;
-
-writeControl    runTime;
-
-writeInterval   10;
-
-purgeWrite      0;
-
-writeFormat     ascii;
-
-writePrecision  8;
-
-writeCompression off;
-
-timeFormat      general;
-
-timePrecision   6;
-
-runTimeModifiable true;
+    omega       60 [rpm];
+    patches         (blade_0 blade_1 hub);
+}
 
 // ************************************************************************* //
