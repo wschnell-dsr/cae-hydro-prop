@@ -58,26 +58,3 @@ if __name__ == "__main__":
     logger = logging.getLogger("hydro_prop")
 
     run_meshing(args.study)
-
-    '''
-    modal_cases = []
-    for tmp_key, tmp_mconfig in tmp_configs["modal"].items():
-        tmp_modal_dir = os.path.join(tmp_configs["study"], "modal", tmp_key)
-        os.makedirs(tmp_modal_dir, exist_ok=True)
-        tmp_singing_bowl_modal = calculation.SingingBowlModal(tmp_mconfig, tmp_meshes)
-        tmp_singing_bowl_modal.generate_case(tmp_modal_dir)
-        tmp_case = tmp_singing_bowl_modal.run()
-        modal_cases.append(tmp_case)
-
-    for tmp_case in modal_cases:
-        tmp_modal = postprocessing.SingingBowlModal(tmp_case)
-        tmp_modal.ccx_2_paraview()
-        tmp_modal.parse_modal_dat()
-        tmp_modal.animate()
-    '''
-
-
-
-
-
-

@@ -1,0 +1,162 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#includeEtc "caseDicts/mesh/generation/snappyHexMeshDict.cfg"
+
+castellatedMesh true;
+snap            true;
+addLayers       $!addLayers!$;
+geometry
+{
+    propeller.stl
+    {
+        type    triSurfaceMesh;
+        name    propeller;
+        file    "propeller.stl";
+        regions
+        {
+            hub
+            {
+                name hub;
+            }
+            blade_0
+            {
+                name blade_0;
+            }
+            blade_1
+            {
+                name blade_1;
+            }
+        }
+    }
+    shaft
+    {
+        type searchableCylinder;
+        point1 (@!xmin_shaft!@ 0 0);
+        point2 (@!xmax_shaft!@ 0 0);
+        radius @!r_shaft!@;
+    }
+    propellerFrame
+    {
+        type searchableCylinder;
+        point1 (@!xmin_prop_frame!@ 0 0);
+        point2 (@!xmax_prop_frame!@ 0 0);
+        radius @!r_prop_frame!@;
+    }
+    outerCylinder
+    {
+        type searchableCylinder;
+        point1 (@!xmin!@ 0 0);
+        point2 (@!xmax!@ 0 0);
+        radius @!rmax!@;
+    }
+}
+castellatedMeshControls
+{
+    features
+    (
+    );
+    refinementSurfaces
+    {
+        propeller
+        {
+            level (3 4);
+            regions
+            {
+                hub
+                {
+                    level (3 3);
+                    patchInfo
+                    {
+                        type wall;
+                    }
+                }
+                blade_0
+                {
+                    level (4 4);
+                    patchInfo
+                    {
+                        type wall;
+                    }
+                }
+                blade_1
+                {
+                    level (4 4);
+                    patchInfo
+                    {
+                        type wall;
+                    }
+                }
+            }
+        }
+        shaft
+        {
+            level (4 4);
+            patchInfo
+            {
+                type wall;
+            }
+        }
+        propellerFrame
+        {
+            level (4 4);
+
+            cellZone propellerFrame;
+            faceZone propellerFrame;
+            mode inside;
+        }
+        outerCylinder
+        {
+            level (4 4);
+            patchInfo
+            {
+                type wall;
+            }
+        }
+    }
+    insidePoint (@!x_inside_point!@ @!y_inside_point!@ @!z_inside_point!@);
+    nCellsBetweenLevels 2;
+    resolveFeatureAngle 30;
+}
+snapControls
+{
+    implicitFeatureSnap    true;
+}
+addLayersControls
+{
+    relativeSizes false;
+    layers
+    {
+        /*
+        fluid_to_cooler
+        {
+            nSurfaceLayers 2;
+        }
+        isolated
+        {
+            nSurfaceLayers 2;
+        }
+        */
+    }
+    expansionRatio            1.2;
+    finalLayerThickness    5.0e-4;
+    minThickness            1e-20;
+    nGrow                       1;
+    featureAngle              180;
+    nRelaxIter                 10;
+    nSmoothSurfaceNormals       1;
+    nSmoothNormals              3;
+    nSmoothThickness           15;
+    maxFaceThicknessRatio     1.0;
+    maxThicknessToMedialRatio 1.0;
+    minMedianAxisAngle          0;
+    nBufferCellsNoExtrude       0;
+    nLayerIter                 50;
+}
+mergeTolerance 1e-9;

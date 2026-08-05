@@ -19,3 +19,4 @@ dump.py
 *.egg*
 *.stl
 *.unv
+run/study*/openfoam

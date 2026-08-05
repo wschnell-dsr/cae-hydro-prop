@@ -1,0 +1,96 @@
+FoamFile
+{
+    version     2.4;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+
+$!setvar("nx"   , "int( (xmax-xmin)     / dx )")!$
+$!setvar("ny"   , "int( (ymax-ymin)     / dy )")!$
+$!setvar("nz"   , "int( (zmax-zmin)     / dz )")!$
+
+
+convertToMeters 1.0;
+
+vertices
+(
+    ( @!xmin!@  @!ymin!@  @!zmin!@) // 0
+    ( @!xmax!@  @!ymin!@  @!zmin!@) // 1
+    ( @!xmax!@  @!ymax!@  @!zmin!@) // 2
+    ( @!xmin!@  @!ymax!@  @!zmin!@) // 3
+    
+    ( @!xmin!@  @!ymin!@  @!zmax!@) // 4
+    ( @!xmax!@  @!ymin!@  @!zmax!@) // 5
+    ( @!xmax!@  @!ymax!@  @!zmax!@) // 6
+    ( @!xmin!@  @!ymax!@  @!zmax!@) // 7
+);
+
+blocks
+(
+    hex ( 0  1  2  3  4  5  6  7) (@!nx!@ @!ny!@ @!nz!@) simpleGrading (1 1 1)
+);
+
+edges
+(
+);
+
+boundary
+(
+    front
+    {
+        type patch;          // Typ: Standard-Patch (kann später z. B. zu inlet/outlet werden)
+        faces
+        (
+            (0 4 7 3)       // Fläche bei x=0 (Verbindung der Punkte 0,4,7,3)
+        );
+    }
+
+    back
+    {
+        type patch;
+        faces
+        (
+            (1 2 6 5)       // Fläche bei x=1 (Verbindung der Punkte 1,2,6,5)
+        );
+    }
+
+    left
+    {
+        type patch;
+        faces
+        (
+            (0 1 5 4)       // Fläche bei y=0 (Verbindung der Punkte 0,1,5,4)
+        );
+    }
+
+    right
+    {
+        type patch;
+        faces
+        (
+            (3 2 6 7)       // Fläche bei y=1 (Verbindung der Punkte 3,2,6,7)
+        );
+    }
+
+    bottom
+    {
+        type patch;
+        faces
+        (
+            (0 1 2 3)       // Fläche bei z=0 (Verbindung der Punkte 0,1,2,3)
+        );
+    }
+
+    top
+    {
+        type patch;
+        faces
+        (
+            (4 5 6 7)       // Fläche bei z=1 (Verbindung der Punkte 4,5,6,7)
+        );
+    }
+
+);
+
+// ************************************************************************* //

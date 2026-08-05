@@ -10,55 +10,6 @@
                 "blade_offset": 0.005,
                 "blade_cnf": {
                     "key": "blade_1",
-                    "profile_pnts": 50,
-                    "radius_hub": 0.004,
-                    "radius_tip": 0.020,
-                    "radius_eps": 0.00005,
-                    "radius_pnts": 10,
-                    "profile_cnf": {
-                        "key": "NACA 0012",
-                        "profile_type": "NACA",
-                        "profile_code": "0012"
-                    },
-                    "pitch_cnf": {
-                        "pitch_type": "LINEAR",
-                        "pitch_hub": 45.0,
-                        "pitch_tip": 80.0
-                    },
-                    "chord_cnf": {
-                        "chord_type": "ELLIPTIC",
-                        "chord_hub": 0.015,
-                        "chord_tip": 0.001
-                    },
-                    "skew_cnf": {
-                        "exponent": 1.0,
-                        "skew_max": 20.0
-                    },
-                    "rake_cnf": {
-                        "exponent": 1.0,
-                        "rake_max": 20.0
-                    }
-                }
-            },
-            "mesh_cnf": {
-                "algorithm": "GMSH",
-                "min_size": 0.001,
-                "max_size": 0.001,
-                "fineness": "FINE",
-                "optimize": 1,
-                "second_order": 0
-            }
-        },
-        "mesh_02": {
-            "ref_pnt": [0,0,0],
-            "ref_axis": [1,0,0],
-            "prop_cnf": {
-                "n_blades": 2,
-                "hub_length": 0.020,
-                "hub_radius": 0.0045,
-                "blade_offset": 0.005,
-                "blade_cnf": {
-                    "key": "blade_1",
                     "profile_pnts": 100,
                     "radius_hub": 0.004,
                     "radius_tip": 0.020,
@@ -96,6 +47,108 @@
                 "fineness": "FINE",
                 "optimize": 1,
                 "second_order": 0
+            }
+        }
+    },
+    "openfoam": {
+        "meshes": {
+            "mesh_01": {
+                "case_template": "../../templates/openfoam/snappy_hydro_prop_srf.template",
+                "case_target": "openfoam/meshes/mesh_01",
+                "resources": [],
+                "resources": [
+                    {
+                        "source": "meshes/mesh_01/propeller.stl",
+                        "target": "constant/geometry/propeller.stl"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "template_file": "system/blockMeshDict.template",
+                        "template_target_file": "system/blockMeshDict",
+                        "placeholder":
+                        {
+                            "xmin" : -0.05,
+                            "xmax" :  0.15,
+                            "ymin" : -0.10,
+                            "ymax" :  0.10,
+                            "zmin" : -0.10,
+                            "zmax" :  0.10,
+                            "dx"   :  5.0e-3,
+                            "dy"   :  5.0e-3,
+                            "dz"   :  5.0e-3
+                        }
+                    },
+                    {
+                        "template_file": "system/snappyHexMeshDict.template",
+                        "template_target_file": "system/snappyHexMeshDict",
+                        "placeholder":
+                        {
+                            "addLayers": 0,
+                            "x_inside_point" : 0.12001,
+                            "y_inside_point" : 0.00001,
+                            "z_inside_point" : 0.00001,
+                            "xmin" : -0.06,
+                            "xmax" :  0.16,
+                            "rmax" :  0.05,
+                            "xmin_prop_frame" : 0.0,
+                            "xmax_prop_frame" : 0.025,
+                            "r_prop_frame" :  0.03,
+                            "xmin_shaft" : -0.1,
+                            "xmax_shaft" : 0.0,
+                            "r_shaft" :  0.0045
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["blockMesh"],
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "snappyHexMesh"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ]
+            }
+        },
+        "cases": {
+            "case_01": {
+                "case_template": "../../templates/openfoam/incompressible_hydro_prop_srf.template",
+                "case_target": "openfoam/cases/case_01",
+                "resources": [],
+                "resources": [
+                    {
+                        "source": "openfoam/meshes/mesh_01/constant/polyMesh",
+                        "target": "constant/polyMesh"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [],
+                "pre_pro_runner_args": [
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "foamRun"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ]
             }
         }
     }
