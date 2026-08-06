@@ -21,7 +21,7 @@ MRF
     origin      (0 0 0);
     axis        (0 0 1);
 
-    omega       60 [rpm];
+    omega       1200 [rpm];
     patches         (blade_0 blade_1 hub);
 }
 
