@@ -18,34 +18,48 @@ solvers
 {
     p
     {
-        solver          PCG;
-        preconditioner  DIC;
+        solver          GAMG;
         tolerance       1e-06;
-        relTol          0.01;
+        relTol          0.1;
+        smoother        GaussSeidel;
     }
 
-    "(U|k|epsilon|omega|R|nuTilda).*"
+    pcorr
     {
-        solver          PBiCGStab;
-        preconditioner  DILU;
+        solver          GAMG;
+        tolerance       1e-06;
+        relTol          0;
+        smoother        GaussSeidel;
+    }
 
-        tolerance       1e-7;
+    "(U|k|epsilon|omega|f|v2)"
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-05;
         relTol          0.1;
     }
 }
 
-PIMPLE
+SIMPLE
 {
     nNonOrthogonalCorrectors 0;
-    consistent          yes;
+    consistent      yes;
+
+    residualControl
+    {
+        p               1e-2;
+        U               1e-3;
+        "(k|epsilon|omega|f|v2)" 1e-3;
+    }
 }
 
 relaxationFactors
 {
     equations
     {
-        ".*"            0.7;
-        "U.*"           0.9;
+        U               0.9; // 0.9 is more stable but 0.95 more convergent
+        ".*"            0.9; // 0.9 is more stable but 0.95 more convergent
     }
 }
 

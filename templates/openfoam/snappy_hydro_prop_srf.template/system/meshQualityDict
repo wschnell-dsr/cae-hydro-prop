@@ -15,8 +15,6 @@ FoamFile
 
 #includeEtc "caseDicts/mesh/generation/meshQualityDict"
 
-minTetQuality -1;
-
 relaxed
 {
 }

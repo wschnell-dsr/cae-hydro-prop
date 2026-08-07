@@ -66,12 +66,12 @@ castellatedMeshControls
     {
         propeller
         {
-            level (3 4);
+            level (3 5);
             regions
             {
                 hub
                 {
-                    level (3 3);
+                    level (5 5);
                     patchInfo
                     {
                         type wall;
@@ -79,7 +79,7 @@ castellatedMeshControls
                 }
                 blade_0
                 {
-                    level (4 4);
+                    level (5 7);
                     patchInfo
                     {
                         type wall;
@@ -87,7 +87,7 @@ castellatedMeshControls
                 }
                 blade_1
                 {
-                    level (4 4);
+                    level (5 7);
                     patchInfo
                     {
                         type wall;
@@ -97,7 +97,7 @@ castellatedMeshControls
         }
         shaft
         {
-            level (4 4);
+            level (5 5);
             patchInfo
             {
                 type wall;
@@ -105,7 +105,7 @@ castellatedMeshControls
         }
         propellerFrame
         {
-            level (4 4);
+            level (5 6);
 
             cellZone propellerFrame;
             faceZone propellerFrame;
@@ -121,11 +121,16 @@ castellatedMeshControls
         }
     }
     insidePoint (@!x_inside_point!@ @!y_inside_point!@ @!z_inside_point!@);
-    nCellsBetweenLevels 2;
-    resolveFeatureAngle 30;
 }
 snapControls
 {
+    nSmoothPatch    5;
+    tolerance       4.0;
+    nSolveIter      300;
+    nRelaxIter      10;
+
+    nFeatureSnapIter 20;
+
     implicitFeatureSnap    true;
 }
 addLayersControls
