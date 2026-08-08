@@ -71,6 +71,7 @@ class Case:
         for tmp_tf in self.__cnf["template_files"]:
             tmp_template = TemplateFile(os.path.join(self.case.name, tmp_tf["template_file"]))
             tmp_template.writeToFile(os.path.join(self.case.name, tmp_tf["template_target_file"]), tmp_tf["placeholder"])
+            os.remove(os.path.join(self.case.name, tmp_tf["template_file"]))
         for tmp_run in self.__cnf["pre_pro_runner_args"]:
             tmp_args = tmp_run
             tmp_args.extend(["-case", self.case.name])

@@ -8,36 +8,21 @@
 FoamFile
 {
     format      ascii;
-    class       volVectorField;
-    object      U;
+    class       dictionary;
+    location    "constant";
+    object      MRFProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-Uinlet          0.5;
-
-dimensions      [0 1 -1 0 0 0 0];
-
-internalField   uniform (0 0 0);
-
-boundaryField
+MRF
 {
-    front
-    {
-        type            fixedValue;
-        value           uniform ($Uinlet 0 0);
-    }
+    cellZone    propellerFrame;
 
-    back
-    {
-        type            zeroGradient;
-    }
+    origin      (0 0 0);
+    axis        (1 0 0);
 
-    wall
-    {
-        type            noSlip;
-    }
-
-    #includeEtc "caseDicts/setConstraintTypes"
+    omega       @!rpm!@ [rpm];
+    patches         (blade_0 blade_1 hub);
 }
 
 // ************************************************************************* //

@@ -13,8 +13,9 @@ FoamFile
     object      functions;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-/*
 #includeFunc forcesIncompressible
+#includeFunc residuals(name=residuals, p)
+/*
 #includeFunc forceCoeffsIncompressible
 #includeFunc residuals(name=residuals, p)
 #includeFunc streamlinesLine

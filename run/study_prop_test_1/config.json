@@ -98,13 +98,25 @@
                             "z_inside_point" : 0.00001,
                             "xmin" : -0.06,
                             "xmax" :  0.16,
-                            "rmax" :  0.05,
+                            "rmax" :  0.03,
                             "xmin_prop_frame" : 0.0,
                             "xmax_prop_frame" : 0.025,
-                            "r_prop_frame" :  0.03,
+                            "r_prop_frame" :  0.025,
                             "xmin_shaft" : -0.1,
                             "xmax_shaft" : 0.0,
-                            "r_shaft" :  0.0045
+                            "r_shaft" :  0.0045,
+                            "propeller_level_min": 3,
+                            "propeller_level_max": 4,
+                            "propeller_level_hub_min": 4,
+                            "propeller_level_hub_max": 4,
+                            "propeller_level_blades_min": 5,
+                            "propeller_level_blades_max": 6,
+                            "shaft_level_min": 4,
+                            "shaft_level_max": 4,
+                            "propeller_frame_level_min": 3,
+                            "propeller_frame_level_max": 3,
+                            "outer_cylinder_level_min": 3,
+                            "outer_cylinder_level_max": 3
                         }
                     }
                 ],
@@ -121,9 +133,9 @@
             }
         },
         "cases": {
-            "case_01": {
+            "case_3000rpm_1ms": {
                 "case_template": "../../templates/openfoam/incompressible_hydro_prop_srf.template",
-                "case_target": "openfoam/cases/case_01",
+                "case_target": "openfoam/cases/case_3000rpm_1ms",
                 "resources": [],
                 "resources": [
                     {
@@ -139,7 +151,254 @@
                         }
                     }
                 ],
-                "template_files": [],
+                "template_files": [
+                    {
+                        "template_file": "constant/MRFProperties.template",
+                        "template_target_file": "constant/MRFProperties",
+                        "placeholder":
+                        {
+                            "rpm": 3000
+                        }
+                    },
+                    {
+                        "template_file": "0/U.template",
+                        "template_target_file": "0/U",
+                        "placeholder":
+                        {
+                            "Uinlet": 1.0
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "foamRun"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ]
+            },
+            "case_4000rpm_1ms": {
+                "case_template": "../../templates/openfoam/incompressible_hydro_prop_srf.template",
+                "case_target": "openfoam/cases/case_4000rpm_1ms",
+                "resources": [],
+                "resources": [
+                    {
+                        "source": "openfoam/meshes/mesh_01/constant/polyMesh",
+                        "target": "constant/polyMesh"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "template_file": "constant/MRFProperties.template",
+                        "template_target_file": "constant/MRFProperties",
+                        "placeholder":
+                        {
+                            "rpm": 4000
+                        }
+                    },
+                    {
+                        "template_file": "0/U.template",
+                        "template_target_file": "0/U",
+                        "placeholder":
+                        {
+                            "Uinlet": 1.0
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "foamRun"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ]
+            },
+            "case_5000rpm_1ms": {
+                "case_template": "../../templates/openfoam/incompressible_hydro_prop_srf.template",
+                "case_target": "openfoam/cases/case_5000rpm_1ms",
+                "resources": [],
+                "resources": [
+                    {
+                        "source": "openfoam/meshes/mesh_01/constant/polyMesh",
+                        "target": "constant/polyMesh"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "template_file": "constant/MRFProperties.template",
+                        "template_target_file": "constant/MRFProperties",
+                        "placeholder":
+                        {
+                            "rpm": 5000
+                        }
+                    },
+                    {
+                        "template_file": "0/U.template",
+                        "template_target_file": "0/U",
+                        "placeholder":
+                        {
+                            "Uinlet": 1.0
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "foamRun"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ]
+            },
+            "case_6000rpm_1ms": {
+                "case_template": "../../templates/openfoam/incompressible_hydro_prop_srf.template",
+                "case_target": "openfoam/cases/case_6000rpm_1ms",
+                "resources": [],
+                "resources": [
+                    {
+                        "source": "openfoam/meshes/mesh_01/constant/polyMesh",
+                        "target": "constant/polyMesh"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "template_file": "constant/MRFProperties.template",
+                        "template_target_file": "constant/MRFProperties",
+                        "placeholder":
+                        {
+                            "rpm": 6000
+                        }
+                    },
+                    {
+                        "template_file": "0/U.template",
+                        "template_target_file": "0/U",
+                        "placeholder":
+                        {
+                            "Uinlet": 1.0
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "foamRun"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ]
+            },
+            "case_7000rpm_1ms": {
+                "case_template": "../../templates/openfoam/incompressible_hydro_prop_srf.template",
+                "case_target": "openfoam/cases/case_7000rpm_1ms",
+                "resources": [],
+                "resources": [
+                    {
+                        "source": "openfoam/meshes/mesh_01/constant/polyMesh",
+                        "target": "constant/polyMesh"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "template_file": "constant/MRFProperties.template",
+                        "template_target_file": "constant/MRFProperties",
+                        "placeholder":
+                        {
+                            "rpm": 7000
+                        }
+                    },
+                    {
+                        "template_file": "0/U.template",
+                        "template_target_file": "0/U",
+                        "placeholder":
+                        {
+                            "Uinlet": 1.0
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "foamRun"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ]
+            },
+            "case_8000rpm_1ms": {
+                "case_template": "../../templates/openfoam/incompressible_hydro_prop_srf.template",
+                "case_target": "openfoam/cases/case_8000rpm_1ms",
+                "resources": [],
+                "resources": [
+                    {
+                        "source": "openfoam/meshes/mesh_01/constant/polyMesh",
+                        "target": "constant/polyMesh"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "template_file": "constant/MRFProperties.template",
+                        "template_target_file": "constant/MRFProperties",
+                        "placeholder":
+                        {
+                            "rpm": 8000
+                        }
+                    },
+                    {
+                        "template_file": "0/U.template",
+                        "template_target_file": "0/U",
+                        "placeholder":
+                        {
+                            "Uinlet": 1.0
+                        }
+                    }
+                ],
                 "pre_pro_runner_args": [
                     ["decomposePar"]
                 ],

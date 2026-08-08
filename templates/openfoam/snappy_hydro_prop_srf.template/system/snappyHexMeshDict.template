@@ -66,12 +66,12 @@ castellatedMeshControls
     {
         propeller
         {
-            level (3 5);
+            level (@!propeller_level_min!@ @!propeller_level_max!@);
             regions
             {
                 hub
                 {
-                    level (5 5);
+                    level (@!propeller_level_hub_min!@ @!propeller_level_hub_max!@);
                     patchInfo
                     {
                         type wall;
@@ -79,7 +79,7 @@ castellatedMeshControls
                 }
                 blade_0
                 {
-                    level (5 7);
+                    level (@!propeller_level_blades_min!@ @!propeller_level_blades_max!@);
                     patchInfo
                     {
                         type wall;
@@ -87,7 +87,7 @@ castellatedMeshControls
                 }
                 blade_1
                 {
-                    level (5 7);
+                    level (@!propeller_level_blades_min!@ @!propeller_level_blades_max!@);
                     patchInfo
                     {
                         type wall;
@@ -97,7 +97,7 @@ castellatedMeshControls
         }
         shaft
         {
-            level (5 5);
+            level (@!shaft_level_min!@ @!shaft_level_max!@);
             patchInfo
             {
                 type wall;
@@ -105,15 +105,14 @@ castellatedMeshControls
         }
         propellerFrame
         {
-            level (5 6);
-
+            level (@!propeller_frame_level_min!@ @!propeller_frame_level_max!@);
             cellZone propellerFrame;
             faceZone propellerFrame;
             mode inside;
         }
         outerCylinder
         {
-            level (4 4);
+            level (@!outer_cylinder_level_min!@ @!outer_cylinder_level_max!@);
             patchInfo
             {
                 type wall;
@@ -128,9 +127,7 @@ snapControls
     tolerance       4.0;
     nSolveIter      300;
     nRelaxIter      10;
-
     nFeatureSnapIter 20;
-
     implicitFeatureSnap    true;
 }
 addLayersControls
