@@ -19,7 +19,7 @@ MRF
     cellZone    propellerFrame;
 
     origin      (0 0 0);
-    axis        (1 0 0);
+    axis        (-1 0 0);
 
     omega       @!rpm!@ [rpm];
     patches         (blade_0 blade_1 hub);

@@ -3,7 +3,14 @@ import os
 from salome.geom import geomBuilder
 from typing import Any, Optional, TypedDict
 from salome.smesh import smeshBuilder
-import  SMESH, SALOMEDS
+from enum import IntEnum
+
+import SMESH
+
+try:
+    from unv2ccx import Converter
+except ModuleNotFoundError:
+    Converter = None
 
 from .meshing import MeshParameters, create_mesh
 
@@ -16,9 +23,20 @@ except ModuleNotFoundError:
     Converter = None
 
 
+class HubCapType(IntEnum):
+    SPHERE = 0
+    ELLIPTIC = 1
+
+
+class HubCapCnf(TypedDict):
+    form: HubCapType
+    length: Optional[float]
+
+
 class PropCnf(TypedDict):
     n_blades: int
     hub_length: float
+    hub_cap_cnf: HubCapCnf
     blade_offset: float
     blade_cnf: BladeCnf
 
@@ -56,9 +74,13 @@ class Propeller:
         self.blades_cmp = self.geompy.MultiRotate1DNbTimes(self.blade.blade, self.ref_axis, self.n_blades)
         self.blades = self.geompy.ExtractShapes(self.blades_cmp, self.geompy.ShapeType["SOLID"], True)
         self.hub = self.geompy.MakeCylinder(self.ref_pnt_hub, self.ref_axis, self.hub_radius, self.hub_length)
-        self.hub_cap = self.geompy.MakeTranslationVectorDistance(
-            self.geompy.MakeSpherePntR(self.ref_pnt_hub, self.hub_radius), self.ref_axis, self.hub_length
-        )
+
+        if self.hub_cap_cnf["form"] == HubCapType.SPHERE.name:
+            self.hub_cap = self.geompy.MakeTranslationVectorDistance(
+                self.geompy.MakeSpherePntR(self.ref_pnt_hub, self.hub_radius), self.ref_axis, self.hub_length
+            )
+        elif self.hub_cap_cnf["form"] == HubCapType.ELLIPTIC:
+            pass
 
         # Cutting
         for tmp_blade_idx in range(len(self.blades)):
@@ -128,8 +150,9 @@ class Propeller:
             self.propeller_mesh.CheckCompute()
 
     def export_mesh(self, arg_dir: str):
+        tmp_unv_file = os.path.join(arg_dir, "propeller.unv")
         try:
-            self.propeller_mesh.ExportUNV(os.path.join(arg_dir, "propeller.unv"), 0)
+            self.propeller_mesh.ExportUNV(tmp_unv_file, 0)
         except Exception:
             print('ExportUNV() failed. Invalid file name?')
 
@@ -142,6 +165,11 @@ class Propeller:
                 with open(tmp_file) as tmp_infile:
                     for line in tmp_infile:
                         tmp_outfile.write(line)
+
+        if Converter is not None:
+            tmp_converter = Converter(tmp_unv_file)
+            tmp_converter.run()
+            return tmp_converter.inp_file_name
 
     def is_same_bb(self, arg_bb1, arg_bb2) -> bool:
         is_same = True
@@ -161,6 +189,10 @@ class Propeller:
     @property
     def hub_length(self) -> float:
         return self.__cnf["hub_length"]
+
+    @property
+    def hub_cap_cnf(self) -> HubCapCnf:
+        return self.__cnf["hub_cap_cnf"]
 
     @property
     def hub_radius(self) -> float:

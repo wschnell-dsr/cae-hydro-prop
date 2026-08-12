@@ -2,7 +2,7 @@
 import os
 import shutil
 from deepmerge import always_merger
-from typing import Any, Dict, List, Optional, TypedDict
+from typing import Any, Dict, List, TypedDict
 
 from PyFoam.RunDictionary.SolutionDirectory import SolutionDirectory
 from PyFoam.RunDictionary.ParsedParameterFile import ParsedParameterFile
@@ -57,7 +57,6 @@ class Case:
                 os.makedirs(os.path.dirname(tmp_res_tar), exist_ok=True)
                 shutil.copy(tmp_res_src, tmp_res_tar)
             elif os.path.isdir(tmp_res_src):
-                #os.makedirs(os.path.dirname(tmp_res_tar), exist_ok=True)
                 shutil.copytree(tmp_res_src, tmp_res_tar)
         for tmp_ppf in self.__cnf["parsed_parameter_files"]:
             tmp_file_dict = ParsedParameterFile(os.path.join(self.case.name, tmp_ppf["file"]))

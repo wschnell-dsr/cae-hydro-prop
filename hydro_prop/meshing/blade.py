@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import math
 import numpy
 from enum import IntEnum
 
@@ -44,7 +45,6 @@ class PitchDistributionType(IntEnum):
     LINEAR = 0
     QUADRATIC = 1
     EXPONENTIAL = 2
-    CUBIC = 3
 
 
 class PitchCnf(TypedDict):
@@ -57,22 +57,16 @@ class PitchLinearCnf(PitchCnf):
 
 
 class PitchQuadraticCnf(PitchCnf):
-    pass
+    pitch_hub: float
+    pitch_tip: float
 
 
 class PitchExponentialCnf(PitchCnf):
-    pass
+    pitch_hub: float
+    pitch_tip: float
 
 
-class PitchBetzCnf(PitchCnf):
-    pass
-
-
-class PitchGlaubertCnf(PitchCnf):
-    pass
-
-
-PitchCnfVariant: TypeAlias = Union[None, PitchCnf, PitchLinearCnf, PitchQuadraticCnf, PitchExponentialCnf, PitchExponentialCnf, PitchBetzCnf, PitchGlaubertCnf]
+PitchCnfVariant: TypeAlias = Union[None, PitchCnf, PitchLinearCnf, PitchQuadraticCnf, PitchExponentialCnf]
 
 
 class BladeCnf(TypedDict):
@@ -109,10 +103,21 @@ class Blade:
         self.__pitch = None
         self.__chord = None
         self.blade = None
-        self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
+        self.__radii = None
 
         if self.pitch_type == PitchDistributionType.LINEAR.name:
+            self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
             self.__pitch = numpy.interp(self.__radii,  [self.radius_hub, self.radius_tip], [self.pitch_hub, self.pitch_tip])
+        elif self.pitch_type == PitchDistributionType.QUADRATIC.name:
+            self.__radii = self.radius_hub + numpy.square(numpy.linspace(0, (self.radius_tip - self.radius_hub)**0.5, self.radius_pnts))
+            tmp_k = (self.pitch_tip - self.pitch_hub) / (self.radius_tip - self.radius_hub)**2
+            self.__pitch = self.pitch_hub + tmp_k * numpy.square(self.__radii - self.radius_hub)
+        elif self.pitch_type == PitchDistributionType.EXPONENTIAL.name:
+            tmp_k = math.log(self.pitch_tip/self.pitch_hub) / (self.radius_tip - self.radius_hub)
+            self.__radii = self.radius_hub + (self.radius_tip - self.radius_hub) * numpy.log((numpy.exp(numpy.linspace(0.0, 1.0, self.radius_pnts))))
+            self.__pitch = self.pitch_hub * numpy.exp(tmp_k * (self.__radii - self.radius_hub))
+            print(self.__radii)
+            print(self.__pitch)
 
         if self.chord_type == ChordDistributionType.LINEAR.name:
             self.__chord = numpy.interp(self.__radii,  [self.radius_hub, self.radius_tip], [self.chord_hub, self.chord_tip])

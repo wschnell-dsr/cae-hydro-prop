@@ -51,22 +51,25 @@ class TestPropellerSalome(unittest.TestCase):
         tmp_prop_cnf: PropCnf = {
             "n_blades": 2,
             "hub_length": 0.020,
-            "hub_radius": 0.0045,
+            "hub_radius": 0.00225,
+            "hub_cap_cnf": {
+                "form": "SPHERE"
+            },
             "blade_offset": 0.005,
             "blade_cnf": {
                 "key": "blade_1",
                 "profile_pnts": 50,
-                "radius_hub": 0.004,
+                "radius_hub": 0.002,
                 "radius_tip": 0.020,
                 "radius_eps": 0.00005,
-                "radius_pnts": 10,
+                "radius_pnts": 20,
                 "profile_cnf": {
                     "key": "NACA 0012",
                     "profile_type": "NACA",
                     "profile_code": "0012"
                 },
                 "pitch_cnf": {
-                    "pitch_type": "LINEAR",
+                    "pitch_type": "EXPONENTIAL",
                     "pitch_hub": 45.0,
                     "pitch_tip": 80.0,
                 },
@@ -77,11 +80,11 @@ class TestPropellerSalome(unittest.TestCase):
                 },
                 "skew_cnf": {
                     "exponent": 1.0,
-                    "skew_max": 20.0
+                    "skew_max": 0.0
                 },
                 "rake_cnf": {
                     "exponent": 1.0,
-                    "rake_max": 20.0
+                    "rake_max": 0.0
                 }
             }
         }
@@ -97,10 +100,10 @@ class TestPropellerSalome(unittest.TestCase):
 
         tmp_propeller = Propeller(tmp_prop_cnf, self.geompy, self.smesh, OO, OX)
         tmp_propeller.gen_geom("propeller")
-        tmp_propeller.gen_mesh("propeller", mesh_cnf)
+        #tmp_propeller.gen_mesh("propeller", mesh_cnf)
 
-        os.makedirs("testing/data/", exist_ok=True)
-        tmp_propeller.export_mesh("testing/data/")
+        #os.makedirs("testing/data/", exist_ok=True)
+        #tmp_propeller.export_mesh("testing/data/")
 
 
 if __name__ == "__main__":

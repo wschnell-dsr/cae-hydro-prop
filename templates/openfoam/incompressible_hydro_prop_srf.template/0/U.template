@@ -30,6 +30,21 @@ boundaryField
         type            zeroGradient;
     }
 
+    hub
+    {
+        type            MRFnoSlip;
+    }
+
+    blade_0
+    {
+        type            MRFnoSlip;
+    }
+
+    blade_1
+    {
+        type            MRFnoSlip;
+    }
+
     wall
     {
         type            noSlip;

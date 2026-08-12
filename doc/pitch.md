@@ -56,6 +56,10 @@ The blade angle decreases quadratically.
 **Mathematical Formulation**:
 $$\theta(r) = \theta_{\text{hub}} - k \cdot (r - r_{\text{hub}})^2$$
 
+tt = th - k*(rtip-rh)**2
+
+k = (tt-th)/(rt-rh)**2
+
 **Parameters**:
 - $k$: Constant for curvature (e.g., $k = 10$).
 
@@ -77,6 +81,10 @@ The blade angle decreases exponentially.
 
 **Mathematical Formulation**:
 $$\theta(r) = \theta_{\text{hub}} \cdot e^{-k \cdot (r - r_{\text{hub}})}$$
+
+tt = th * exp(-k * (r-rh) )
+k = - log(tt/th) / (r-rh)
+
 
 **Parameters**:
 - $k$: Decay constant (e.g., $k = 2$).
