@@ -21,6 +21,10 @@ geometry
         file    "propeller.stl";
         regions
         {
+            hub_cap
+            {
+                name hub_cap;
+            }
             hub
             {
                 name hub;
@@ -69,6 +73,14 @@ castellatedMeshControls
             level (@!propeller_level_min!@ @!propeller_level_max!@);
             regions
             {
+                hub_cap
+                {
+                    level (@!propeller_level_hub_min!@ @!propeller_level_hub_max!@);
+                    patchInfo
+                    {
+                        type wall;
+                    }
+                }
                 hub
                 {
                     level (@!propeller_level_hub_min!@ @!propeller_level_hub_max!@);

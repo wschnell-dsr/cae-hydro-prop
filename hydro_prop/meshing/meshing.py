@@ -12,14 +12,48 @@ class NetGenFineness(IntEnum):
     CUSTOM = 5
 
 
+class GMSH3DAlgos(IntEnum):
+    DELAUNAY = 0
+    FRONTAL_DELAUNAY = 1
+    MMG3D = 2
+    RTREE = 3
+    PARALLEL_DELAUNAY = 4
+
+
+class GMSHSubdivAlgos(IntEnum):
+    NONE = 0
+    ALLQUADS = 1
+    ALLHEXAS = 2
+
+
+class GMSHRemeshAlgos(IntEnum):
+    NO_SPLIT = 0
+    AUTOMATIC = 1
+    AUTOMATIC_METIS = 2
+
+
+class GMSHRemeshParams(IntEnum):
+    HARMONIC = 0
+    CONFORMAL = 1
+    RBF_HARMONIC = 2
+
+
 class MeshParameters(TypedDict):
     algorithm: Union[str, smeshBuilder.NETGEN_1D2D3D, smeshBuilder.GMSH]
     min_size: float
     max_size: float
-
-    fineness: Optional[NetGenFineness]
+    # netgen
+    fineness: Optional[str]
     optimize: Optional[Union[str, bool]]
     second_order: Optional[Union[str, bool]]
+    # gmnsh
+    gmsh_3d_algo: Optional[str]
+    gmsh_sub_div_algo: Optional[str]
+    gmsh_remesh_algo: Optional[str]
+    gmsh_remesh_param: Optional[str]
+    smouth_steps: Optional[int]
+    size_factor: Optional[float]
+    curvature: Optional[float]
 
 
 def create_mesh(
@@ -54,6 +88,22 @@ def create_mesh(
         if arg_params["second_order"] is not None and arg_params["second_order"] != "None":
             params.SetOptimize(arg_params["second_order"])
     elif arg_params["algorithm"] == smeshBuilder.GMSH:
-        pass
+        params.SetSmouthSteps(arg_params["smouth_steps"])
+        params.SetSizeFactor(arg_params["size_factor"])
+        params.SetMeshCurvatureSize(arg_params["curvature"])
+        for algo in GMSH3DAlgos:
+            if algo.name == arg_params["gmsh_3d_algo"]:
+                params.Set3DAlgo(algo)
+        for algo in GMSHSubdivAlgos:
+            if algo.name == arg_params["gmsh_sub_div_algo"]:
+                params.SetSubdivAlgo(algo)
+        for algo in GMSHRemeshAlgos:
+            if algo.name == arg_params["gmsh_remesh_algo"]:
+                params.SetRemeshAlgo(algo)
+        for algo in GMSHRemeshParams:
+            if algo.name == arg_params["gmsh_remesh_param"]:
+                params.SetRemeshPara(algo)
+        params.SetIs2d(0)
+        params.Set2DAlgo(0)
 
     return mesh

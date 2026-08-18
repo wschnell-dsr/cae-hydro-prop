@@ -109,12 +109,16 @@ class Blade:
             self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
             self.__pitch = numpy.interp(self.__radii,  [self.radius_hub, self.radius_tip], [self.pitch_hub, self.pitch_tip])
         elif self.pitch_type == PitchDistributionType.QUADRATIC.name:
-            self.__radii = self.radius_hub + numpy.square(numpy.linspace(0, (self.radius_tip - self.radius_hub)**0.5, self.radius_pnts))
+            self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
+            #self.__radii = self.radius_hub + numpy.square(numpy.linspace(0, (self.radius_tip - self.radius_hub)**0.5, self.radius_pnts))
+
             tmp_k = (self.pitch_tip - self.pitch_hub) / (self.radius_tip - self.radius_hub)**2
             self.__pitch = self.pitch_hub + tmp_k * numpy.square(self.__radii - self.radius_hub)
         elif self.pitch_type == PitchDistributionType.EXPONENTIAL.name:
+            self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
+            #self.__radii = self.radius_hub + (self.radius_tip - self.radius_hub) * numpy.log((numpy.linspace(1.0, math.e, self.radius_pnts)))
+
             tmp_k = math.log(self.pitch_tip/self.pitch_hub) / (self.radius_tip - self.radius_hub)
-            self.__radii = self.radius_hub + (self.radius_tip - self.radius_hub) * numpy.log((numpy.exp(numpy.linspace(0.0, 1.0, self.radius_pnts))))
             self.__pitch = self.pitch_hub * numpy.exp(tmp_k * (self.__radii - self.radius_hub))
             print(self.__radii)
             print(self.__pitch)

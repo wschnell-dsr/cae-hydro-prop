@@ -3,18 +3,23 @@
         "mesh_01": {
             "ref_pnt": [0,0,0],
             "ref_axis": [1,0,0],
+            "norm_axis": [0,1,0],
             "prop_cnf": {
                 "n_blades": 2,
-                "hub_length": 0.020,
-                "hub_radius": 0.0045,
-                "blade_offset": 0.005,
+                "hub_length": 0.01,
+                "hub_radius": 0.00225,
+                "blade_offset": 0.0025,
+                "hub_cap_cnf": {
+                    "form": "ELLIPTIC",
+                    "length": 0.006
+                },
                 "blade_cnf": {
-                    "key": "blade",
-                    "profile_pnts": 200,
-                    "radius_hub": 0.004,
+                    "key": "blade_1",
+                    "profile_pnts": 100,
+                    "radius_hub": 0.002,
                     "radius_tip": 0.020,
                     "radius_eps": 0.00005,
-                    "radius_pnts": 30,
+                    "radius_pnts": 40,
                     "profile_cnf": {
                         "key": "NACA 0012",
                         "profile_type": "NACA",
@@ -27,26 +32,33 @@
                     },
                     "chord_cnf": {
                         "chord_type": "ELLIPTIC",
-                        "chord_hub": 0.020,
+                        "chord_hub": 0.010,
                         "chord_tip": 0.001
                     },
                     "skew_cnf": {
                         "exponent": 1.0,
-                        "skew_max": 20.0
+                        "skew_max": 0.0
                     },
                     "rake_cnf": {
                         "exponent": 1.0,
-                        "rake_max": 20.0
+                        "rake_max": 0.0
                     }
                 }
             },
             "mesh_cnf": {
                 "algorithm": "GMSH",
-                "min_size": 0.00001,
+                "min_size": 0.000,
                 "max_size": 0.00025,
-                "fineness": "FINE",
-                "optimize": 1,
-                "second_order": 0
+                "fineness": 0,
+                "optimize": 0,
+                "second_order": 0,
+                "gmsh_3d_algo": "DELAUNAY",
+                "gmsh_sub_div_algo": "AUTOMATIC",
+                "gmsh_remesh_algo": "NO_SPLIT",
+                "gmsh_remesh_param": "HARMONIC",
+                "smouth_steps": 10,
+                "size_factor": 0.4,
+                "curvature": 5
             }
         }
     },

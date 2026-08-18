@@ -41,7 +41,8 @@ def run_meshing(arg_study: str):
         smesh = smeshBuilder.New()
         ref_pnt = geompy.MakeVertex(*tmp_mconfig["ref_pnt"])
         ref_axis = geompy.MakeVectorDXDYDZ(*tmp_mconfig["ref_axis"])
-        tmp_mesh = Propeller(tmp_mconfig["prop_cnf"], geompy, smesh, ref_pnt, ref_axis)
+        norm_axis = geompy.MakeVectorDXDYDZ(*tmp_mconfig["norm_axis"])
+        tmp_mesh = Propeller(tmp_mconfig["prop_cnf"], geompy, smesh, ref_pnt, ref_axis, norm_axis)
         tmp_mesh.gen_geom("propeller")
         tmp_mesh.gen_mesh("propeller", tmp_mconfig["mesh_cnf"])
         tmp_meshes[tmp_key] = {

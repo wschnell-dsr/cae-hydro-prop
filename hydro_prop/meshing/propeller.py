@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import math
 import os
 from salome.geom import geomBuilder
 from typing import Any, Optional, TypedDict
@@ -54,12 +55,13 @@ class Propeller:
     __REMOVE_EXTRA_EDGES: bool = False
     __BB_TOL: float = 1e-5
 
-    def __init__(self, arg_cnf: PropCnf, arg_geompy: geomBuilder, arg_smesh: smeshBuilder, arg_ref_pnt: Any, arg_ref_axis: Any):
+    def __init__(self, arg_cnf: PropCnf, arg_geompy: geomBuilder, arg_smesh: smeshBuilder, arg_ref_pnt: Any, arg_ref_axis: Any, arg_norm_axis: Any):
         self.geompy = arg_geompy
         self.smesh = arg_smesh
         self.__cnf = arg_cnf
         self.ref_pnt_hub = arg_ref_pnt
         self.ref_axis = arg_ref_axis
+        self.norm_axis = arg_norm_axis
 
     def gen_geom(self, arg_key: Optional[str]):
 
@@ -79,13 +81,32 @@ class Propeller:
             self.hub_cap = self.geompy.MakeTranslationVectorDistance(
                 self.geompy.MakeSpherePntR(self.ref_pnt_hub, self.hub_radius), self.ref_axis, self.hub_length
             )
-        elif self.hub_cap_cnf["form"] == HubCapType.ELLIPTIC:
-            pass
-
+            self.hub_cap = self.geompy.MakeCutList(self.hub_cap, [self.hub])
+        elif self.hub_cap_cnf["form"] == HubCapType.ELLIPTIC.name:
+            ellipse = self.geompy.MakeFaceWires(
+                            [self.geompy.MakeEllipse(self.ref_pnt_hub, self.norm_axis, self.hub_cap_cnf["length"], self.hub_radius, self.ref_axis)], 1
+                        )
+            com_face = self.geompy.MakePrismVecH(
+                            self.geompy.MakeLineTwoPnt(
+                                self.ref_pnt_hub, self.geompy.MakeTranslationVectorDistance(
+                                    self.ref_pnt_hub, self.ref_axis, self.hub_cap_cnf["length"]
+                                )
+                            ), self.geompy.CrossProduct(self.norm_axis, self.ref_axis), self.hub_cap_cnf["length"]
+                        )
+            self.geompy.addToStudy(ellipse, "ellipse")
+            self.geompy.addToStudy(com_face, "com_face")
+            self.hub_cap = self.geompy.MakeTranslationVectorDistance(
+                self.geompy.MakeRevolution(
+                    self.geompy.MakeCommonList([
+                        ellipse, com_face
+                    ], True),
+                    self.ref_axis,
+                    2.0 * math.pi
+                ), self.ref_axis, self.hub_length
+            )
         # Cutting
         for tmp_blade_idx in range(len(self.blades)):
             self.blades[tmp_blade_idx] = self.geompy.MakeCutList(self.blades[tmp_blade_idx], [self.hub])
-        self.hub_cap = self.geompy.MakeCutList(self.hub_cap, [self.hub])
 
         # Fuse
         fuse_list = [self.hub, self.hub_cap]
@@ -126,6 +147,10 @@ class Propeller:
                     if "hub_front" not in self.boundary_ids:
                         self.boundary_ids["hub_front"] = []
                     self.boundary_ids["hub_front"].append(tmp_face)
+                elif self.is_same_bb(tmp_face_bb, self.geompy.BoundingBox(self.hub_cap)):
+                    if "hub_cap" not in self.boundary_ids:
+                        self.boundary_ids["hub_cap"] = []
+                    self.boundary_ids["hub_cap"].append(tmp_face)
                 else:
                     if "hub" not in self.boundary_ids:
                         self.boundary_ids["hub"] = []

@@ -7,6 +7,7 @@
 *.dat
 *.frd
 *.unv
+*.inp
 *.hdf
 *.gif
 !images/*.gif
