@@ -65,6 +65,10 @@ castellatedMeshControls
 {
     features
     (
+        {
+            file "propeller.extendedFeatureEdgeMesh";
+            level @!propeller_level_feature!@;
+        }
     );
     refinementSurfaces
     {
@@ -135,12 +139,13 @@ castellatedMeshControls
 }
 snapControls
 {
-    nSmoothPatch    5;
+    nSmoothPatch    10;
     tolerance       4.0;
     nSolveIter      300;
     nRelaxIter      10;
-    nFeatureSnapIter 20;
-    implicitFeatureSnap    true;
+    nFeatureSnapIter 25;
+    implicitFeatureSnap    false;
+    explicitFeatureSnap    true;
 }
 addLayersControls
 {

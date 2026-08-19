@@ -10,10 +10,10 @@
 *.inp
 *.hdf
 *.gif
-!images/*.gif
 *.hdf
 *.vtu
 *.png
+!run/**/*.png
 __pycache__
 *.pyc
 dump.py
@@ -21,3 +21,7 @@ dump.py
 *.stl
 *.unv
 run/study*/openfoam
+run/study_prop_test_1
+run/study_prop_test_2
+templates/openfoam/incfluid_fsi*
+templates/openfoam/propeller*
