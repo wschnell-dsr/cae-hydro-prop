@@ -1,7 +1,6 @@
  ** Generated INP via Jinja2
 *Heading
 ** model: {{ name }}
-** generated: {{ now }}
 
 ** include mesh exported from Salome (must contain NSET/ELSET names you reference)
 *INCLUDE, INPUT={{ mesh_file }}
@@ -17,12 +16,13 @@
 *Solid Section, elset={{ elset_name }}, material={{ material.name }}
 
 *BOUNDARY
-{{ boundary_fix }}, 1, 3, 0.0
+{{ boundary_fix }}, 1, 1, 0.0
+** {{ boundary_fix }}, 4, 4, 0.0
 
 ** Loads / Steps
-*Step, name=step1
+*Step
 *Frequency,Storage=Yes
-{{ n_frequencies }}
+{{ n_frequencies }}, , 1000.0
 *NODE FILE
 U
 *END STEP

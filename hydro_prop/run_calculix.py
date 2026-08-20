@@ -7,10 +7,12 @@ import logging.config
 import os
 import json
 
+from hydro_prop.calculix.case import Case, CaseCnf
+
 from . import LOGGER_CONFIG
 
 
-def run_ccx(arg_study: str):
+def run_ccx(arg_study: str, arg_case: str = ""):
 
     tmp_config = {}
     if (
@@ -25,6 +27,13 @@ def run_ccx(arg_study: str):
         logger.fatal(f"Path to study config does not exist {os.path.join(arg_study, "config.json")}")
         exit(1)
 
+    for tmp_key, tmp_case_dict in tmp_config["calculix"]["cases"].items():
+        if arg_case == "" or arg_case == tmp_key:
+            tmp_cases_dir = os.path.join(arg_study, "calculix", "cases")
+            os.makedirs(tmp_cases_dir, exist_ok=True)
+            tmp_case = Case(arg_study, tmp_case_dict)
+            tmp_case.generate_case()
+            tmp_case.run()
     '''
     modal_cases = []
     for tmp_key, tmp_mconfig in tmp_configs["modal"].items():
@@ -50,6 +59,8 @@ if __name__ == "__main__":
 
     logging.config.dictConfig(LOGGER_CONFIG)
     logger = logging.getLogger("hydro_prop")
+
+    run_ccx(args.study)
 
 
 

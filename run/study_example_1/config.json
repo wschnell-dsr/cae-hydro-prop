@@ -60,6 +60,67 @@
                 "size_factor": 0.4,
                 "curvature": 5
             }
+        },
+        "mesh_01_ccx": {
+            "ref_pnt": [0,0,0],
+            "ref_axis": [1,0,0],
+            "norm_axis": [0,1,0],
+            "prop_cnf": {
+                "n_blades": 2,
+                "hub_length": 0.01,
+                "hub_radius": 0.00225,
+                "blade_offset": 0.0025,
+                "hub_cap_cnf": {
+                    "form": "ELLIPTIC",
+                    "length": 0.006
+                },
+                "blade_cnf": {
+                    "key": "blade_1",
+                    "profile_pnts": 100,
+                    "radius_hub": 0.002,
+                    "radius_tip": 0.020,
+                    "radius_eps": 0.00005,
+                    "radius_pnts": 40,
+                    "profile_cnf": {
+                        "key": "NACA 0012",
+                        "profile_type": "NACA",
+                        "profile_code": "0012"
+                    },
+                    "pitch_cnf": {
+                        "pitch_type": "LINEAR",
+                        "pitch_hub": 45.0,
+                        "pitch_tip": 80.0
+                    },
+                    "chord_cnf": {
+                        "chord_type": "ELLIPTIC",
+                        "chord_hub": 0.010,
+                        "chord_tip": 0.001
+                    },
+                    "skew_cnf": {
+                        "exponent": 1.0,
+                        "skew_max": 0.0
+                    },
+                    "rake_cnf": {
+                        "exponent": 1.0,
+                        "rake_max": 0.0
+                    }
+                }
+            },
+            "mesh_cnf": {
+                "algorithm": "GMSH",
+                "min_size": 0.000,
+                "max_size": 0.001,
+                "fineness": 0,
+                "optimize": 0,
+                "second_order": 0,
+                "gmsh_3d_algo": "DELAUNAY",
+                "gmsh_sub_div_algo": "AUTOMATIC",
+                "gmsh_remesh_algo": "NO_SPLIT",
+                "gmsh_remesh_param": "HARMONIC",
+                "smouth_steps": 10,
+                "size_factor": 1.0,
+                "curvature": 5
+            }
         }
     },
     "openfoam": {
@@ -150,7 +211,6 @@
             "case_8000rpm_1ms": {
                 "case_template": "../../templates/openfoam/incompressible_hydro_prop_srf.template",
                 "case_target": "openfoam/cases/case_8000rpm_0p1ms",
-                "resources": [],
                 "resources": [
                     {
                         "source": "openfoam/meshes/mesh_01/constant/polyMesh",
@@ -192,6 +252,29 @@
                 "post_pro_runner_args": [
                     ["reconstructPar"]
                 ]
+            }
+        }
+    },
+    "calculix": {
+        "cases": {
+            "case_8000rpm": {
+                "template": "jinja/modal.inp.jinja",
+                "case_dir": "calculix/cases/case_8000rpm",
+                "case_file": "modal.inp",
+                "data":
+                {
+                    "name": "modal",
+                    "mesh_file": "../../../meshes/mesh_01_ccx/propeller.inp",
+                    "boundary_fix": "hub_front",
+                    "elset_name": "C3D4",
+                    "n_frequencies": 9,
+                    "material": {
+                        "name": "ABS",
+                        "density": 1.05,
+                        "youngs": 2E11,
+                        "pratio": 0.38
+                    }
+                }
             }
         }
     }

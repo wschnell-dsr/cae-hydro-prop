@@ -173,6 +173,38 @@ class Propeller:
         is_done = self.propeller_mesh.Compute()
         if is_done:
             self.propeller_mesh.CheckCompute()
+            #self.boundary_face_mesh_grp = {}
+            self.boundary_point_mesh_grp = {}
+            for tmp_boundary_key in self.boundary_grps:
+                #self.boundary_face_mesh_grp[tmp_boundary_key] = self.propeller_mesh.GroupOnGeom(self.boundary_grps[tmp_boundary_key], tmp_boundary_key, SMESH.FACE)
+                tmp_criteria = [self.smesh.GetCriterion(SMESH.NODE, SMESH.FT_BelongToGeom, SMESH.FT_Undefined, self.boundary_grps[tmp_boundary_key])]
+                tmp_filter = self.smesh.GetFilterFromCriteria(tmp_criteria)
+                tmp_filter.SetMesh(self.propeller_mesh.GetMesh())
+                self.boundary_point_mesh_grp[tmp_boundary_key] = self.propeller_mesh.GroupOnFilter(SMESH.NODE, tmp_boundary_key, tmp_filter)
+
+            all_faces = self.propeller_mesh.GetElementsByType(SMESH.FACE)
+            for tmp_face in all_faces:
+                tmp_is_no_boundary = True
+                for tmp_keys in self.boundary_ids:
+                    if tmp_face in self.boundary_ids[tmp_keys]:
+                        tmp_is_no_boundary = False
+                    if tmp_is_no_boundary:
+                        self.propeller_mesh.RemoveElements([tmp_face])
+                        # alle 1D-Elemente (Kanten) holen
+
+            all_edges = self.propeller_mesh.GetElementsByType(SMESH.EDGE)
+            # boundary_ids: dict mit Listen/Sets von element-IDs (wie in deinem Beispiel)
+            # mache daraus eine Menge zur schnellen Abfrage
+            boundary_edge_ids = set()
+            for k, v in self.boundary_ids.items():
+                boundary_edge_ids.update(v)
+
+            # Elemente sammeln, die NICHT in boundary sind
+            to_remove = [eid for eid in all_edges if eid not in boundary_edge_ids]
+
+            # einmalig entfernen (wenn Liste nicht leer)
+            if to_remove:
+                self.propeller_mesh.RemoveElements(to_remove)
 
     def export_mesh(self, arg_dir: str):
         tmp_unv_file = os.path.join(arg_dir, "propeller.unv")
