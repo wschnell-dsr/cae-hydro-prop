@@ -1,5 +1,4 @@
 {
-    "meshing": {
         "mesh_01": {
             "ref_pnt": [0,0,0],
             "ref_axis": [1,0,0],
@@ -27,12 +26,12 @@
                     },
                     "pitch_cnf": {
                         "pitch_type": "LINEAR",
-                        "pitch_hub": 0.0001,
-                        "pitch_tip": 0.02
+                        "pitch_hub": 45.0,
+                        "pitch_tip": 80.0
                     },
                     "chord_cnf": {
                         "chord_type": "ELLIPTIC",
-                        "chord_hub": 0.0010,
+                        "chord_hub": 0.010,
                         "chord_tip": 0.001
                     },
                     "skew_cnf": {
@@ -60,8 +59,8 @@
                 "size_factor": 0.4,
                 "curvature": 5
             }
-        }
-    },
+        },
+    "meshing": {
         "mesh_01_ccx": {
             "ref_pnt": [0,0,0],
             "ref_axis": [1,0,0],
@@ -122,11 +121,12 @@
                 "size_factor": 0.6,
                 "curvature": 5
             }
-        },
+        }
+    },
     "openfoam": {
         "meshes": {
             "mesh_01": {
-                "case_template": "../../templates/openfoam/org14/snappy_hydro_prop_srf.template",
+                "case_template": "../../templates/openfoam/snappy_hydro_prop_srf.template",
                 "case_target": "openfoam/meshes/mesh_01",
                 "resources": [],
                 "resources": [
@@ -209,7 +209,7 @@
         },
         "cases": {
             "case_8000rpm_1ms": {
-                "case_template": "../../templates/openfoam/org14/incompressible_hydro_prop_srf.template",
+                "case_template": "../../templates/openfoam/incompressible_hydro_prop_srf.template",
                 "case_target": "openfoam/cases/case_8000rpm_0p1ms",
                 "resources": [
                     {

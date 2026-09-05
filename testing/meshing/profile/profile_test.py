@@ -40,12 +40,12 @@ class TestProfile(unittest.TestCase):
     TEST_PROFILE_CNFS: List[ProfileCnfVariant] = [
         {
             "key": "NACA 0008",
-            "profile_type": ProfileType.NACA,
+            "profile_type": ProfileType.NACA.name,
             "profile_code": "0008"
         },
         {
             "key": "NACA 1208",
-            "profile_type": ProfileType.NACA,
+            "profile_type": ProfileType.NACA.name,
             "profile_code": "1208"
         }
     ]
@@ -63,8 +63,8 @@ class TestProfile(unittest.TestCase):
             try:
                 tmp_profiles[tmp_cnf["key"]] = tmp_factory.create(tmp_cnf)
                 tmp_profiles[tmp_cnf["key"]].calc_norm_x_distribution(self.NPOINTS)
-                (x_upper, y_upper), (x_lower, y_lower) = tmp_profiles[tmp_cnf["key"]].profile_line(2.0, 5.0)
-                (x_camber, y_camber) = tmp_profiles[tmp_cnf["key"]].camber_line(2.0, 5.0)
+                (x_upper, y_upper), (x_lower, y_lower) = tmp_profiles[tmp_cnf["key"]].profile_line(2.0, 5.0, (1.0, 0.0))
+                (x_camber, y_camber) = tmp_profiles[tmp_cnf["key"]].camber_line(2.0, 5.0, (1.0, 0.0))
             except Exception:
                 logging.exception("Exception")
 
@@ -80,31 +80,6 @@ class TestProfile(unittest.TestCase):
             tmp_idx += 1
         plt.tight_layout()
         plt.show()
-
-'''
-class TestNacaProfileSalome(unittest.TestCase):
-    NPOINTS: int = 200
-    TEST_CODE = "0008"
-
-    def test_naca_wire(self):
-        logging.config.dictConfig(LOGGER_CONFIG)
-        logging.info("")
-
-        tmp_profile = NACAProfile(self.TEST_CODE)
-        (x_upper, y_upper), (x_lower, y_lower) = tmp_profile.profile_coordinates(self.NPOINTS)
-        y_camber = tmp_profile.camber_line(x_upper)
-
-        salome.salome_init()
-        self.geompy = geomBuilder.New()
-        OO = self.geompy.MakeVertex(0, 0, 0)
-        OX = self.geompy.MakeVectorDXDYDZ(1, 0, 0)
-        OY = self.geompy.MakeVectorDXDYDZ(0, 1, 0)
-        OZ = self.geompy.MakeVectorDXDYDZ(0, 0, 1)
-        self.geompy.addToStudy(OO, 'OO')
-        self.geompy.addToStudy(OX, 'OX')
-        self.geompy.addToStudy(OY, 'OY')
-        self.geompy.addToStudy(OZ, 'OZ')
-'''
 
 
 if __name__ == "__main__":

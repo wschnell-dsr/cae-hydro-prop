@@ -1,4 +1,4 @@
- ** Generated INP via Jinja2
+** Generated INP via Jinja2
 *Heading
 ** model: {{ name }}
 
@@ -12,17 +12,22 @@
 *Elastic
 {{ material.youngs }}, {{ material.pratio }}
 
-** Assign material to element set (ersetze ELSET_NAME durch den Setnamen in mesh.inp)
 *Solid Section, elset={{ elset_name }}, material={{ material.name }}
 
 *BOUNDARY
 {{ boundary_fix }}, 1, 1, 0.0
-** {{ boundary_fix }}, 4, 4, 0.0
 
+{% for item in omega %}
 *Step, nlgeom=YES
-*Modal
-*Frequency,Storage=Yes
-{{ n_frequencies }}, , 1000.0
+*Static
+1., 1., 1e-5, 1.
+*CONTROLS, PARAMETERS=TIME INCREMENTATION
+10, 15, 4, 10
+*Dload
+{{ elset_name }}, CENTRIF, {{ item }}, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0
 *NODE FILE
-U
+U, RF
+*EL FILE
+S, E
 *END STEP
+{% endfor %}

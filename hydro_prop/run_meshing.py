@@ -44,10 +44,10 @@ def run_meshing(arg_study: str):
         norm_axis = geompy.MakeVectorDXDYDZ(*tmp_mconfig["norm_axis"])
         tmp_mesh = Propeller(tmp_mconfig["prop_cnf"], geompy, smesh, ref_pnt, ref_axis, norm_axis)
         tmp_mesh.gen_geom("propeller")
-        tmp_mesh.gen_mesh("propeller", tmp_mconfig["mesh_cnf"])
-        tmp_meshes[tmp_key] = {
-            "mesh_file": tmp_mesh.export_mesh(os.path.join(args.study, "meshes", tmp_key))
-        }
+        #tmp_mesh.gen_mesh("propeller", tmp_mconfig["mesh_cnf"])
+        #tmp_meshes[tmp_key] = {
+        #    "mesh_file": tmp_mesh.export_mesh(os.path.join(args.study, "meshes", tmp_key))
+        #}
 
 
 if __name__ == "__main__":

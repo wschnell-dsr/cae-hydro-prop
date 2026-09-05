@@ -47,7 +47,7 @@ class Profile(ABC):
     def norm_profile_line(self) -> tuple[np.ndarray, np.ndarray]:
         pass
 
-    def profile_line(self, arg_length: float, alpha_deg=0.0) -> tuple[np.ndarray, np.ndarray]:
+    def profile_line(self, arg_length: float, alpha_deg=0.0, p_rot: tuple[float, float] = (0.0, 0.0)) -> tuple[np.ndarray, np.ndarray]:
         norm = self.norm_profile_line()
         xup = norm[0][0] * arg_length
         yup = norm[0][1] * arg_length
@@ -60,14 +60,14 @@ class Profile(ABC):
             cos_alpha = np.cos(alpha_rad)
             sin_alpha = np.sin(alpha_rad)
 
-            xup_rotated = xup * cos_alpha - yup * sin_alpha
-            yup_rotated = xup * sin_alpha + yup * cos_alpha
-            xlw_rotated = xlw * cos_alpha - ylw * sin_alpha
-            ylw_rotated = xlw * sin_alpha + ylw * cos_alpha
+            xup_rotated = (xup - p_rot[0]) * cos_alpha - (yup - p_rot[1]) * sin_alpha + p_rot[0]
+            yup_rotated = (xup - p_rot[0]) * sin_alpha + (yup - p_rot[1]) * cos_alpha + p_rot[1]
+            xlw_rotated = (xlw - p_rot[0]) * cos_alpha - (ylw - p_rot[1]) * sin_alpha + p_rot[0]
+            ylw_rotated = (xlw - p_rot[0]) * sin_alpha + (ylw - p_rot[1]) * cos_alpha + p_rot[1]
             tmp_result = (xup_rotated, yup_rotated), (xlw_rotated, ylw_rotated)
         return tmp_result
 
-    def camber_line(self, arg_length: float, alpha_deg=0.0) -> np.ndarray:
+    def camber_line(self, arg_length: float, alpha_deg=0.0, p_rot: tuple[float, float] = (0.0, 0.0)) -> np.ndarray:
         norm = self.norm_camber_line()
         x = norm[0] * arg_length
         y = norm[1] * arg_length
@@ -78,8 +78,8 @@ class Profile(ABC):
             cos_alpha = np.cos(alpha_rad)
             sin_alpha = np.sin(alpha_rad)
 
-            x_rotated = x * cos_alpha - y * sin_alpha
-            y_rotated = x * sin_alpha + y * cos_alpha
+            x_rotated = (x - p_rot[0]) * cos_alpha - (y - p_rot[1]) * sin_alpha + p_rot[0]
+            y_rotated = (x - p_rot[0]) * sin_alpha + (y - p_rot[1]) * cos_alpha + p_rot[1]
             tmp_result = (x_rotated, y_rotated)
         return tmp_result
 

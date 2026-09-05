@@ -5,8 +5,10 @@
 import logging
 import os
 import logging.config
+import numpy
 import unittest
 
+from hydro_prop.meshing.blade import PitchDistributionType, ChordDistributionType
 from hydro_prop.meshing.propeller import PropCnf, Propeller
 from hydro_prop.meshing.meshing import MeshParameters
 
@@ -49,9 +51,9 @@ class TestPropellerSalome(unittest.TestCase):
         self.geompy.addToStudy(OZ, 'OZ')
 
         tmp_prop_cnf: PropCnf = {
-            "n_blades": 2,
+            "n_blades": 3,
             "hub_length": 0.01,
-            "hub_radius": 0.00225,
+            "hub_radius": 0.0026,
             "hub_cap_cnf": {
                 "form": "ELLIPTIC",
                 "length": 0.006
@@ -59,25 +61,29 @@ class TestPropellerSalome(unittest.TestCase):
             "blade_offset": 0.0025,
             "blade_cnf": {
                 "key": "blade_1",
+                "debug": True,
+                "eps": 0.01,
+                "rotation_direction": "RIGHT",
                 "profile_pnts": 100,
-                "radius_hub": 0.002,
+                "radius_hub": 0.0025,
                 "radius_tip": 0.020,
-                "radius_eps": 0.00005,
-                "radius_pnts": 40,
+                "radius_eps": 0.00001,
+                "radius_pnts": 20,
+                "chord_center": 0.0,
                 "profile_cnf": {
                     "key": "NACA 0012",
                     "profile_type": "NACA",
                     "profile_code": "0012"
                 },
                 "pitch_cnf": {
-                    "pitch_type": "LINEAR",
-                    "pitch_hub": 45.0,
-                    "pitch_tip": 80.0,
+                    "pitch_type": PitchDistributionType.LINEAR.name,
+                    "pitch_hub": 0.1,
+                    "pitch_tip": 0.1
                 },
                 "chord_cnf": {
-                    "chord_type": "ELLIPTIC",
-                    "chord_hub": 0.010,
-                    "chord_tip": 0.001,
+                        "chord_type": ChordDistributionType.LINEAR_TABULATED.name,
+                        "radius": numpy.linspace(0.0025, 0.020, 20).astype(float),
+                        "chord": [0.008 * numpy.sin(numpy.pi * r / (2.0 * 0.0101)) for r in numpy.linspace(0.0025, 0.020, 20).astype(float)]
                 },
                 "skew_cnf": {
                     "exponent": 1.0,

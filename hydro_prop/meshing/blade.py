@@ -4,9 +4,14 @@ import numpy
 from enum import IntEnum
 
 from salome.geom import geomBuilder
-from typing import Any, Optional, Tuple, TypedDict, TypeAlias, Union
+from typing import Any, List, Optional, Tuple, TypedDict, TypeAlias, Union
 
 from .profile import Profile, ProfileFactory, ProfileCnfVariant
+
+
+class RotationDirection(IntEnum):
+    LEFT = -1
+    RIGHT = 1
 
 
 class SkewCnf(TypedDict):
@@ -22,6 +27,7 @@ class RakeCnf(TypedDict):
 class ChordDistributionType(IntEnum):
     LINEAR = 0
     ELLIPTIC = 1
+    LINEAR_TABULATED = 2
 
 
 class ChordCnf(TypedDict):
@@ -36,6 +42,11 @@ class ChordLinearCnf(ChordCnf):
 class ChordEllipticCnf(ChordCnf):
     chord_hub: float
     chord_tip: float
+
+
+class ChordLinearTabulatedCnf(ChordCnf):
+    radius: List[float]
+    chord: List[float]
 
 
 ChordCnfVariant: TypeAlias = Union[None, ChordCnf, ChordLinearCnf, ChordEllipticCnf]
@@ -71,6 +82,9 @@ PitchCnfVariant: TypeAlias = Union[None, PitchCnf, PitchLinearCnf, PitchQuadrati
 
 class BladeCnf(TypedDict):
     key: str
+    debug: bool
+    eps: float
+    rotation_direction: str
     profile_pnts: int
     radius_hub: float
     radius_tip: float
@@ -78,6 +92,7 @@ class BladeCnf(TypedDict):
     radius_eps: float
     profile_cnf: ProfileCnfVariant
     pitch_cnf: PitchCnfVariant
+    chord_center: float
     chord_cnf: ChordCnfVariant
     skew_cnf: SkewCnf
     rake_cnf: RakeCnf
@@ -89,8 +104,8 @@ class Blade:
     __profile: Profile
     __radii: Optional[numpy.ndarray]
     __pitch: Optional[numpy.ndarray]
+    __pitch_angle: Optional[numpy.ndarray]
     __chord: Optional[numpy.ndarray]
-    __EPS_X: float = 0.005
     blade: Any
 
     def __init__(self, arg_cnf: BladeCnf, arg_geompy: geomBuilder, arg_ref_pnt: Any, arg_ref_axis: Any):
@@ -101,82 +116,114 @@ class Blade:
         self.__profile.calc_norm_x_distribution(self.profile_pnts)
         self.__radii = None
         self.__pitch = None
+        self.__pitch_angle = None
         self.__chord = None
         self.blade = None
-        self.__radii = None
+        self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
 
         if self.pitch_type == PitchDistributionType.LINEAR.name:
-            self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
             self.__pitch = numpy.interp(self.__radii,  [self.radius_hub, self.radius_tip], [self.pitch_hub, self.pitch_tip])
         elif self.pitch_type == PitchDistributionType.QUADRATIC.name:
-            self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
-            #self.__radii = self.radius_hub + numpy.square(numpy.linspace(0, (self.radius_tip - self.radius_hub)**0.5, self.radius_pnts))
-
             tmp_k = (self.pitch_tip - self.pitch_hub) / (self.radius_tip - self.radius_hub)**2
             self.__pitch = self.pitch_hub + tmp_k * numpy.square(self.__radii - self.radius_hub)
         elif self.pitch_type == PitchDistributionType.EXPONENTIAL.name:
-            self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
-            #self.__radii = self.radius_hub + (self.radius_tip - self.radius_hub) * numpy.log((numpy.linspace(1.0, math.e, self.radius_pnts)))
-
             tmp_k = math.log(self.pitch_tip/self.pitch_hub) / (self.radius_tip - self.radius_hub)
             self.__pitch = self.pitch_hub * numpy.exp(tmp_k * (self.__radii - self.radius_hub))
-            print(self.__radii)
-            print(self.__pitch)
+        self.__pitch_angle = 90.0 - numpy.degrees(numpy.arctan2(self.__pitch, (2.0*self.__radii*numpy.pi)))
 
         if self.chord_type == ChordDistributionType.LINEAR.name:
             self.__chord = numpy.interp(self.__radii,  [self.radius_hub, self.radius_tip], [self.chord_hub, self.chord_tip])
         elif self.chord_type == ChordDistributionType.ELLIPTIC.name:
             self.__chord = self.chord_hub * numpy.sqrt(1.0 - self.__radii / self.radius_tip + self.chord_tip)
+        elif self.chord_type == ChordDistributionType.LINEAR_TABULATED.name:
+            self.__chord = numpy.interp(self.__radii,  self.__cnf["chord_cnf"]["radius"], self.__cnf["chord_cnf"]["chord"])
 
-        path_pnts = []
-        profile_wires = []
-        for ridx in range(len(self.__radii)):
-            (x_upper_z, y_upper_z), (x_lower_z, y_lower_z) = self.__profile.profile_line(self.__chord[ridx], self.__pitch[ridx])
-            (x_upper, y_upper, z_upper) = self.cylinder_projection(self.__radii[ridx], x_upper_z, y_upper_z)
-            (x_lower, y_lower, z_lower) = self.cylinder_projection(self.__radii[ridx], x_lower_z, y_lower_z)
-
-            line_upper_pnts = []
-            line_lower_pnts = []
-            for tmp_idx in range(self.profile_pnts):
-                line_upper_pnts.append(
-                    self.geompy.MakeVertexWithRef(arg_ref_pnt, x_upper[tmp_idx], y_upper[tmp_idx], z_upper[tmp_idx])
+        try:
+            path_pnts = []
+            profile_wires = []
+            for ridx in range(len(self.__radii)):
+                (x_upper_z, y_upper_z), (x_lower_z, y_lower_z) = self.__profile.profile_line(
+                    self.__chord[ridx], self.__pitch_angle[ridx], (self.chord_center * self.__chord[ridx], 0.0)
                 )
-                line_lower_pnts.append(
-                    self.geompy.MakeVertexWithRef(arg_ref_pnt, x_lower[tmp_idx], y_lower[tmp_idx], z_lower[tmp_idx])
-                )
+                (x_upper, y_upper, z_upper) = self.cylinder_projection(self.__radii[ridx], x_upper_z - self.chord_center * self.__chord[ridx], y_upper_z)
+                (x_lower, y_lower, z_lower) = self.cylinder_projection(self.__radii[ridx], x_lower_z - self.chord_center * self.__chord[ridx], y_lower_z)
 
-            upper_wire = self.geompy.MakeInterpol(line_upper_pnts, False)
-            lower_wire = self.geompy.MakeInterpol(line_lower_pnts, False)
+                line_upper_pnts = []
+                line_lower_pnts = []
+                for tmp_idx in range(self.profile_pnts):
+                    line_upper_pnts.append(
+                        self.geompy.MakeVertexWithRef(arg_ref_pnt, x_upper[tmp_idx], y_upper[tmp_idx], z_upper[tmp_idx])
+                    )
+                    line_lower_pnts.append(
+                        self.geompy.MakeVertexWithRef(arg_ref_pnt, x_lower[tmp_idx], y_lower[tmp_idx], z_lower[tmp_idx])
+                    )
 
-            profile_wire = self.geompy.MakeWire([upper_wire, lower_wire], True)
-            path_pnts.append(self.geompy.MakeVertexWithRef(arg_ref_pnt, x_upper[0], y_upper[0], z_upper[0]))
-            profile_wires.append(profile_wire)
+                upper_wire = self.geompy.MakeInterpol(line_upper_pnts, False)
+                lower_wire = self.geompy.MakeInterpol(line_lower_pnts, False)
 
-        path = self.geompy.MakePolyline(path_pnts)
-        pipe_shell = self.geompy.MakePipeWithDifferentSections(profile_wires, path_pnts, path, False, False, False)
+                profile_wire = self.geompy.MakeWire([upper_wire, lower_wire], True)
+                path_pnts.append(self.geompy.MakeVertexWithRef(arg_ref_pnt, x_upper[0], y_upper[0], z_upper[0]))
+                profile_wires.append(profile_wire)
+                if self.debug:
+                    self.geompy.addToStudy(profile_wire, self.key+"_profile_wire_"+str(ridx))
 
-        pipe_shell_bbox = self.geompy.BoundingBox(pipe_shell, True)
-        ccut = self.geompy.MakeTranslationVectorDistance(
-            self.geompy.MakeCutList(
-                self.geompy.MakeCylinder(arg_ref_pnt, arg_ref_axis, self.radius_tip-self.radius_eps, pipe_shell_bbox[1]-pipe_shell_bbox[0]+self.__EPS_X),
-                [self.geompy.MakeCylinder(arg_ref_pnt, arg_ref_axis, self.radius_hub+self.radius_eps, pipe_shell_bbox[1]-pipe_shell_bbox[0]+self.__EPS_X)],
-                True
-            ), arg_ref_axis, -self.__EPS_X/2.0
-        )
-        part = self.geompy.MakePartition([ccut], [pipe_shell], [], [], self.geompy.ShapeType["SOLID"], 0, [], 0)
-        solids = self.geompy.ExtractShapes(part, self.geompy.ShapeType["SOLID"], True)
+            path = self.geompy.MakePolyline(path_pnts)
+            if self.debug:
+                self.geompy.addToStudy(path, self.key+"_path")
+            pipe_shell = self.geompy.MakePipeWithDifferentSections(profile_wires, path_pnts, path, False, False, False)
+            if self.debug:
+                self.geompy.addToStudy(pipe_shell, self.key+"_pipe_shell")
 
-        for solid in solids:
-            solid_bbox = self.geompy.BoundingBox(solid, True)
-            if (
-                (pipe_shell_bbox[0] - solid_bbox[0]) < self.__EPS_X and
-                (pipe_shell_bbox[1] - solid_bbox[1]) < self.__EPS_X and
-                (pipe_shell_bbox[2] - solid_bbox[2]) < self.__EPS_X and
-                (pipe_shell_bbox[3] - solid_bbox[3]) < self.__EPS_X and
-                (pipe_shell_bbox[4] - solid_bbox[4]) < self.__EPS_X and
-                (pipe_shell_bbox[5] - solid_bbox[5]) < self.__EPS_X
-            ):
-                self.blade = solid
+            pipe_shell_bbox = self.geompy.MakeBoundingBox(pipe_shell, True)
+            if self.debug:
+                self.geompy.addToStudy(pipe_shell_bbox, self.key+"_pipe_shell_bbox")
+
+            pipe_shell_bbox = self.geompy.BoundingBox(pipe_shell, True)
+            ccut = self.geompy.MakeTranslationVectorDistance(
+                self.geompy.MakeCutList(
+                    self.geompy.MakeCylinder(arg_ref_pnt, arg_ref_axis, self.radius_tip-self.radius_eps, pipe_shell_bbox[1]-pipe_shell_bbox[0]+self.eps),
+                    [self.geompy.MakeCylinder(arg_ref_pnt, arg_ref_axis, self.radius_hub+self.radius_eps, pipe_shell_bbox[1]-pipe_shell_bbox[0]+self.eps)],
+                    True
+                ), arg_ref_axis, -self.eps/2.0
+            )
+            if self.debug:
+                self.geompy.addToStudy(ccut, self.key+"_ccut")
+            part = self.geompy.MakePartition([ccut], [pipe_shell], [], [], self.geompy.ShapeType["SOLID"], 0, [], 0)
+            if self.debug:
+                self.geompy.addToStudy(part, self.key+"_part")
+            solids = self.geompy.ExtractShapes(part, self.geompy.ShapeType["SOLID"], True)
+
+            for solid in solids:
+                solid_bbox = self.geompy.BoundingBox(solid, True)
+                if (
+                    abs(pipe_shell_bbox[0] - solid_bbox[0]) < self.eps and
+                    abs(pipe_shell_bbox[1] - solid_bbox[1]) < self.eps and
+                    abs(pipe_shell_bbox[2] - solid_bbox[2]) < self.eps and
+                    abs(pipe_shell_bbox[3] - solid_bbox[3]) < self.eps and
+                    abs(pipe_shell_bbox[4] - solid_bbox[4]) < self.eps and
+                    abs(pipe_shell_bbox[5] - solid_bbox[5]) < self.eps
+                ):
+                    self.blade = solid
+        except Exception as e:
+            print(e)
+
+    @property
+    def key(self) -> str:
+        return self.__cnf["key"]
+
+    @property
+    def debug(self) -> bool:
+        return self.__cnf["debug"]
+
+    @property
+    def eps(self) -> float:
+        return self.__cnf["eps"]
+
+    @property
+    def rotation_direction(self) -> float:
+        for tmp_dir in RotationDirection:
+            if self.__cnf["rotation_direction"] == tmp_dir.name:
+                return float(tmp_dir.value)
 
     @property
     def profile_pnts(self) -> int:
@@ -203,12 +250,22 @@ class Blade:
         return self.__cnf["chord_cnf"]["chord_type"]
 
     @property
+    def chord_center(self) -> float:
+        return self.__cnf["chord_center"]
+
+    @property
     def chord_hub(self) -> float:
-        return self.__cnf["chord_cnf"]["chord_hub"]
+        if self.chord_type in [ChordDistributionType.LINEAR.name, ChordDistributionType.ELLIPTIC.name]:
+            return self.__cnf["chord_cnf"]["chord_hub"]
+        else:
+            return numpy.interp([self.radius_hub],  self.__cnf["chord_cnf"]["radius"], self.__cnf["chord_cnf"]["chord"])[0]
 
     @property
     def chord_tip(self) -> float:
-        return self.__cnf["chord_cnf"]["chord_tip"]
+        if self.chord_type in [ChordDistributionType.LINEAR.name, ChordDistributionType.ELLIPTIC.name]:
+            return self.__cnf["chord_cnf"]["chord_tip"]
+        else:
+            return numpy.interp([self.radius_tip],  self.__cnf["chord_cnf"]["radius"], self.__cnf["chord_cnf"]["chord"])[0]
 
     @property
     def pitch_type(self) -> str:
@@ -247,7 +304,7 @@ class Blade:
         return tmp_rake
 
     def cylinder_projection(self, arg_r: float, arg_x: numpy.ndarray, arg_y: numpy.ndarray) -> Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray]:
-        theta_rad = arg_y / arg_r
+        theta_rad = self.rotation_direction * arg_y / arg_r
         tmp_skew_dx = arg_r * numpy.sin(numpy.deg2rad(self.get_skew(arg_r)))
         tmp_rake = numpy.deg2rad(self.get_rake(arg_r))
         x = arg_x + tmp_skew_dx

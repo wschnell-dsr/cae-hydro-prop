@@ -24,7 +24,6 @@ class Case:
     def __init__(self, arg_study: str, arg_config: CaseCnf):
         self.__study = arg_study
         self.__config = arg_config
-        print(self.__config)
         os.makedirs(os.path.join(self.__study, self.__config["case_dir"]), exist_ok=True)
         self.__case_file = os.path.join(self.__study, self.__config["case_dir"], f"{self.__config['case_file']}")
 

@@ -4,10 +4,12 @@
 
 import logging
 import logging.config
+import numpy
 import unittest
 
-from hydro_prop.meshing.profile import ProfileType
 from hydro_prop.meshing.blade import Blade, BladeCnf, PitchDistributionType, ChordDistributionType
+
+from typing import List
 
 import salome
 from salome.geom import geomBuilder
@@ -48,74 +50,117 @@ class TestBladeSalome(unittest.TestCase):
         self.geompy.addToStudy(OY, 'OY')
         self.geompy.addToStudy(OZ, 'OZ')
 
-        tmp_blade_1_cnf: BladeCnf = {
-            "key": "blade_1",
-            "profile_pnts": 100,
-            "radius_hub": 0.006,
-            "radius_tip": 0.020,
-            "radius_eps": 0.00001,
-            "radius_pnts": 20,
-            "profile_cnf": {
-                "key": "NACA 0008",
-                "profile_type": ProfileType.NACA,
-                "profile_code": "0008"
+        tmp_blade_cnfs: List[BladeCnf] = [
+            {
+                "key": "blade_1",
+                "debug": False,
+                "eps": 0.01,
+                "rotation_direction": "RIGHT",
+                "profile_pnts": 100,
+                "radius_hub": 0.0025,
+                "radius_tip": 0.020,
+                "radius_eps": 0.0001,
+                "radius_pnts": 20,
+                "chord_center": 0.5,
+                "profile_cnf": {
+                    "key": "NACA 0012",
+                    "profile_type": "NACA",
+                    "profile_code": "0012"
+                },
+                "pitch_cnf": {
+                    "pitch_type": PitchDistributionType.LINEAR.name,
+                    "pitch_hub": 0.05,
+                    "pitch_tip": 0.09
+                },
+                "chord_cnf": {
+                        "chord_type": ChordDistributionType.ELLIPTIC.name,
+                        "chord_hub": 0.0080,
+                        "chord_tip": 0.0001
+                },
+                "skew_cnf": {
+                    "exponent": 1.0,
+                    "skew_max": 0.0
+                },
+                "rake_cnf": {
+                    "exponent": 1.0,
+                    "rake_max": 0.0
+                },
             },
-            "pitch_cnf": {
-                "pitch_type": PitchDistributionType.LINEAR,
-                "pitch_hub": 80.0,
-                "pitch_tip": 30.0,
+            {
+                "key": "blade_2",
+                "debug": False,
+                "eps": 0.01,
+                "rotation_direction": "RIGHT",
+                "profile_pnts": 100,
+                "radius_hub": 0.0025,
+                "radius_tip": 0.020,
+                "radius_eps": 0.0001,
+                "radius_pnts": 20,
+                "chord_center": 0.0,
+                "profile_cnf": {
+                    "key": "NACA 0012",
+                    "profile_type": "NACA",
+                    "profile_code": "0012"
+                },
+                "pitch_cnf": {
+                    "pitch_type": PitchDistributionType.LINEAR.name,
+                    "pitch_hub": 0.1,
+                    "pitch_tip": 0.1
+                },
+                "chord_cnf": {
+                        "chord_type": ChordDistributionType.LINEAR_TABULATED.name,
+                        "radius": numpy.linspace(0.0025, 0.020, 20).astype(float),
+                        "chord": [0.008 * numpy.sin(numpy.pi * r / (2.0 * 0.0101)) for r in numpy.linspace(0.0025, 0.020, 20).astype(float)],
+                },
+                "skew_cnf": {
+                    "exponent": 1.0,
+                    "skew_max": 0.0
+                },
+                "rake_cnf": {
+                    "exponent": 1.0,
+                    "rake_max": 0.0
+                },
             },
-            "chord_cnf": {
-                "chord_type": ChordDistributionType.LINEAR,
-                "chord_hub": 0.010,
-                "chord_tip": 0.001,
-            },
-            "skew_cnf": {
-                "exponent": 1.0,
-                "skew_max": 0.0
-            },
-            "rake_cnf": {
-                "exponent": 1.0,
-                "rake_max": 0.0
-            },
-        }
-
-        tmp_blade_1 = Blade(tmp_blade_1_cnf, self.geompy, OO, OX)
-        self.geompy.addToStudy(tmp_blade_1.blade, "blade_1")
-
-        tmp_blade_2_cnf: BladeCnf = {
-            "key": "blade_2",
-            "profile_pnts": 100,
-            "radius_hub": 0.006,
-            "radius_tip": 0.020,
-            "radius_eps": 0.00001,
-            "radius_pnts": 20,
-            "profile_cnf": {
-                "key": "NACA 0008",
-                "profile_type": ProfileType.NACA,
-                "profile_code": "0008"
-            },
-            "pitch_cnf": {
-                "pitch_type": PitchDistributionType.LINEAR,
-                "pitch_hub": 80.0,
-                "pitch_tip": 30.0,
-            },
-            "chord_cnf": {
-                "chord_type": ChordDistributionType.ELLIPTIC,
-                "chord_hub": 0.010,
-                "chord_tip": 0.001,
-            },
-            "skew_cnf": {
-                "exponent": 1.0,
-                "skew_max": 20.0
-            },
-            "rake_cnf": {
-                "exponent": 1.0,
-                "rake_max": 20.0
-            },
-        }
-        tmp_blade_2 = Blade(tmp_blade_2_cnf, self.geompy, OO, OX)
-        self.geompy.addToStudy(tmp_blade_2.blade, "blade_2")
+            {
+                "key": "blade_3",
+                "debug": True,
+                "eps": 0.01,
+                "rotation_direction": "RIGHT",
+                "profile_pnts": 100,
+                "radius_hub": 0.0025,
+                "radius_tip": 0.020,
+                "radius_eps": 0.0001,
+                "radius_pnts": 40,
+                "chord_center": 0.5,
+                "profile_cnf": {
+                    "key": "NACA 0012",
+                    "profile_type": "NACA",
+                    "profile_code": "0012"
+                },
+                "pitch_cnf": {
+                    "pitch_type": PitchDistributionType.LINEAR.name,
+                    "pitch_hub": 0.1,
+                    "pitch_tip": 0.1
+                },
+                "chord_cnf": {
+                    "comment": "OpenProp defaul distribution",
+                    "chord_type": ChordDistributionType.LINEAR_TABULATED.name,
+                    "radius":  [0.020 * rc for rc in [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0]],
+                    "chord": [0.040 * c for c in [0.1600, 0.1600, 0.1818, 0.2024, 0.2196, 0.2305, 0.2311, 0.2173, 0.1806, 0.1387, 0.0010]],
+                },
+                "skew_cnf": {
+                    "exponent": 1.0,
+                    "skew_max": 0.0
+                },
+                "rake_cnf": {
+                    "exponent": 1.0,
+                    "rake_max": 0.0
+                },
+            }
+        ]
+        for tmp_blade_cnf in tmp_blade_cnfs:
+            tmp_blade = Blade(tmp_blade_cnf, self.geompy, OO, OX)
+            self.geompy.addToStudy(tmp_blade.blade, tmp_blade.key)
 
 
 if __name__ == "__main__":

@@ -73,6 +73,8 @@ class Propeller:
         self.geompy.addToStudy(self.ref_pnt_blades, "ref_pnt_blades")
 
         self.blade = Blade(self.blade_cnf, self.geompy, self.ref_pnt_blades, self.ref_axis)
+        self.geompy.addToStudy(self.blade.blade, self.blade.key)
+
         self.blades_cmp = self.geompy.MultiRotate1DNbTimes(self.blade.blade, self.ref_axis, self.n_blades)
         self.blades = self.geompy.ExtractShapes(self.blades_cmp, self.geompy.ShapeType["SOLID"], True)
         self.hub = self.geompy.MakeCylinder(self.ref_pnt_hub, self.ref_axis, self.hub_radius, self.hub_length)
@@ -93,8 +95,6 @@ class Propeller:
                                 )
                             ), self.geompy.CrossProduct(self.norm_axis, self.ref_axis), self.hub_cap_cnf["length"]
                         )
-            self.geompy.addToStudy(ellipse, "ellipse")
-            self.geompy.addToStudy(com_face, "com_face")
             self.hub_cap = self.geompy.MakeTranslationVectorDistance(
                 self.geompy.MakeRevolution(
                     self.geompy.MakeCommonList([
