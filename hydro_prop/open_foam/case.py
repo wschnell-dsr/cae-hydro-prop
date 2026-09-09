@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from jinja2 import Environment, FileSystemLoader
 import os
 import shutil
 from deepmerge import always_merger
@@ -21,6 +22,7 @@ class ParsedParameterFileCnf(TypedDict):
 
 
 class TemplateFileCnf(TypedDict):
+    engine: str
     template_file: str
     template_target_file: str
     placeholder: Dict[str, Any]
@@ -68,9 +70,16 @@ class Case:
                         tmp_file_dict[key] = item
             tmp_file_dict.writeFile()
         for tmp_tf in self.__cnf["template_files"]:
-            tmp_template = TemplateFile(os.path.join(self.case.name, tmp_tf["template_file"]))
-            tmp_template.writeToFile(os.path.join(self.case.name, tmp_tf["template_target_file"]), tmp_tf["placeholder"])
-            os.remove(os.path.join(self.case.name, tmp_tf["template_file"]))
+            if tmp_tf["engine"] == "pyFoamTemplate":
+                tmp_template = TemplateFile(os.path.join(self.case.name, tmp_tf["template_file"]))
+                tmp_template.writeToFile(os.path.join(self.case.name, tmp_tf["template_target_file"]), tmp_tf["placeholder"])
+                os.remove(os.path.join(self.case.name, tmp_tf["template_file"]))
+            elif tmp_tf["engine"] == "jinja2":
+                env = Environment(loader=FileSystemLoader(self.case.name), trim_blocks=True, lstrip_blocks=True)
+                template = env.get_template(tmp_tf["template_file"])
+                with open(os.path.join(self.case.name, tmp_tf["template_target_file"]), 'w') as fh:
+                    fh.write(template.render(**tmp_tf["placeholder"]))
+                os.remove(os.path.join(self.case.name, tmp_tf["template_file"]))
         for tmp_run in self.__cnf["pre_pro_runner_args"]:
             tmp_args = tmp_run
             tmp_args.extend(["-case", self.case.name])

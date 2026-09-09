@@ -13,6 +13,9 @@
 *.hdf
 *.vtu
 *.png
+*.csv
+*.brep
+*.step
 !run/**/*.png
 __pycache__
 *.pyc

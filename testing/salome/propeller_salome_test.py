@@ -58,18 +58,18 @@ class TestPropellerSalome(unittest.TestCase):
                 "form": "ELLIPTIC",
                 "length": 0.006
             },
-            "blade_offset": 0.0025,
+            "blade_offset": 0.005,
             "blade_cnf": {
                 "key": "blade_1",
                 "debug": True,
                 "eps": 0.01,
                 "rotation_direction": "RIGHT",
-                "profile_pnts": 100,
+                "profile_pnts": 200,
                 "radius_hub": 0.0025,
                 "radius_tip": 0.020,
-                "radius_eps": 0.00001,
-                "radius_pnts": 20,
-                "chord_center": 0.0,
+                "radius_eps": 0.0001,
+                "radius_pnts": 50,
+                "chord_center": 0.5,
                 "profile_cnf": {
                     "key": "NACA 0012",
                     "profile_type": "NACA",
@@ -77,13 +77,14 @@ class TestPropellerSalome(unittest.TestCase):
                 },
                 "pitch_cnf": {
                     "pitch_type": PitchDistributionType.LINEAR.name,
-                    "pitch_hub": 0.1,
-                    "pitch_tip": 0.1
+                    "pitch_hub": 0.05,
+                    "pitch_tip": 0.05
                 },
                 "chord_cnf": {
-                        "chord_type": ChordDistributionType.LINEAR_TABULATED.name,
-                        "radius": numpy.linspace(0.0025, 0.020, 20).astype(float),
-                        "chord": [0.008 * numpy.sin(numpy.pi * r / (2.0 * 0.0101)) for r in numpy.linspace(0.0025, 0.020, 20).astype(float)]
+                    "comment": "OpenProp defaul distribution",
+                    "chord_type": ChordDistributionType.CUBIC_SPLINE_TABULATED.name,
+                    "radius":  [0.020 * rc for rc in [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0]],
+                    "chord": [0.040 * c for c in [0.1600, 0.1600, 0.1818, 0.2024, 0.2196, 0.2305, 0.2311, 0.2173, 0.1806, 0.1387, 0.00010]],
                 },
                 "skew_cnf": {
                     "exponent": 1.0,
@@ -97,27 +98,29 @@ class TestPropellerSalome(unittest.TestCase):
         }
 
         mesh_cnf: MeshParameters = {
-            "algorithm": "GMSH",
-            "min_size": 0.000,
-            "max_size": 0.00025,
-            "fineness": None,
-            "optimize": None,
-            "second_order": None,
+            "algorithm": "NETGEN_1D2D3D",
+            "min_size": 0.0001,
+            "max_size": 0.0005,
+            "fineness": "MODERATE",
+            "optimize": 1,
+            "second_order": 0,
             "gmsh_3d_algo": "DELAUNAY",
             "gmsh_sub_div_algo": "AUTOMATIC",
             "gmsh_remesh_algo": "NO_SPLIT",
             "gmsh_remesh_param": "HARMONIC",
             "smouth_steps": 10,
-            "size_factor": 0.4,
+            "size_factor": 0.6,
             "curvature": 5
         }
 
         tmp_propeller = Propeller(tmp_prop_cnf, self.geompy, self.smesh, OO, OX, OY)
         tmp_propeller.gen_geom("propeller")
-        tmp_propeller.gen_mesh("propeller", mesh_cnf)
+        os.makedirs("testing/data/geo/", exist_ok=True)
+        tmp_propeller.export_geo("testing/data/geo/")
 
-        os.makedirs("testing/data/", exist_ok=True)
-        tmp_propeller.export_mesh("testing/data/")
+        tmp_propeller.gen_mesh("propeller", mesh_cnf)
+        os.makedirs("testing/data/mesh/", exist_ok=True)
+        tmp_propeller.export_mesh("testing/data/mesh/")
 
 
 if __name__ == "__main__":

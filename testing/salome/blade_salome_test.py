@@ -144,9 +144,9 @@ class TestBladeSalome(unittest.TestCase):
                 },
                 "chord_cnf": {
                     "comment": "OpenProp defaul distribution",
-                    "chord_type": ChordDistributionType.LINEAR_TABULATED.name,
+                    "chord_type": ChordDistributionType.CUBIC_SPLINE_TABULATED.name,
                     "radius":  [0.020 * rc for rc in [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0]],
-                    "chord": [0.040 * c for c in [0.1600, 0.1600, 0.1818, 0.2024, 0.2196, 0.2305, 0.2311, 0.2173, 0.1806, 0.1387, 0.0010]],
+                    "chord": [0.040 * c for c in [0.1600, 0.1600, 0.1818, 0.2024, 0.2196, 0.2305, 0.2311, 0.2173, 0.1806, 0.1387, 0.00010]],
                 },
                 "skew_cnf": {
                     "exponent": 1.0,

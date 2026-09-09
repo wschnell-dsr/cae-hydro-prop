@@ -18,7 +18,6 @@ from . import LOGGER_CONFIG
 
 def run_meshing(arg_study: str):
 
-    tmp_meshes = {}
     tmp_config = {}
     if (
         os.path.exists(arg_study) and
@@ -33,8 +32,10 @@ def run_meshing(arg_study: str):
         exit(1)
 
     for tmp_key, tmp_mconfig in tmp_config["meshing"].items():
-        tmp_mesh_dir = os.path.join(arg_study, "meshes", tmp_key)
+        tmp_mesh_dir = os.path.join(arg_study, "meshes", tmp_key, "mesh")
         os.makedirs(tmp_mesh_dir, exist_ok=True)
+        tmp_geo_dir = os.path.join(arg_study, "meshes", tmp_key, "geo")
+        os.makedirs(tmp_geo_dir, exist_ok=True)
 
         salome.salome_init()
         geompy = geomBuilder.New()
@@ -43,11 +44,13 @@ def run_meshing(arg_study: str):
         ref_axis = geompy.MakeVectorDXDYDZ(*tmp_mconfig["ref_axis"])
         norm_axis = geompy.MakeVectorDXDYDZ(*tmp_mconfig["norm_axis"])
         tmp_mesh = Propeller(tmp_mconfig["prop_cnf"], geompy, smesh, ref_pnt, ref_axis, norm_axis)
+
         tmp_mesh.gen_geom("propeller")
-        #tmp_mesh.gen_mesh("propeller", tmp_mconfig["mesh_cnf"])
-        #tmp_meshes[tmp_key] = {
-        #    "mesh_file": tmp_mesh.export_mesh(os.path.join(args.study, "meshes", tmp_key))
-        #}
+        tmp_mesh.export_geo(tmp_geo_dir)
+
+        if "mesh_cnf" in tmp_mconfig:
+            tmp_mesh.gen_mesh("propeller", tmp_mconfig["mesh_cnf"])
+            tmp_mesh.export_mesh(tmp_mesh_dir)
 
 
 if __name__ == "__main__":

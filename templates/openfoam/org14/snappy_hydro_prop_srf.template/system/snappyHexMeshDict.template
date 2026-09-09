@@ -11,7 +11,7 @@ FoamFile
 
 castellatedMesh true;
 snap            true;
-addLayers       $!addLayers!$;
+addLayers       {{ addLayers }};
 geometry
 {
     propeller.stl
@@ -29,36 +29,34 @@ geometry
             {
                 name hub;
             }
-            blade_0
+            {% for blade in blades %}
+            {{ blade.key }}
             {
-                name blade_0;
+                name {{ blade.key }};
             }
-            blade_1
-            {
-                name blade_1;
-            }
+            {% endfor %}
         }
     }
     shaft
     {
         type searchableCylinder;
-        point1 (@!xmin_shaft!@ 0 0);
-        point2 (@!xmax_shaft!@ 0 0);
-        radius @!r_shaft!@;
+        point1 ({{ xmin_shaft }} 0 0);
+        point2 ({{ xmax_shaft }} 0 0);
+        radius {{ r_shaft }};
     }
     propellerFrame
     {
         type searchableCylinder;
-        point1 (@!xmin_prop_frame!@ 0 0);
-        point2 (@!xmax_prop_frame!@ 0 0);
-        radius @!r_prop_frame!@;
+        point1 ({{ xmin_prop_frame }} 0 0);
+        point2 ({{ xmax_prop_frame }} 0 0);
+        radius {{ r_prop_frame }};
     }
     outerCylinder
     {
         type searchableCylinder;
-        point1 (@!xmin!@ 0 0);
-        point2 (@!xmax!@ 0 0);
-        radius @!rmax!@;
+        point1 ({{ xmin }} 0 0);
+        point2 ({{ xmax }} 0 0);
+        radius {{ rmax }};
     }
 }
 castellatedMeshControls
@@ -67,19 +65,19 @@ castellatedMeshControls
     (
         {
             file "propeller.extendedFeatureEdgeMesh";
-            level @!propeller_level_feature!@;
+            level {{ propeller_level_feature }};
         }
     );
     refinementSurfaces
     {
         propeller
         {
-            level (@!propeller_level_min!@ @!propeller_level_max!@);
+            level ({{ propeller_level_min }} {{ propeller_level_max }});
             regions
             {
                 hub_cap
                 {
-                    level (@!propeller_level_hub_min!@ @!propeller_level_hub_max!@);
+                    level ({{ propeller_level_hub_min }} {{ propeller_level_hub_max }});
                     patchInfo
                     {
                         type wall;
@@ -87,33 +85,27 @@ castellatedMeshControls
                 }
                 hub
                 {
-                    level (@!propeller_level_hub_min!@ @!propeller_level_hub_max!@);
+                    level ({{ propeller_level_hub_min }} {{ propeller_level_hub_max }});
                     patchInfo
                     {
                         type wall;
                     }
                 }
-                blade_0
+                {% for blade in blades %}
+                {{ blade.key }}
                 {
-                    level (@!propeller_level_blades_min!@ @!propeller_level_blades_max!@);
+                    level ({{ propeller_level_blades_min }} {{ propeller_level_blades_max }});
                     patchInfo
                     {
                         type wall;
                     }
                 }
-                blade_1
-                {
-                    level (@!propeller_level_blades_min!@ @!propeller_level_blades_max!@);
-                    patchInfo
-                    {
-                        type wall;
-                    }
-                }
+                {% endfor %}
             }
         }
         shaft
         {
-            level (@!shaft_level_min!@ @!shaft_level_max!@);
+            level ({{ shaft_level_min }} {{ shaft_level_max }});
             patchInfo
             {
                 type wall;
@@ -121,21 +113,21 @@ castellatedMeshControls
         }
         propellerFrame
         {
-            level (@!propeller_frame_level_min!@ @!propeller_frame_level_max!@);
+            level ({{ propeller_frame_level_min }} {{ propeller_frame_level_max }});
             cellZone propellerFrame;
             faceZone propellerFrame;
             mode inside;
         }
         outerCylinder
         {
-            level (@!outer_cylinder_level_min!@ @!outer_cylinder_level_max!@);
+            level ({{ outer_cylinder_level_min }} {{ outer_cylinder_level_max }});
             patchInfo
             {
                 type wall;
             }
         }
     }
-    insidePoint (@!x_inside_point!@ @!y_inside_point!@ @!z_inside_point!@);
+    insidePoint ({{ x_inside_point }} {{ y_inside_point }} {{ z_inside_point }});
 }
 snapControls
 {
@@ -144,7 +136,7 @@ snapControls
     nSolveIter      300;
     nRelaxIter      10;
     nFeatureSnapIter 25;
-    implicitFeatureSnap    false;
+    implicitFeatureSnap    true;
     explicitFeatureSnap    true;
 }
 addLayersControls

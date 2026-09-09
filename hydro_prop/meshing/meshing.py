@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from enum import IntEnum
-from typing import Any, TypedDict, Literal, Optional, Union
+from typing import Any, TypedDict, Optional, Union
 from salome.smesh import smeshBuilder
 
 

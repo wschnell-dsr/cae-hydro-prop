@@ -7,7 +7,7 @@ import logging.config
 import os
 import json
 
-from hydro_prop.calculix.case import Case, CaseCnf
+from hydro_prop.calculix.case import Case
 
 from . import LOGGER_CONFIG
 

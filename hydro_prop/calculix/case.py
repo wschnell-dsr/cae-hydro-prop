@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from jinja2 import Environment, FileSystemLoader
-import datetime
 import os
 import subprocess
 import shutil
 
-from typing import Any, Dict, List, TypedDict
+from typing import Any, Dict, TypedDict
 
 
 class CaseCnf(TypedDict):

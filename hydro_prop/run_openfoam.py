@@ -25,7 +25,7 @@ def run_case(arg_study: str, arg_type: str, arg_case: str = ""):
             tmp_config = json.load(jfile)
     else:
         logger.fatal(f"Path to study config does not exist {os.path.join(arg_study, "config.json")}")
-        exit(1)
+        return
 
     for tmp_key, tmp_case_dict in tmp_config["openfoam"][arg_type].items():
         if arg_case == "" or arg_case == tmp_key:
