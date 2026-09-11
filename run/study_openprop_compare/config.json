@@ -186,6 +186,7 @@
                 ],
                 "template_files": [
                     {
+                        "engine": "pyFoamTemplate",
                         "template_file": "constant/MRFProperties.template",
                         "template_target_file": "constant/MRFProperties",
                         "placeholder":
@@ -194,6 +195,7 @@
                         }
                     },
                     {
+                        "engine": "pyFoamTemplate",
                         "template_file": "0/U.template",
                         "template_target_file": "0/U",
                         "placeholder":
