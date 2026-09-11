@@ -186,27 +186,6 @@ class Propeller:
             self.mesh_on_geom_boundaries = []
             for tmp_key in self.boundary_grps:
                 self.mesh_on_geom_boundaries.append((tmp_key, self.propeller_mesh.GroupOnGeom(self.boundary_grps[tmp_key], tmp_key, SMESH.FACE)))
-            self.boundary_point_mesh_grp = {}
-            for tmp_boundary_key in self.boundary_grps:
-                tmp_criteria = [self.smesh.GetCriterion(SMESH.NODE, SMESH.FT_BelongToGeom, SMESH.FT_Undefined, self.boundary_grps[tmp_boundary_key])]
-                tmp_filter = self.smesh.GetFilterFromCriteria(tmp_criteria)
-                tmp_filter.SetMesh(self.propeller_mesh.GetMesh())
-                self.boundary_point_mesh_grp[tmp_boundary_key] = self.propeller_mesh.GroupOnFilter(SMESH.NODE, tmp_boundary_key, tmp_filter)
-            all_faces = self.propeller_mesh.GetElementsByType(SMESH.FACE)
-            for tmp_face in all_faces:
-                tmp_is_no_boundary = True
-                for tmp_key, tmp_grp in self.mesh_on_geom_boundaries:
-                    if tmp_face in tmp_grp.GetIDs():
-                        tmp_is_no_boundary = False
-                if tmp_is_no_boundary:
-                    self.propeller_mesh.RemoveElements([tmp_face])
-            all_edges = self.propeller_mesh.GetElementsByType(SMESH.EDGE)
-            boundary_edge_ids = set()
-            for k, v in self.boundary_ids.items():
-                boundary_edge_ids.update(v)
-            to_remove = [eid for eid in all_edges if eid not in boundary_edge_ids]
-            if to_remove:
-                self.propeller_mesh.RemoveElements(to_remove)
 
     def export_mesh(self, arg_dir: str):
         tmp_unv_file = os.path.join(arg_dir, "propeller.unv")
@@ -225,8 +204,24 @@ class Propeller:
                     for line in tmp_infile:
                         tmp_outfile.write(line)
         # inp file
+        self.boundary_point_mesh_grp = {}
+        for tmp_boundary_key in self.boundary_grps:
+            tmp_criteria = [self.smesh.GetCriterion(SMESH.NODE, SMESH.FT_BelongToGeom, SMESH.FT_Undefined, self.boundary_grps[tmp_boundary_key])]
+            tmp_filter = self.smesh.GetFilterFromCriteria(tmp_criteria)
+            tmp_filter.SetMesh(self.propeller_mesh.GetMesh())
+            self.boundary_point_mesh_grp[tmp_boundary_key] = self.propeller_mesh.GroupOnFilter(SMESH.NODE, tmp_boundary_key, tmp_filter)
+        all_faces = self.propeller_mesh.GetElementsByType(SMESH.FACE)
+        for tmp_face in all_faces:
+            self.propeller_mesh.RemoveElements([tmp_face])
+        all_edges = self.propeller_mesh.GetElementsByType(SMESH.EDGE)
+        self.propeller_mesh.RemoveElements(all_edges)
+        tmp_unv_to_inp_file = os.path.join(arg_dir, "propeller_to_inp.unv")
+        try:
+            self.propeller_mesh.ExportUNV(tmp_unv_to_inp_file, 0)
+        except Exception:
+            print('ExportUNV() failed. Invalid file name?')
         if Converter is not None:
-            tmp_converter = Converter(tmp_unv_file)
+            tmp_converter = Converter(tmp_unv_to_inp_file)
             tmp_converter.run()
 
     def is_same_bb(self, arg_bb1, arg_bb2) -> bool:

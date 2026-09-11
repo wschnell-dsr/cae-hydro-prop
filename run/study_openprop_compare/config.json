@@ -167,9 +167,9 @@
             }
         },
         "cases": {
-            "case_8000rpm_1ms": {
+            "case_9000rpm_4p5ms": {
                 "case_template": "../../templates/openfoam/org14/incompressible_hydro_prop_srf.template",
-                "case_target": "openfoam/cases/case_8000rpm_0p1ms",
+                "case_target": "openfoam/cases/case_9000rpm_4p5ms",
                 "resources": [
                     {
                         "source": "openfoam/meshes/mesh_01/constant/polyMesh",
@@ -190,7 +190,7 @@
                         "template_target_file": "constant/MRFProperties",
                         "placeholder":
                         {
-                            "rpm": 8000
+                            "rpm": 9000
                         }
                     },
                     {
@@ -198,7 +198,7 @@
                         "template_target_file": "0/U",
                         "placeholder":
                         {
-                            "Uinlet": 1.0
+                            "Uinlet": 4.5
                         }
                     }
                 ],
@@ -223,7 +223,7 @@
                 "data":
                 {
                     "name": "rotation",
-                    "mesh_file": "../../../meshes/mesh_01_ccx/propeller.inp",
+                    "mesh_file": "../../../meshes/mesh_01/mesh/propeller.inp",
                     "boundary_fix": "hub_front",
                     "elset_name": "C3D4",
                     "omega": [50, 100, 150, 200, 250, 300],
@@ -242,7 +242,7 @@
                 "data":
                 {
                     "name": "modal",
-                    "mesh_file": "../../../meshes/mesh_01_ccx/propeller.inp",
+                    "mesh_file": "../../../meshes/mesh_01/mesh/propeller.inp",
                     "boundary_fix": "hub_front",
                     "elset_name": "C3D4",
                     "n_frequencies": 9,

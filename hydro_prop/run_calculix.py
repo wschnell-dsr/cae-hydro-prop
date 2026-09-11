@@ -34,33 +34,18 @@ def run_ccx(arg_study: str, arg_case: str = ""):
             tmp_case = Case(arg_study, tmp_case_dict)
             tmp_case.generate_case()
             tmp_case.run()
-    '''
-    modal_cases = []
-    for tmp_key, tmp_mconfig in tmp_configs["modal"].items():
-        tmp_modal_dir = os.path.join(tmp_configs["study"], "modal", tmp_key)
-        os.makedirs(tmp_modal_dir, exist_ok=True)
-        tmp_singing_bowl_modal = calculation.SingingBowlModal(tmp_mconfig, tmp_meshes)
-        tmp_singing_bowl_modal.generate_case(tmp_modal_dir)
-        tmp_case = tmp_singing_bowl_modal.run()
-        modal_cases.append(tmp_case)
-
-    for tmp_case in modal_cases:
-        tmp_modal = postprocessing.SingingBowlModal(tmp_case)
-        tmp_modal.ccx_2_paraview()
-        tmp_modal.parse_modal_dat()
-        tmp_modal.animate()
-    '''
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--study", type=str, default="", help="Path to study")
+    parser.add_argument("--case", type=str, default="", help="Case")
     args = parser.parse_args()
 
     logging.config.dictConfig(LOGGER_CONFIG)
     logger = logging.getLogger("hydro_prop")
 
-    run_ccx(args.study)
+    run_ccx(args.study, args.case)
 
 
 

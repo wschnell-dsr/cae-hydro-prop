@@ -15,12 +15,12 @@
 *Solid Section, elset={{ elset_name }}, material={{ material.name }}
 
 *BOUNDARY
-{{ boundary_fix }}, 1, 1, 0.0
+**{{ boundary_fix }}, 1, 3, 0.0
 
 {% for item in omega %}
 *Step, nlgeom=YES
 *Static
-1., 1., 1e-5, 1.
+1., 1., 1e-7, 1.
 *CONTROLS, PARAMETERS=TIME INCREMENTATION
 10, 15, 4, 10
 *Dload

@@ -51,7 +51,7 @@ class TestPropellerSalome(unittest.TestCase):
         self.geompy.addToStudy(OZ, 'OZ')
 
         tmp_prop_cnf: PropCnf = {
-            "n_blades": 3,
+            "n_blades": 2,
             "hub_length": 0.01,
             "hub_radius": 0.0026,
             "hub_cap_cnf": {
@@ -64,11 +64,11 @@ class TestPropellerSalome(unittest.TestCase):
                 "debug": True,
                 "eps": 0.01,
                 "rotation_direction": "RIGHT",
-                "profile_pnts": 200,
+                "profile_pnts": 50,
                 "radius_hub": 0.0025,
                 "radius_tip": 0.020,
                 "radius_eps": 0.0001,
-                "radius_pnts": 50,
+                "radius_pnts": 15,
                 "chord_center": 0.5,
                 "profile_cnf": {
                     "key": "NACA 0012",
@@ -100,8 +100,8 @@ class TestPropellerSalome(unittest.TestCase):
         mesh_cnf: MeshParameters = {
             "algorithm": "NETGEN_1D2D3D",
             "min_size": 0.0001,
-            "max_size": 0.0005,
-            "fineness": "MODERATE",
+            "max_size": 0.0010,
+            "fineness": "COARSE",
             "optimize": 1,
             "second_order": 0,
             "gmsh_3d_algo": "DELAUNAY",
