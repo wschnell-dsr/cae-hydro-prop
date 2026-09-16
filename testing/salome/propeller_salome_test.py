@@ -1,14 +1,11 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """ """
 
 import logging
 import os
 import logging.config
-import numpy
 import unittest
 
-from hydro_prop.meshing.blade import PitchDistributionType, ChordDistributionType
 from hydro_prop.meshing.propeller import PropCnf, Propeller
 from hydro_prop.meshing.meshing import MeshParameters
 
@@ -51,51 +48,50 @@ class TestPropellerSalome(unittest.TestCase):
         self.geompy.addToStudy(OZ, 'OZ')
 
         tmp_prop_cnf: PropCnf = {
-            "n_blades": 2,
-            "hub_length": 0.01,
-            "hub_radius": 0.0026,
-            "hub_cap_cnf": {
-                "form": "ELLIPTIC",
-                "length": 0.006
-            },
-            "blade_offset": 0.005,
-            "blade_cnf": {
-                "key": "blade_1",
-                "debug": True,
-                "eps": 0.01,
-                "rotation_direction": "RIGHT",
-                "profile_pnts": 50,
-                "radius_hub": 0.0025,
-                "radius_tip": 0.020,
-                "radius_eps": 0.0001,
-                "radius_pnts": 15,
-                "chord_center": 0.5,
-                "profile_cnf": {
-                    "key": "NACA 0012",
-                    "profile_type": "NACA",
-                    "profile_code": "0012"
+                "n_blades": 5,
+                "hub_length": 0.02,
+                "hub_radius": 0.0075,
+                "blade_offset": 0.0075,
+                "hub_cap_cnf": {
+                    "form": "ELLIPTIC",
+                    "length": 0.015
                 },
-                "pitch_cnf": {
-                    "pitch_type": PitchDistributionType.LINEAR.name,
-                    "pitch_hub": 0.05,
-                    "pitch_tip": 0.05
-                },
-                "chord_cnf": {
-                    "comment": "OpenProp defaul distribution",
-                    "chord_type": ChordDistributionType.CUBIC_SPLINE_TABULATED.name,
-                    "radius":  [0.020 * rc for rc in [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0]],
-                    "chord": [0.040 * c for c in [0.1600, 0.1600, 0.1818, 0.2024, 0.2196, 0.2305, 0.2311, 0.2173, 0.1806, 0.1387, 0.00010]],
-                },
-                "skew_cnf": {
-                    "exponent": 1.0,
-                    "skew_max": 0.0
-                },
-                "rake_cnf": {
-                    "exponent": 1.0,
-                    "rake_max": 0.0
+                "blade_cnf": {
+                    "key": "blade_1",
+                    "debug": 1,
+                    "eps": 0.01,
+                    "rotation_direction": "RIGHT",
+                    "profile_pnts": 100,
+                    "radius_hub": 0.0070,
+                    "radius_tip": 0.030,
+                    "radius_eps": 0.0001,
+                    "radius_pnts": 20,
+                    "chord_center": 0.25,
+                    "profile_cnf": {
+                        "key": "NACA 23012",
+                        "profile_type": "NACA",
+                        "profile_code": "23012"
+                    },
+                    "pitch_cnf": {
+                        "pitch_type": "LINEAR",
+                        "pitch_hub": 0.03,
+                        "pitch_tip": 0.02
+                    },
+                    "chord_cnf": {
+                        "chord_type": "ELLIPTIC",
+                        "chord_hub":  0.02,
+                        "chord_tip": 0.010
+                    },
+                    "skew_cnf": {
+                        "exponent": 1.0,
+                        "skew_max": 0.0
+                    },
+                    "rake_cnf": {
+                        "exponent": 1.0,
+                        "rake_max": 0.0
+                    }
                 }
             }
-        }
 
         mesh_cnf: MeshParameters = {
             "algorithm": "NETGEN_1D2D3D",
@@ -118,14 +114,10 @@ class TestPropellerSalome(unittest.TestCase):
         os.makedirs("testing/data/geo/", exist_ok=True)
         tmp_propeller.export_geo("testing/data/geo/")
 
-        tmp_propeller.gen_mesh("propeller", mesh_cnf)
-        os.makedirs("testing/data/mesh/", exist_ok=True)
-        tmp_propeller.export_mesh("testing/data/mesh/")
+        # tmp_propeller.gen_mesh("propeller", mesh_cnf)
+        # os.makedirs("testing/data/mesh/", exist_ok=True)
+        # tmp_propeller.export_mesh("testing/data/mesh/")
 
 
 if __name__ == "__main__":
     unittest.main()
-
-
-
-

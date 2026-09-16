@@ -52,40 +52,40 @@ class TestBladeSalome(unittest.TestCase):
 
         tmp_blade_cnfs: List[BladeCnf] = [
             {
-                "key": "blade_1",
-                "debug": False,
-                "eps": 0.01,
-                "rotation_direction": "RIGHT",
-                "profile_pnts": 100,
-                "radius_hub": 0.0025,
-                "radius_tip": 0.020,
-                "radius_eps": 0.0001,
-                "radius_pnts": 20,
-                "chord_center": 0.5,
-                "profile_cnf": {
-                    "key": "NACA 0012",
-                    "profile_type": "NACA",
-                    "profile_code": "0012"
+                    "key": "blade_1",
+                    "debug": 1,
+                    "eps": 0.01,
+                    "rotation_direction": "RIGHT",
+                    "profile_pnts": 100,
+                    "radius_hub": 0.0072,
+                    "radius_tip": 0.030,
+                    "radius_eps": 0.0001,
+                    "radius_pnts": 20,
+                    "chord_center": 0.25,
+                    "profile_cnf": {
+                        "key": "NACA 23012",
+                        "profile_type": "NACA",
+                        "profile_code": "23012"
+                    },
+                    "pitch_cnf": {
+                        "pitch_type": "LINEAR",
+                        "pitch_hub": 0.03,
+                        "pitch_tip": 0.02
+                    },
+                    "chord_cnf": {
+                        "chord_type": "ELLIPTIC",
+                        "chord_hub":  0.02,
+                        "chord_tip": 0.010
+                    },
+                    "skew_cnf": {
+                        "exponent": 1.0,
+                        "skew_max": 0.0
+                    },
+                    "rake_cnf": {
+                        "exponent": 1.0,
+                        "rake_max": 0.0
+                    }
                 },
-                "pitch_cnf": {
-                    "pitch_type": PitchDistributionType.LINEAR.name,
-                    "pitch_hub": 0.05,
-                    "pitch_tip": 0.09
-                },
-                "chord_cnf": {
-                        "chord_type": ChordDistributionType.ELLIPTIC.name,
-                        "chord_hub": 0.0080,
-                        "chord_tip": 0.0001
-                },
-                "skew_cnf": {
-                    "exponent": 1.0,
-                    "skew_max": 0.0
-                },
-                "rake_cnf": {
-                    "exponent": 1.0,
-                    "rake_max": 0.0
-                },
-            },
             {
                 "key": "blade_2",
                 "debug": False,
