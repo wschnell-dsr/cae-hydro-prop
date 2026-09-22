@@ -8,57 +8,45 @@
 FoamFile
 {
     format      ascii;
-    class       volVectorField;
-    object      U;
+    class       volScalarField;
+    location    "0";
+    object      omega;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 1 -1 0 0 0 0];
+dimensions      [turbulentOmega];
 
-internalField   uniform (0 0 0);
+internalField   uniform {{ internalField }};
 
 boundaryField
 {
+    #includeEtc "caseDicts/setConstraintTypes"
+
     front
     {
-        type            fixedValue;
-        value           uniform ({{ Uinlet }} 0 0);
+        type            turbulentOmega;
+        mixingLength    {{ mixingLength }};
+        value           $internalField;
     }
 
     back
     {
-        type            zeroGradient;
+        type            turbulentOmega;
+        mixingLength    {{ mixingLength }};
+        value           $internalField;
     }
-
-    hub
-    {
-        type            MRFnoSlip;
-    }
-
-    hub_cap
-    {
-        type            MRFnoSlip;
-    }
-
-    {% for blade in blades %}
-    {{ blade }}
-    {
-        type            MRFnoSlip;
-    }
-    {% endfor %}
 
     outerCylinder
     {
-        type            fixedValue;
-        value           uniform ({{ Uinlet }} 0 0);
+        type            zeroGradient;
     }
 
     wall
     {
-        type            noSlip;
+        type            omegaWallFunction;
+        value           $internalField;
     }
-
-    #includeEtc "caseDicts/setConstraintTypes"
 }
+
 
 // ************************************************************************* //

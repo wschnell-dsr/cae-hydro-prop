@@ -9,35 +9,44 @@ FoamFile
 {
     format      ascii;
     class       volScalarField;
-    object      p;
+    location    "0";
+    object      epsilon;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-pRef            0;
+dimensions      [turbulentEpsilon];
 
-dimensions      [0 2 -2 0 0 0 0];
-
-internalField   uniform $pRef;
+internalField   uniform {{ internalField }};
 
 boundaryField
 {
+    #includeEtc "caseDicts/setConstraintTypes"
+
     front
     {
-        type            zeroGradient;
+        type            turbulentEpsilon;
+        mixingLength    {{ mixingLength }};
+        value           $internalField;
     }
 
     back
     {
-        type            fixedValue;
-        value           uniform $pRef;
+        type            turbulentEpsilon;
+        mixingLength    {{ mixingLength }};
+        value           $internalField;
     }
 
-    wall
+    outerCylinder
     {
         type            zeroGradient;
     }
 
-    #includeEtc "caseDicts/setConstraintTypes"
+    wall
+    {
+        type            epsilonWallFunction;
+        value           $internalField;
+    }
 }
+
 
 // ************************************************************************* //

@@ -14,7 +14,8 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 #includeFunc forcesIncompressible
-#includeFunc residuals(name=residuals, p)
+#includeFunc residuals(name=p_residuals, p)
+#includeFunc residuals(name=U_residuals, U)
 /*
 #includeFunc forceCoeffsIncompressible
 #includeFunc residuals(name=residuals, p)

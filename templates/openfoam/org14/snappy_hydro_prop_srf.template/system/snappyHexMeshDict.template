@@ -123,7 +123,7 @@ castellatedMeshControls
             level ({{ outer_cylinder_level_min }} {{ outer_cylinder_level_max }});
             patchInfo
             {
-                type wall;
+                type patch;
             }
         }
     }
@@ -131,29 +131,33 @@ castellatedMeshControls
 }
 snapControls
 {
-    nSmoothPatch    10;
-    tolerance       4.0;
-    nSolveIter      300;
-    nRelaxIter      10;
-    nFeatureSnapIter 25;
-    implicitFeatureSnap    true;
-    explicitFeatureSnap    true;
+    nSmoothPatch    {{ snapControls.nSmoothPatch }};
+    tolerance       {{ snapControls.tolerance }};
+    nSolveIter      {{ snapControls.nSolveIter }};
+    nRelaxIter      {{ snapControls.nRelaxIter }};
+    nFeatureSnapIter {{ snapControls.nFeatureSnapIter }};
+    implicitFeatureSnap    {{ snapControls.implicitFeatureSnap }};
+    explicitFeatureSnap    {{ snapControls.explicitFeatureSnap }};
 }
 addLayersControls
 {
     relativeSizes false;
     layers
     {
-        /*
-        fluid_to_cooler
+        {% for blade in blades %}
+        {{ blade.key }}
         {
-            nSurfaceLayers 2;
+            nSurfaceLayers {{ layers.blades }};
         }
-        isolated
+        {% endfor %}
+        hub
         {
-            nSurfaceLayers 2;
+            nSurfaceLayers {{ layers.hub }};
         }
-        */
+        hub_cap
+        {
+            nSurfaceLayers {{ layers.hub_cap }};
+        }
     }
     expansionRatio            1.2;
     finalLayerThickness    5.0e-4;

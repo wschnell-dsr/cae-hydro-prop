@@ -25,9 +25,9 @@
                     "radius_pnts": 50,
                     "chord_center": 0.5,
                     "profile_cnf": {
-                        "key": "NACA 0008",
+                        "key": "NACA 0012",
                         "profile_type": "NACA",
-                        "profile_code": "0008"
+                        "profile_code": "0012"
                     },
                     "pitch_cnf": {
                         "pitch_type": "LINEAR",
@@ -51,9 +51,9 @@
             },
             "mesh_cnf": {
                 "algorithm": "NETGEN_1D2D3D",
-                "min_size": 0.0001,
-                "max_size": 0.0010,
-                "fineness": "MODERATE",
+                "min_size": 0.00005,
+                "max_size": 0.00025,
+                "fineness": "VERY_FINE",
                 "optimize": 1,
                 "second_order": 0,
                 "gmsh_3d_algo": "DELAUNAY",
@@ -94,11 +94,11 @@
                         "placeholder":
                         {
                             "xmin" : -0.025,
-                            "xmax" :  0.100,
-                            "ymin" : -0.08,
-                            "ymax" :  0.08,
-                            "zmin" : -0.08,
-                            "zmax" :  0.08,
+                            "xmax" :  0.300,
+                            "ymin" : -0.10,
+                            "ymax" :  0.10,
+                            "zmin" : -0.10,
+                            "zmax" :  0.10,
                             "dx"   :  1.0e-2,
                             "dy"   :  1.0e-2,
                             "dz"   :  1.0e-2
@@ -111,6 +111,11 @@
                         "placeholder":
                         {
                             "addLayers": "false",
+                            "layers": {
+                                "blades": 3,
+                                "hub": 3,
+                                "hub_cap": 3
+                            },
                             "blades": [
                                 {
                                     "key": "blade_0"
@@ -125,28 +130,38 @@
                                     "key": "blade_3"
                                 }
                             ],
+                            "snapControls":
+                            {
+                                "nSmoothPatch": 5,
+                                "tolerance": 8.0,
+                                "nSolveIter": 100,
+                                "nRelaxIter": 10,
+                                "nFeatureSnapIter": 15,
+                                "implicitFeatureSnap": "true",
+                                "explicitFeatureSnap": "true"
+                            },
                             "x_inside_point" : 0.09999,
                             "y_inside_point" : 0.00001,
                             "z_inside_point" : 0.00001,
-                            "xmin" : -0.03,
-                            "xmax" :  0.11,
-                            "rmax" :  0.08,
+                            "xmin" : -0.1,
+                            "xmax" :  0.31,
+                            "rmax" :  0.1,
                             "xmin_prop_frame" : 0.0,
                             "xmax_prop_frame" : 0.02,
-                            "r_prop_frame" :  0.055,
+                            "r_prop_frame" :  0.08,
                             "xmin_shaft" : -0.1,
                             "xmax_shaft" : 0.0,
                             "r_shaft" :  0.0075,
-                            "propeller_level_feature": 7,
+                            "propeller_level_feature": 5,
                             "propeller_level_min": 4,
                             "propeller_level_max": 4,
                             "propeller_level_hub_min": 5,
                             "propeller_level_hub_max": 5,
                             "propeller_level_blades_min": 5,
-                            "propeller_level_blades_max": 7,
+                            "propeller_level_blades_max": 5,
                             "shaft_level_min": 5,
                             "shaft_level_max": 5,
-                            "propeller_frame_level_min": 4,
+                            "propeller_frame_level_min": 5,
                             "propeller_frame_level_max": 5,
                             "outer_cylinder_level_min": 3,
                             "outer_cylinder_level_max": 3
@@ -186,19 +201,101 @@
                 ],
                 "template_files": [
                     {
+                        "engine": "jinja2",
                         "template_file": "constant/MRFProperties.template",
                         "template_target_file": "constant/MRFProperties",
                         "placeholder":
                         {
-                            "rpm": 9000
+                            "rpm": 9000,
+                            "axis": [-1, 0, 0],
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
                         }
                     },
                     {
+                        "engine": "jinja2",
+                        "template_file": "constant/momentumTransport.template",
+                        "template_target_file": "constant/momentumTransport",
+                        "placeholder":
+                        {
+                            "simulationType": "RAS",
+                            "simulationTypeOptions": {
+                                "model": "kEpsilon",
+                                "turbulence": "on",
+                                "printCoeffs": "on"
+                            }
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
                         "template_file": "0/U.template",
                         "template_target_file": "0/U",
                         "placeholder":
                         {
-                            "Uinlet": 4.5
+                            "Uinlet": 4.5,
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/p.template",
+                        "template_target_file": "0/p",
+                        "placeholder":
+                        {
+                            "pRef": 0.0
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/epsilon.template",
+                        "template_target_file": "0/epsilon",
+                        "placeholder":
+                        {
+                            "internalField": 1.8e-3,
+                            "mixingLength": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/k.template",
+                        "template_target_file": "0/k",
+                        "placeholder":
+                        {
+                            "internalField": 3.75e-3,
+                            "intensity": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/omega.template",
+                        "template_target_file": "0/omega",
+                        "placeholder":
+                        {
+                            "internalField": 5.33333,
+                            "mixingLength": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "system/forcesIncompressible.template",
+                        "template_target_file": "system/forcesIncompressible",
+                        "placeholder":
+                        {
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
                         }
                     }
                 ],
