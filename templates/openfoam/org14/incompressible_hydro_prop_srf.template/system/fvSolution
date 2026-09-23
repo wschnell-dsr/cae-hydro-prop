@@ -48,9 +48,9 @@ SIMPLE
 
     residualControl
     {
-        p               1e-3;
-        U               1e-4;
-        "(k|epsilon|omega|f|v2)" 1e-4;
+        p               1e-4;
+        U               1e-5;
+        "(k|epsilon|omega|f|v2)" 1e-5;
     }
 }
 
@@ -58,8 +58,9 @@ relaxationFactors
 {
     equations
     {
-        U               0.9; // 0.9 is more stable but 0.95 more convergent
-        ".*"            0.9; // 0.9 is more stable but 0.95 more convergent
+        U               0.95; // 0.9 is more stable but 0.95 more convergent
+        p               0.95; // 0.9 is more stable but 0.95 more convergent
+        ".*"            0.3; // 0.9 is more stable but 0.95 more convergent
     }
 }
 

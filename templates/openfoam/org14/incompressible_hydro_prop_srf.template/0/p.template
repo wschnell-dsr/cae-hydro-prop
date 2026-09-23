@@ -8,43 +8,39 @@
 FoamFile
 {
     format      ascii;
-    class       dictionary;
-    object      momentumTransport;
+    class       volScalarField;
+    object      p;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-simulationType          laminar;
+dimensions      [0 2 -2 0 0 0 0];
 
-RAS
+internalField   uniform {{ pRef }};
+
+boundaryField
 {
-    model               kOmegaSST;
-
-    turbulence          on;
-    printCoeffs         on;
-}
-
-LES
-{
-    model               SpalartAllmarasDDES;
-    delta               cubeRootVol;
-
-    turbulence          on;
-    printCoeffs         on;
-
-    cubeRootVolCoeffs
+    front
     {
-        deltaCoeff      1;
+        type            zeroGradient;
     }
 
-    smoothCoeffs
+    back
     {
-        delta           cubeRootVol;
-        cubeRootVolCoeffs
-        {
-            deltaCoeff      1;
-        }
-        maxDeltaRatio   1.1;
+        type            fixedValue;
+        value           uniform {{ pRef }};
     }
+
+    outerCylinder
+    {
+        type            zeroGradient;
+    }
+
+    wall
+    {
+        type            zeroGradient;
+    }
+
+    #includeEtc "caseDicts/setConstraintTypes"
 }
 
 // ************************************************************************* //

@@ -9,20 +9,19 @@ FoamFile
 {
     format      ascii;
     class       dictionary;
-    location    "constant";
-    object      MRFProperties;
+    object      momentumTransport;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-MRF
+simulationType {{ simulationType }};
+{% if simulationType != "laminar" %}
+{{ simulationType }}
 {
-    cellZone    propellerFrame;
-
-    origin      (0 0 0);
-    axis        ({% for x in axis %} {{ x }}{% endfor %} );
-
-    omega       {{ rpm }} [rpm];
-    patches     ({% for blade in blades %} {{ blade }}{% endfor %} hub hub_cap );
+    {% for key, value in simulationTypeOptions.items() %}
+    {{ key }} {{ value }};
+    {% endfor %}
 }
+{% endif %}
+
 
 // ************************************************************************* //

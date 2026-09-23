@@ -14,7 +14,7 @@ Description
 
 #includeEtc "caseDicts/functions/forces/forcesIncompressible.cfg"
 
-patches     (blade_0 blade_1);
+patches     ({% for blade in blades %} {{ blade }}{% endfor %} hub );
 rhoInf      1e3;
 CofR        (0 0 0);
 pitchAxis   (1 0 0);
