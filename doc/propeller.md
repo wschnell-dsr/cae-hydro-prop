@@ -1,9 +1,7 @@
-# Propellerleistung: Formeln und Einflussfaktoren
-
----
+# Propeller parameter
 
 ## Inhaltsverzeichnis
-1. [Grundlegende Parameter](#1-grundlegende-parameter)
+1. [Basic Parameter](#basic-parameter)
 2. [Formeln zur Propellerleistung](#2-formeln-zur-propellerleistung)
    - [2.1 Fortschrittsgrad (J)](#21-fortschrittsgrad-j)
    - [2.2 Schubkoeffizient (K_T)](#22-schubkoeffizient-k_t)
@@ -20,29 +18,22 @@
 6. [Praktische Hinweise](#6-praktische-hinweise)
 7. [Beispielrechnung](#7-beispielrechnung)
 8. [Tools und weiterführende Ressourcen](#8-tools-und-weiterführende-ressourcen)
+<!--  -->
+## 1. Grundlegende Parameter(#basic-parameter)
 
----
-
-## 1. Grundlegende Parameter
-
-| Parameter | Symbol | Einheit | Beschreibung |
-|-----------|--------|---------|--------------|
-| **Umdrehungsgeschwindigkeit** | \( n \) | U/s (Umdrehungen pro Sekunde) | Drehzahl des Propellers |
-| **Pitch** | \( P \) | m oder Zoll | Steigung des Propellers pro Umdrehung |
-| **Chord-Länge** | \( c \) | m | Sehnenlänge eines Propellerblatts |
-| **Durchmesser** | \( D \) | m | Propellerdurchmesser |
-| **Anzahl der Blätter** | \( Z \) | - | Anzahl der Propellerblätter |
-| **Fortschrittsgrad** | \( J \) | - | Verhältnis von axialer Geschwindigkeit zu Umfangsgeschwindigkeit |
-| **Schubkoeffizient** | \( K_T \) | - | Dimensionsloser Koeffizient für den Schub |
-| **Drehmomentkoeffizient** | \( K_Q \) | - | Dimensionsloser Koeffizient für das Drehmoment |
-| **Wirkungsgrad** | \( \eta \) | - | Hydrodynamischer Wirkungsgrad |
-| **Dichte des Wassers** | \( \rho \) | kg/m³ | Standardwert: 1000 kg/m³ |
-
----
+| **Parameter**          | **Symbol** | **Unit** | Description                                |
+| **Rotational speed**   | $n$        | U/s      | Rotational speed of the propeller          |
+| **Pitch**              | $P$        | m        | Pitch of the propeller                     |
+| **Chord**              | $c$        | m        | Chord length of a propeller blade          |
+| **Diameter**           | $D$        | m        | Diameter of the propeller                  |
+| **Number of blades**   | $Z$        | -        | Number of propeller blades                 |
+| **Advance rate**       | $J$        | -        | Advance rate for one turn                  |
+| **Thrust coefficient** | $ K_T $    | -        | Dimension less coefficient for the thrust  |
+| **Torque coefficient** | $K_Q$      | -        | Dimension less coefficient for the torque  |
+| **Efficiency**         | $\eta$     | -        | Hydrodynamic Efficency                     |
 
 ## 2. Formeln zur Propellerleistung
 
----
 
 ### 2.1 Fortschrittsgrad (J)
 Der **Fortschrittsgrad** \( J \) beschreibt das Verhältnis zwischen der axialen Anströmgeschwindigkeit \( V_A \) und der Umfangsgeschwindigkeit des Propellers:
@@ -55,7 +46,6 @@ J = \frac{V_A}{n \cdot D}
 - \( n \): Drehzahl (U/s)
 - \( D \): Propellerdurchmesser (m)
 
----
 
 ### 2.2 Schubkoeffizient (K_T)
 Der **Schubkoeffizient** \( K_T \) beschreibt den erzeugten Schub \( T \) in dimensionsloser Form:
@@ -69,13 +59,12 @@ K_T = \frac{T}{\rho \cdot n^2 \cdot D^4}
 - \( n \): Drehzahl (U/s)
 - \( D \): Propellerdurchmesser (m)
 
----
 **Umgestellt nach Schub:**
 \[
 T = K_T \cdot \rho \cdot n^2 \cdot D^4
 \]
 
----
+
 
 ### 2.3 Drehmomentkoeffizient (K_Q)
 Der **Drehmomentkoeffizient** \( K_Q \) beschreibt das benötigte Drehmoment \( Q \) in dimensionsloser Form:
@@ -89,13 +78,13 @@ K_Q = \frac{Q}{\rho \cdot n^2 \cdot D^5}
 - \( n \): Drehzahl (U/s)
 - \( D \): Propellerdurchmesser (m)
 
----
+
 **Umgestellt nach Drehmoment:**
 \[
 Q = K_Q \cdot \rho \cdot n^2 \cdot D^5
 \]
 
----
+
 
 ### 2.4 Schub (T)
 Der Schub \( T \) kann direkt aus \( K_T \) berechnet werden:
@@ -104,7 +93,7 @@ Der Schub \( T \) kann direkt aus \( K_T \) berechnet werden:
 T = K_T \cdot \rho \cdot n^2 \cdot D^4
 \]
 
----
+
 
 ### 2.5 Drehmoment (Q)
 Das benötigte Drehmoment \( Q \) berechnet sich aus \( K_Q \):
@@ -113,7 +102,7 @@ Das benötigte Drehmoment \( Q \) berechnet sich aus \( K_Q \):
 Q = K_Q \cdot \rho \cdot n^2 \cdot D^5
 \]
 
----
+
 
 ### 2.6 Leistung (P)
 Die **Leistung** \( P \), die der Propeller benötigt, berechnet sich aus dem Drehmoment \( Q \) und der Winkelgeschwindigkeit \( \omega \):
@@ -128,7 +117,7 @@ Einsetzen von \( Q \):
 P = 2 \pi \cdot K_Q \cdot \rho \cdot n^3 \cdot D^5
 \]
 
----
+
 
 ### 2.7 Wirkungsgrad (η)
 Der **Wirkungsgrad** \( \eta \) des Propellers ist das Verhältnis zwischen der **nutzbaren Leistung** (Schubleistung) und der **zugeführten Leistung**:
@@ -140,37 +129,37 @@ Der **Wirkungsgrad** \( \eta \) des Propellers ist das Verhältnis zwischen der 
 - \( T \cdot V_A \): Nutzbare Schubleistung (W)
 - \( P \): Zugeführte Leistung (W)
 
----
+
 
 ## 3. Einfluss von Pitch und Chord-Länge
 
----
+
 
 ### 3.1 Pitch (P)
 Der **Pitch** beeinflusst den **Fortschrittsgrad** \( J \) und damit die Effizienz des Propellers.
 
 | Pitch-Verhältnis \( P/D \) | Wirkung |
-|----------------------------|---------|
+|-||
 | **Niedrig (\( P/D < 0.8 \))** | Gute Beschleunigung, geringerer Wirkungsgrad bei hohen Geschwindigkeiten |
 | **Mittel (\( P/D = 0.8–1.2 \))** | Guter Kompromiss für viele Anwendungen |
 | **Hoch (\( P/D > 1.2 \))** | Hoher Schub, aber höherer Energiebedarf |
 
----
+
 **Einfluss auf die Leistung:**
 - **Hoher Pitch:** Höherer Schub \( T \), aber auch höheres Drehmoment \( Q \) und damit höhere Leistung \( P \).
 - **Niedriger Pitch:** Geringerer Schub, aber auch geringerer Energiebedarf und höherer Wirkungsgrad bei niedrigen Geschwindigkeiten.
 
----
+
 
 ### 3.2 Chord-Länge (c)
 Die **Chord-Länge** beeinflusst die **Blattfläche** und damit den **Schub** und das **Drehmoment**.
 
 | Chord-Länge | Wirkung |
-|-------------|---------|
+|-||
 | **Kleine Chord-Länge** | Geringerer Schub \( T \), geringeres Drehmoment \( Q \), höhere Kavitationsneigung |
 | **Große Chord-Länge** | Höherer Schub \( T \), höheres Drehmoment \( Q \), geringere Kavitationsneigung |
 
----
+
 **Blattflächenverhältnis \( A_E/A_O \):**
 Die Chord-Länge geht in das **Blattflächenverhältnis** ein, das für empirische Berechnungen (z. B. B-Series) benötigt wird:
 
@@ -181,12 +170,12 @@ A_E/A_O = \frac{\text{Effektive Blattfläche}}{\text{Kreisfläche des Propellers
 - \( Z \): Anzahl der Blätter
 - \( c(r) \): Chord-Länge als Funktion des Radius \( r \)
 
----
+
 **Typische Werte für \( A_E/A_O \):**
 - **B-Series Propeller:** 0.3–1.0 (abhängig von der Anwendung)
 - **Hochleistungspropeller:** 0.7–1.0
 
----
+
 
 ## 4. Empirische Beziehungen (B-Series Propeller)
 
@@ -205,10 +194,10 @@ K_Q = \sum_{i=0}^{n} \sum_{j=0}^{m} C_{Q,ij} \cdot J^i \cdot \left(\frac{P}{D}\r
 - \( P/D \): Pitch-Durchmesser-Verhältnis.
 - \( A_E/A_O \): Blattflächenverhältnis.
 
----
+
 ### 4.2 Beispielwerte für B4-70 (4-Blatt-Propeller, \( A_E/A_O = 0.70 \))
 | \( J \) | \( K_T \) | \( K_Q \) |
-|---------|----------|----------|
+||-|-|
 | 0.0     | 0.500    | 0.080    |
 | 0.2     | 0.450    | 0.075    |
 | 0.4     | 0.350    | 0.065    |
@@ -217,28 +206,28 @@ K_Q = \sum_{i=0}^{n} \sum_{j=0}^{m} C_{Q,ij} \cdot J^i \cdot \left(\frac{P}{D}\r
 
 *(Hinweis: Die genauen Werte hängen von der spezifischen Propellergeometrie ab und sollten aus Tabellen oder Diagrammen entnommen werden.)*
 
----
+
 **Empirische Koeffizienten für B4-70:**
 | \( C_{T,ij} \) | \( J^0 \) | \( J^1 \) | \( J^2 \) |
-|----------------|-----------|-----------|-----------|
+|-|--|--|--|
 | \( (P/D)^0 \)  | 0.500     | -0.450    | 0.100     |
 | \( (P/D)^1 \)  | 0.100     | -0.050    | 0.010     |
 
 | \( C_{Q,ij} \) | \( J^0 \) | \( J^1 \) | \( J^2 \) |
-|----------------|-----------|-----------|-----------|
+|-|--|--|--|
 | \( (P/D)^0 \)  | 0.080     | -0.075    | 0.020     |
 | \( (P/D)^1 \)  | 0.010     | -0.005    | 0.001     |
 
----
+
 **Hinweis:**
 Die Koeffizienten \( C_{T,ij} \) und \( C_{Q,ij} \) sind propellerspezifisch und können aus **Propellerhandbüchern** oder **Fachliteratur** entnommen werden.
 
----
+
 
 ## 5. Zusammenfassung der wichtigsten Formeln
 
 | Parameter | Formel |
-|-----------|--------|
+|--|--|
 | **Fortschrittsgrad** | \( J = \frac{V_A}{n \cdot D} \) |
 | **Schubkoeffizient** | \( K_T = \frac{T}{\rho \cdot n^2 \cdot D^4} \) |
 | **Drehmomentkoeffizient** | \( K_Q = \frac{Q}{\rho \cdot n^2 \cdot D^5} \) |
@@ -247,7 +236,7 @@ Die Koeffizienten \( C_{T,ij} \) und \( C_{Q,ij} \) sind propellerspezifisch und
 | **Leistung** | \( P = 2 \pi \cdot K_Q \cdot \rho \cdot n^3 \cdot D^5 \) |
 | **Wirkungsgrad** | \( \eta = \frac{K_T \cdot J}{2 \pi \cdot K_Q} \) |
 
----
+
 
 ## 6. Praktische Hinweise
 
@@ -261,7 +250,7 @@ Die Koeffizienten \( C_{T,ij} \) und \( C_{Q,ij} \) sind propellerspezifisch und
 
 ### 6.3 Optimierung nach Anwendung
 | Anwendung | Optimale Parameter |
-|-----------|--------------------|
+|--|--|
 | **Hohe Geschwindigkeit** | Großer Pitch (\( P/D > 1.0 \)), moderate Chord-Länge |
 | **Hoher Schub bei niedriger Geschwindigkeit** | Kleiner Pitch (\( P/D < 0.8 \)), große Chord-Länge |
 | **Effizienz** | \( J \approx 0.7–0.9 \), \( P/D \approx 0.8–1.2 \) |
@@ -273,7 +262,7 @@ Für detaillierte Berechnungen können folgende Tools verwendet werden:
 - **PROCAL** (kommerzielles Tool für Propellerberechnungen)
 - **CFD-Simulationen** (z. B. mit OpenFOAM oder ANSYS Fluent)
 
----
+
 ## 7. Beispielrechnung
 
 **Gegeben:**
@@ -292,7 +281,7 @@ Für detaillierte Berechnungen können folgende Tools verwendet werden:
 5. Leistung \( P \)
 6. Wirkungsgrad \( \eta \)
 
----
+
 **Lösung:**
 
 1. **Schubkoeffizient \( K_T \):**
@@ -326,14 +315,14 @@ Für detaillierte Berechnungen können folgende Tools verwendet werden:
    \eta = \frac{K_T \cdot J}{2 \pi \cdot K_Q} = \frac{0.300 \cdot 0.5}{2 \pi \cdot 0.060} \approx 0.398 \approx 39.8\%
    \]
 
----
+
 **Ergebnis:**
 - Schub: **7500 N**
 - Drehmoment: **750 Nm**
 - Leistung: **9.42 kW**
 - Wirkungsgrad: **39.8%**
 
----
+
 ## 8. Tools und weiterführende Ressourcen
 
 ### 8.1 Open-Source-Tools
@@ -356,6 +345,6 @@ Für detaillierte Berechnungen können folgende Tools verwendet werden:
 - [NACA Reports on Propeller Design](https://ntrs.nasa.gov/)
 - [ResearchGate – Propeller Performance Papers](https://www.researchgate.net/)
 
----
+
 **Hinweis:**
 Die in diesem Dokument enthaltenen Formeln und Daten sind **vereinfachte Modelle**. Für präzise Berechnungen sollten **experimentelle Daten** oder **CFD-Simulationen** verwendet werden.

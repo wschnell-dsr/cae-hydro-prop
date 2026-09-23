@@ -7,13 +7,15 @@ import logging.config
 import os
 import json
 
+from typing import Tuple
 from hydro_prop.open_foam.case import Case
 
 from . import LOGGER_CONFIG
 
 
-def run_case(arg_study: str, arg_type: str, arg_case: str = ""):
+def run_case(arg_study: str, arg_type: str, arg_case: str, arg_opts: Tuple[bool, bool, bool, bool]):
 
+    logger = logging.getLogger("hydro_prop")
     tmp_config = {}
     if (
         os.path.exists(arg_study) and
@@ -31,7 +33,7 @@ def run_case(arg_study: str, arg_type: str, arg_case: str = ""):
         if arg_case == "" or arg_case == tmp_key:
             tmp_cases_dir = os.path.join(arg_study, "openfoam", arg_type)
             os.makedirs(tmp_cases_dir, exist_ok=True)
-            tmp_case = Case(arg_study, tmp_case_dict)
+            tmp_case = Case(arg_study, tmp_case_dict, arg_opts)
             tmp_case.pre_pro()
             tmp_case.solve()
             tmp_case.post_pro()
@@ -42,9 +44,22 @@ if __name__ == "__main__":
     parser.add_argument("--study", type=str, default="", help="Path to study")
     parser.add_argument("--type", type=str, required=True, help="meshes or cases")
     parser.add_argument("--case", type=str, default="", help="Case")
+
+    parser.add_argument('--clean', dest='clean', default=False, action='store_true')
+    parser.add_argument('--no-clean', dest='clean', action='store_false')
+
+    parser.add_argument('--pre-pro', dest='pre_pro', default=True, action='store_true')
+    parser.add_argument('--no-pre-pro', dest='pre_pro', action='store_false')
+
+    parser.add_argument('--solve', dest='solve', default=True, action='store_true')
+    parser.add_argument('--no-solve', dest='solve', action='store_false')
+
+    parser.add_argument('--post-pro', dest='post_pro', default=True, action='store_true')
+    parser.add_argument('--no-post-pro', dest='post_pro', action='store_false')
     args = parser.parse_args()
 
     logging.config.dictConfig(LOGGER_CONFIG)
-    logger = logging.getLogger("hydro_prop")
 
-    run_case(args.study, args.type, args.case)
+    tmp_opts = (args.clean, args.pre_pro, args.solve, args.post_pro)
+
+    run_case(args.study, args.type, args.case, tmp_opts)

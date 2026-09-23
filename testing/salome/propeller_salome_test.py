@@ -114,9 +114,9 @@ class TestPropellerSalome(unittest.TestCase):
         os.makedirs("testing/data/geo/", exist_ok=True)
         tmp_propeller.export_geo("testing/data/geo/")
 
-        # tmp_propeller.gen_mesh("propeller", mesh_cnf)
-        # os.makedirs("testing/data/mesh/", exist_ok=True)
-        # tmp_propeller.export_mesh("testing/data/mesh/")
+        tmp_propeller.gen_mesh("propeller", mesh_cnf)
+        os.makedirs("testing/data/mesh/", exist_ok=True)
+        tmp_propeller.export_mesh("testing/data/mesh/")
 
 
 if __name__ == "__main__":

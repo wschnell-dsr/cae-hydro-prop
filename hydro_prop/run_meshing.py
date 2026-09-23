@@ -18,6 +18,7 @@ from . import LOGGER_CONFIG
 
 def run_meshing(arg_study: str):
 
+    logger = logging.getLogger("hydro_prop")
     tmp_config = {}
     if (
         os.path.exists(arg_study) and
@@ -59,6 +60,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     logging.config.dictConfig(LOGGER_CONFIG)
-    logger = logging.getLogger("hydro_prop")
 
     run_meshing(args.study)

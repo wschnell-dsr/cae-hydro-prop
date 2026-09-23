@@ -1,5 +1,5 @@
 {
-    "_meshing": {
+    "meshing": {
         "mesh_1": {
             "ref_pnt": [0,0,0],
             "ref_axis": [1,0,0],
@@ -48,10 +48,23 @@
                         "rake_max": 0.0
                     }
                 }
+            },
+            "mesh_cnf": {
+                "algorithm": "NETGEN_1D2D3D",
+                "min_size": 0.0001,
+                "max_size": 0.0010,
+                "fineness": "COARSE",
+                "optimize": 1,
+                "second_order": 0,
+                "gmsh_3d_algo": "DELAUNAY",
+                "gmsh_sub_div_algo": "AUTOMATIC",
+                "gmsh_remesh_algo": "NO_SPLIT",
+                "gmsh_remesh_param": "HARMONIC",
+                "smouth_steps": 10,
+                "size_factor": 0.6,
+                "curvature": 5
             }
-        }
-    },
-    "meshing": {
+        },
         "mesh_2": {
             "ref_pnt": [0,0,0],
             "ref_axis": [1,0,0],
@@ -100,10 +113,23 @@
                         "rake_max": 0.0
                     }
                 }
+            },
+            "mesh_cnf": {
+                "algorithm": "NETGEN_1D2D3D",
+                "min_size": 0.0001,
+                "max_size": 0.0010,
+                "fineness": "COARSE",
+                "optimize": 1,
+                "second_order": 0,
+                "gmsh_3d_algo": "DELAUNAY",
+                "gmsh_sub_div_algo": "AUTOMATIC",
+                "gmsh_remesh_algo": "NO_SPLIT",
+                "gmsh_remesh_param": "HARMONIC",
+                "smouth_steps": 10,
+                "size_factor": 0.6,
+                "curvature": 5
             }
-        }
-    },
-    "_meshing": {
+        },
         "mesh_3": {
             "ref_pnt": [0,0,0],
             "ref_axis": [1,0,0],
@@ -152,6 +178,21 @@
                         "rake_max": 0.0
                     }
                 }
+            },
+            "mesh_cnf": {
+                "algorithm": "NETGEN_1D2D3D",
+                "min_size": 0.0001,
+                "max_size": 0.0010,
+                "fineness": "COARSE",
+                "optimize": 1,
+                "second_order": 0,
+                "gmsh_3d_algo": "DELAUNAY",
+                "gmsh_sub_div_algo": "AUTOMATIC",
+                "gmsh_remesh_algo": "NO_SPLIT",
+                "gmsh_remesh_param": "HARMONIC",
+                "smouth_steps": 10,
+                "size_factor": 0.6,
+                "curvature": 5
             }
         },
         "mesh_4": {
@@ -202,6 +243,21 @@
                         "rake_max": 0.0
                     }
                 }
+            },
+            "mesh_cnf": {
+                "algorithm": "NETGEN_1D2D3D",
+                "min_size": 0.0001,
+                "max_size": 0.0010,
+                "fineness": "COARSE",
+                "optimize": 1,
+                "second_order": 0,
+                "gmsh_3d_algo": "DELAUNAY",
+                "gmsh_sub_div_algo": "AUTOMATIC",
+                "gmsh_remesh_algo": "NO_SPLIT",
+                "gmsh_remesh_param": "HARMONIC",
+                "smouth_steps": 10,
+                "size_factor": 0.6,
+                "curvature": 5
             }
         }
     }

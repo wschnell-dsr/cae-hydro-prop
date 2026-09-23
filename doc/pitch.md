@@ -1,6 +1,5 @@
 # Propeller Pitch Distribution: Variants and Parameterizations
 
----
 
 ## **1. Fundamentals**
 The **pitch distribution** defines how the **blade angle** $\theta$ of a propeller varies along the radius $r$. It is critical for:
@@ -9,7 +8,6 @@ The **pitch distribution** defines how the **blade angle** $\theta$ of a propell
 - **Vibration levels**,
 - **Performance characteristics** (e.g., acceleration vs. top speed).
 
----
 
 ## **2. Key Radii and Reference Points**
 | Term                  | Symbol       | Description                                                                                     | Typical Values (Example)       |
@@ -18,7 +16,6 @@ The **pitch distribution** defines how the **blade angle** $\theta$ of a propell
 | **Reference radius**  | $r_{\text{ref}}$  | Typically **70%–75% of the blade length**, where the **pitch** is defined.                     | 0.7–0.75 m                       |
 | **Tip radius**        | $r_{\text{tip}}$  | Largest radius (blade tip).                                                                    | 1.0–1.5 m (aircraft propeller)  |
 
----
 
 ## **3. Variants of Pitch Distribution**
 
@@ -44,8 +41,6 @@ $$\theta(r) = \theta_{\text{hub}} - \left( \frac{\theta_{\text{hub}} - \theta_{\
 - Drone propellers,
 - Simple industrial propellers,
 - Educational models.
-
----
 
 ### **3.2 Non-Linear Pitch Distributions**
 
@@ -74,7 +69,6 @@ k = (tt-th)/(rt-rh)**2
 - Aircraft propellers (mid-performance range),
 - Wind turbines.
 
----
 #### **b) Exponential Distribution**
 **Description**:
 The blade angle decreases exponentially.
@@ -100,7 +94,6 @@ k = - log(tt/th) / (r-rh)
 - High-performance aircraft propellers,
 - Racing boat propellers.
 
----
 #### **c) Cubic Distribution**
 **Description**:
 The blade angle follows a cubic function.
@@ -120,7 +113,6 @@ $$\theta(r) = \theta_{\text{hub}} - k_1 \cdot (r - r_{\text{hub}}) - k_2 \cdot (
 **Typical Applications**:
 - Specialized propellers (e.g., for submarines or racing vehicles).
 
----
 
 ### **3.3 Optimized Pitch Distributions**
 
@@ -147,7 +139,6 @@ $$\theta(r) = \arctan\left(\frac{v_{\text{axial}} \cdot (1 - a)}{v_{\text{tangen
 - Wind turbines,
 - Large ship propellers.
 
----
 #### **b) Glauert Optimization**
 **Description**:
 Optimized for **compressible flow** (e.g., aircraft propellers). Based on the work of Hermann Glauert (1930s).
@@ -169,7 +160,6 @@ $$\theta(r) = \theta_0 \cdot \frac{1 - a}{1 - a + \frac{a}{\cos^2(\phi(r))}}$$
 - High-performance aircraft propellers,
 - Propellers for military aircraft.
 
----
 
 ### **3.4 Combined Approaches**
 **Description**:
@@ -187,8 +177,6 @@ Combination of pitch distribution with other geometric adjustments (e.g., **skew
 - Large ship propellers,
 - Variable-pitch propellers for aircraft.
 
----
-
 ## **4. Typical Values for Pitch Distributions**
 | Propeller Type           | $\theta_{\text{hub}}$ | $\theta_{\text{tip}}$ | Typical Distribution          |
 |--------------------------|---------------------------|---------------------------|-------------------------------|
@@ -198,7 +186,6 @@ Combination of pitch distribution with other geometric adjustments (e.g., **skew
 | **Drone Propeller**      | $20^\circ$–$40^\circ$ | $10^\circ$–$20^\circ$ | Linear or progressive         |
 | **Racing Boat Propeller** | $35^\circ$–$55^\circ$ | $15^\circ$–$30^\circ$ | Exponential or cubic          |
 
----
 
 ## **5. Tools for Calculation and Visualization**
 | Tool               | Description                                                                                     | Link/Website                     |
@@ -209,7 +196,6 @@ Combination of pitch distribution with other geometric adjustments (e.g., **skew
 | **RANS-CFD**       | Computational fluid dynamics for detailed optimization.                                        | (e.g., OpenFOAM, ANSYS Fluent)    |
 | **Propeller Design Software** | Commercial tools from manufacturers like MT-Propeller or Hartzell.                              | Manufacturer websites            |
 
----
 ## **6. Practical Tips for Selection**
 1. **Simple Applications** (e.g., drones):
    - Choose a **linear or progressive pitch distribution**.
@@ -220,7 +206,6 @@ Combination of pitch distribution with other geometric adjustments (e.g., **skew
 4. **High-Performance Applications** (e.g., racing boats):
    - Opt for **exponential or cubic distributions**.
 
----
 ## **7. Further Reading**
 - Betz, A. (1919). *Das Maximum der theoretisch möglichen Ausnutzung des Windes durch Windmotoren*.
 - Glauert, H. (1935). *Aerodynamic Theory*.
