@@ -11,7 +11,7 @@ FoamFile
 
 castellatedMesh true;
 snap            true;
-addLayers       {{ addLayers }};
+addLayers       {{ addLayersControls.addLayers }};
 geometry
 {
     propeller.stl
@@ -141,29 +141,29 @@ snapControls
 }
 addLayersControls
 {
-    relativeSizes false;
+    relativeSizes {{ addLayersControls.relativeSizes }};
     layers
     {
         {% for blade in blades %}
         {{ blade.key }}
         {
-            nSurfaceLayers {{ layers.blades }};
+            nSurfaceLayers {{ addLayersControls.layers.blades }};
         }
         {% endfor %}
         hub
         {
-            nSurfaceLayers {{ layers.hub }};
+            nSurfaceLayers {{ addLayersControls.layers.hub }};
         }
         hub_cap
         {
-            nSurfaceLayers {{ layers.hub_cap }};
+            nSurfaceLayers {{ addLayersControls.layers.hub_cap }};
         }
     }
     expansionRatio            1.2;
-    finalLayerThickness    5.0e-4;
+    finalLayerThickness       0.1;
     minThickness            1e-20;
     nGrow                       1;
-    featureAngle              180;
+    featureAngle               90;
     nRelaxIter                 10;
     nSmoothSurfaceNormals       1;
     nSmoothNormals              3;
