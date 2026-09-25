@@ -125,6 +125,7 @@ class NACA6Profile(NACAProfile):
         return tmp_y
 
     def norm_camber_dydx(self, arg_x: float) -> float:
+        # not used
         tmp_dydx = 0.0
         if not self.in_norm_range(arg_x):
             raise ValueError(f"x = {arg_x} not in norm range")
@@ -135,6 +136,7 @@ class NACA6Profile(NACAProfile):
         return tmp_dydx
 
     def norm_camber_dydx2(self, arg_x: float) -> float:
+        # not used
         tmp_dydx2 = 0.0
         if not self.in_norm_range(arg_x):
             raise ValueError(f"x = {arg_x} not in norm range")

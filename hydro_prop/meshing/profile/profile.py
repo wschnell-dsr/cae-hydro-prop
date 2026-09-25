@@ -25,10 +25,12 @@ class Profile(ABC):
 
     @abstractmethod
     def norm_camber_dydx(self, arg_x: float) -> float:
+        # not used
         pass
 
     @abstractmethod
     def norm_camber_dydx2(self, arg_x: float) -> float:
+        # not used
         pass
 
     @abstractmethod
@@ -47,12 +49,12 @@ class Profile(ABC):
     def norm_profile_line(self) -> tuple[np.ndarray, np.ndarray]:
         pass
 
-    def profile_line(self, arg_length: float, alpha_deg=0.0, p_rot: tuple[float, float] = (0.0, 0.0)) -> tuple[np.ndarray, np.ndarray]:
+    def profile_line(self, arg_length: float, arg_thickness_factor: float = 1.0, alpha_deg=0.0, p_rot: tuple[float, float] = (0.0, 0.0)) -> tuple[np.ndarray, np.ndarray]:
         norm = self.norm_profile_line()
         xup = norm[0][0] * arg_length
-        yup = norm[0][1] * arg_length
+        yup = norm[0][1] * arg_length * arg_thickness_factor
         xlw = norm[1][0] * arg_length
-        ylw = norm[1][1] * arg_length
+        ylw = norm[1][1] * arg_length * arg_thickness_factor
         tmp_result = (xup, yup), (xlw, ylw)
         if alpha_deg != 0.0:
             alpha_rad = np.deg2rad(-alpha_deg)

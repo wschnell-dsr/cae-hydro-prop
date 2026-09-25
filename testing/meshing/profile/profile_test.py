@@ -11,17 +11,10 @@ from typing import List
 
 from hydro_prop.meshing.profile import ProfileFactory, ProfileCnfVariant, ProfileType
 
-'''
-import salome
-from salome.geom import geomBuilder
-from salome.smesh import smeshBuilder
-'''
-
-
-# pyright: reportAttributeAccessIssue=false
-# pyright: reportUnknownMemberType=false
-# pyright: reportUnknownVariableType=false
-# pyright: reportUnknownArgumentType=false
+# pyright#: reportAttributeAccessIssue=false
+# pyright#: reportUnknownMemberType=false
+# pyright#: reportUnknownVariableType=false
+# pyright#: reportUnknownArgumentType=false
 LOGGER_CONFIG = {
     "version": 1,
     "disable_existing_loggers": 0,
@@ -36,7 +29,7 @@ LOGGER_CONFIG = {
 
 
 class TestProfile(unittest.TestCase):
-    NPOINTS: int = 100
+    NPOINTS: int = 200
     TEST_PROFILE_CNFS: List[ProfileCnfVariant] = [
         {
             "key": "NACA 0008",
@@ -44,9 +37,33 @@ class TestProfile(unittest.TestCase):
             "profile_code": "0008"
         },
         {
-            "key": "NACA 1208",
-            "profile_type": ProfileType.NACA.name,
-            "profile_code": "1208"
+            "key": "MIXED_ZERO_PARABOLIC",
+            "profile_type": ProfileType.MIXED.name,
+            "mixed_cnf":
+            {
+                "camber_line_cnf": {
+                    "camber_line_type": "ZERO"
+                },
+                "thickness_distribution_cnf": {
+                    "thickness_distribution_type": "PARABOLIC",
+                    "max_thickness": 0.08
+                },
+            }
+        },
+        {
+            "key": "MIXED_PARABOLIC_ELLIPTIC",
+            "profile_type": ProfileType.MIXED.name,
+            "mixed_cnf":
+            {
+                "camber_line_cnf": {
+                    "camber_line_type": "PARABOLIC",
+                    "camber": 1.0
+                },
+                "thickness_distribution_cnf": {
+                    "thickness_distribution_type": "ELLIPTIC",
+                    "max_thickness": 0.08
+                },
+            }
         }
     ]
 
@@ -63,8 +80,8 @@ class TestProfile(unittest.TestCase):
             try:
                 tmp_profiles[tmp_cnf["key"]] = tmp_factory.create(tmp_cnf)
                 tmp_profiles[tmp_cnf["key"]].calc_norm_x_distribution(self.NPOINTS)
-                (x_upper, y_upper), (x_lower, y_lower) = tmp_profiles[tmp_cnf["key"]].profile_line(2.0, 5.0, (1.0, 0.0))
-                (x_camber, y_camber) = tmp_profiles[tmp_cnf["key"]].camber_line(2.0, 5.0, (1.0, 0.0))
+                (x_upper, y_upper), (x_lower, y_lower) = tmp_profiles[tmp_cnf["key"]].profile_line(1.0, 1.0, 0.0, (1.0, 0.0))
+                (x_camber, y_camber) = tmp_profiles[tmp_cnf["key"]].camber_line(1.0, 0.0, (1.0, 0.0))
             except Exception:
                 logging.exception("Exception")
 

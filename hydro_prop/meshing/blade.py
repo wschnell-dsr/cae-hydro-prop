@@ -66,6 +66,8 @@ class PitchDistributionType(IntEnum):
     LINEAR = 0
     QUADRATIC = 1
     EXPONENTIAL = 2
+    LINEAR_TABULATED = 3
+    CUBIC_SPLINE_TABULATED = 4
 
 
 class PitchCnf(TypedDict):
@@ -87,7 +89,22 @@ class PitchExponentialCnf(PitchCnf):
     pitch_tip: float
 
 
-PitchCnfVariant: TypeAlias = Union[None, PitchCnf, PitchLinearCnf, PitchQuadraticCnf, PitchExponentialCnf]
+class PitchLinearTabulatedCnf(ChordCnf):
+    radius: List[float]
+    pitch: List[float]
+
+
+class PitchCubicSplineTabulatedCnf(ChordCnf):
+    radius: List[float]
+    pitch: List[float]
+
+
+PitchCnfVariant: TypeAlias = Union[None, PitchCnf, PitchLinearCnf, PitchQuadraticCnf, PitchExponentialCnf, PitchLinearTabulatedCnf, PitchCubicSplineTabulatedCnf]
+
+
+class ThicknessDistributionCnf(TypedDict):
+    radius: List[float]
+    thickness: List[float]
 
 
 class BladeCnf(TypedDict):
@@ -102,6 +119,7 @@ class BladeCnf(TypedDict):
     radius_eps: float
     profile_cnf: ProfileCnfVariant
     pitch_cnf: PitchCnfVariant
+    thickness_distribution_cnf: ThicknessDistributionCnf
     chord_center: float
     chord_cnf: ChordCnfVariant
     skew_cnf: SkewCnf
@@ -116,6 +134,7 @@ class Blade:
     __pitch: Optional[numpy.ndarray]
     __pitch_angle: Optional[numpy.ndarray]
     __chord: Optional[numpy.ndarray]
+    __thickness: Optional[numpy.ndarray]
     blade: Any
 
     def __init__(self, arg_cnf: BladeCnf, arg_geompy: geomBuilder, arg_ref_pnt: Any, arg_ref_axis: Any):
@@ -130,6 +149,7 @@ class Blade:
         self.__pitch = None
         self.__pitch_angle = None
         self.__chord = None
+        self.__thickness = None
         self.blade = None
         self.blade_shell = None
         self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
@@ -142,6 +162,11 @@ class Blade:
         elif self.pitch_type == PitchDistributionType.EXPONENTIAL.name:
             tmp_k = math.log(self.pitch_tip/self.pitch_hub) / (self.radius_tip - self.radius_hub)
             self.__pitch = self.pitch_hub * numpy.exp(tmp_k * (self.__radii - self.radius_hub))
+        elif self.pitch_type == PitchDistributionType.LINEAR_TABULATED.name:
+            self.__pitch = numpy.interp(self.__radii,  self.__cnf["pitch_cnf"]["radius"], self.__cnf["pitch_cnf"]["pitch"])
+        elif self.pitch_type == PitchDistributionType.CUBIC_SPLINE_TABULATED.name:
+            tmp_p = CubicSpline(self.__cnf["pitch_cnf"]["radius"], self.__cnf["pitch_cnf"]["pitch"])
+            self.__pitch = tmp_p(self.__radii)
         self.__pitch_angle = 90.0 - numpy.degrees(numpy.arctan2(self.__pitch, (2.0*self.__radii*numpy.pi)))
 
         if self.chord_type == ChordDistributionType.LINEAR.name:
@@ -153,6 +178,7 @@ class Blade:
         elif self.chord_type == ChordDistributionType.CUBIC_SPLINE_TABULATED.name:
             tmp_cs = CubicSpline(self.__cnf["chord_cnf"]["radius"], self.__cnf["chord_cnf"]["chord"])
             self.__chord = tmp_cs(self.__radii)
+        self.__thickness = numpy.interp(self.__radii,  self.__cnf["thickness_distribution_cnf"]["radius"], self.__cnf["thickness_distribution_cnf"]["thickness"])
 
     def export_info(self, arg_dir: str):
         # export geo data to file
@@ -160,9 +186,12 @@ class Blade:
             "r [m]": self.__radii,
             "r/R []": self.__radii/self.__radii[-1],
             "c [m]": self.__chord,
-            "c/R []": 0.5*self.__chord/self.__radii[-1],
+            "c/D []": 0.5*self.__chord/self.__radii[-1],
             "p [m]": self.__pitch,
-            "p [deg]": self.__pitch_angle,
+            "p/D []": 0.5*self.__pitch/self.__radii[-1],
+            "p [deg]": 90.0 - self.__pitch_angle,
+            "rake[deg]": self.get_rake(self.__radii),
+            "skew[deg]": self.get_skew(self.__radii),
         })
         blade_df.to_csv(os.path.join(arg_dir, "blade.csv"))
 
@@ -187,7 +216,7 @@ class Blade:
             profile_wires = []
             for ridx in range(len(self.__radii)):
                 (x_upper_z, y_upper_z), (x_lower_z, y_lower_z) = self.__profile.profile_line(
-                    self.__chord[ridx], self.__pitch_angle[ridx], (self.chord_center * self.__chord[ridx], 0.0)
+                    self.__chord[ridx], self.__thickness[ridx], self.__pitch_angle[ridx], (self.chord_center * self.__chord[ridx], 0.0)
                 )
                 (x_upper, y_upper, z_upper) = self.cylinder_projection(self.__radii[ridx], x_upper_z - self.chord_center * self.__chord[ridx], y_upper_z)
                 (x_lower, y_lower, z_lower) = self.cylinder_projection(self.__radii[ridx], x_lower_z - self.chord_center * self.__chord[ridx], y_lower_z)
@@ -359,7 +388,3 @@ class Blade:
         y = numpy.sin(theta_rad + tmp_rake) * arg_r
         z = numpy.cos(theta_rad + tmp_rake) * arg_r
         return (x, y, z)
-
-
-
-

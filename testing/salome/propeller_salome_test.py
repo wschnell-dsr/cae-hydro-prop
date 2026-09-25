@@ -82,6 +82,10 @@ class TestPropellerSalome(unittest.TestCase):
                         "chord_hub":  0.02,
                         "chord_tip": 0.010
                     },
+                    "thickness_distribution_cnf": {
+                        "radius": [0.0, 1.0],
+                        "thickness": [1.0, 1.0],
+                    },
                     "skew_cnf": {
                         "exponent": 1.0,
                         "skew_max": 0.0
