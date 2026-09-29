@@ -1,0 +1,52 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  dev
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      epsilon;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [turbulentEpsilon];
+
+internalField   uniform {{ internalField }};
+
+boundaryField
+{
+    #includeEtc "caseDicts/setConstraintTypes"
+
+    front
+    {
+        type            turbulentEpsilon;
+        mixingLength    {{ mixingLength }};
+        value           $internalField;
+    }
+
+    back
+    {
+        type            turbulentEpsilon;
+        mixingLength    {{ mixingLength }};
+        value           $internalField;
+    }
+
+    outerCylinder
+    {
+        type            zeroGradient;
+    }
+
+    wall
+    {
+        type            epsilonWallFunction;
+        value           $internalField;
+    }
+}
+
+
+// ************************************************************************* //

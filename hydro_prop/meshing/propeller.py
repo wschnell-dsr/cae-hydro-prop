@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import math
 import os
-import pandas
+import logging
 from salome.geom import geomBuilder
 from typing import Any, Optional, TypedDict
 from salome.smesh import smeshBuilder
@@ -45,6 +45,7 @@ class PropCnf(TypedDict):
 
 
 class Propeller:
+    __logger: logging.Logger
     __cnf: PropCnf
     geompy: geomBuilder
     blade: Any
@@ -58,6 +59,7 @@ class Propeller:
     __BB_TOL: float = 1e-5
 
     def __init__(self, arg_cnf: PropCnf, arg_geompy: geomBuilder, arg_smesh: smeshBuilder, arg_ref_pnt: Any, arg_ref_axis: Any, arg_norm_axis: Any):
+        self.__logger = logging.getLogger("hydro_prop.meshing.propeller")
         self.geompy = arg_geompy
         self.smesh = arg_smesh
         self.__cnf = arg_cnf
@@ -83,6 +85,7 @@ class Propeller:
         else:
             return
 
+        self.__logger.debug('Rotate blades')
         self.blades_cmp = self.geompy.MultiRotate1DNbTimes(self.blade.blade, self.ref_axis, self.n_blades)
         self.blades = self.geompy.ExtractShapes(self.blades_cmp, self.geompy.ShapeType["SOLID"], True)
         self.hub = self.geompy.MakeCylinder(self.ref_pnt_hub, self.ref_axis, self.hub_radius, self.hub_length)
@@ -115,12 +118,14 @@ class Propeller:
 
     def gen_geom_prop(self, arg_key: Optional[str]):
         # Cutting
+        self.__logger.debug('Cutting blades')
         for tmp_blade_idx in range(len(self.blades)):
             self.blades[tmp_blade_idx] = self.geompy.MakeCutList(self.blades[tmp_blade_idx], [self.hub])
         # Fuse
         fuse_list = [self.hub, self.hub_cap]
         for tmp_blade_idx in range(len(self.blades)):
             fuse_list.append(self.blades[tmp_blade_idx])
+        self.__logger.debug('Fuse')
         self.propeller = self.geompy.MakeFuseList(fuse_list, self.__DETECT_SELF_INTERSECTIONS, self.__REMOVE_EXTRA_EDGES)
         if arg_key:
             self.geompy.addToStudy(self.propeller, arg_key)
@@ -180,6 +185,7 @@ class Propeller:
         self.blade.export_info(arg_dir)
 
     def gen_mesh(self, arg_key: Optional[str], arg_mesh_params: MeshParameters):
+        self.__logger.debug('Meshing')
         self.propeller_mesh = create_mesh(self.smesh, self.propeller, arg_key, arg_mesh_params)
         is_done = self.propeller_mesh.Compute()
         if is_done:
@@ -192,7 +198,7 @@ class Propeller:
         try:
             self.propeller_mesh.ExportUNV(tmp_unv_file, 0)
         except Exception:
-            print('ExportUNV() failed. Invalid file name?')
+            self.__logger.exception('ExportUNV() failed. Invalid file name?')
 
         for tmp_bnd in self.mesh_on_geom_boundaries:
             self.propeller_mesh.ExportSTL(os.path.join(arg_dir, f"propeller_boundary_{tmp_bnd[0]}.stl"), 1, tmp_bnd[1])
@@ -219,7 +225,7 @@ class Propeller:
         try:
             self.propeller_mesh.ExportUNV(tmp_unv_to_inp_file, 0)
         except Exception:
-            print('ExportUNV() failed. Invalid file name?')
+            self.__logger.exception('ExportUNV() failed. Invalid file name?')
         if Converter is not None:
             tmp_converter = Converter(tmp_unv_to_inp_file)
             tmp_converter.run()

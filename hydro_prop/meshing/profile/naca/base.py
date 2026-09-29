@@ -100,9 +100,6 @@ class NACAProfile(Profile, ABC):
         Calculates relative x-y-contours
         """
         x_c, y_c = self.norm_camber_line()
-        self._logger.debug(f"Norm camber line of profile {self.profile_code}")
-        self._logger.debug(x_c)
-        self._logger.debug(y_c)
         y_t = self.norm_thickness_distribution()
 
         if self.symmetric:

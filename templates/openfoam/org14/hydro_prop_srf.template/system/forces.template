@@ -1,0 +1,21 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  dev
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+Description
+    Calculates pressure and viscous forces over specified patches for a case
+    where the solver is incompressible; i.e., pressure is kinematic and has
+    units of m^2/s^2.
+
+\*---------------------------------------------------------------------------*/
+
+#includeEtc "caseDicts/functions/forces/forces.cfg"
+
+patches     ({% for blade in blades %} {{ blade }}{% endfor %} hub );
+CofR        (0 0 0);
+pitchAxis   (1 0 0);
+
+// ************************************************************************* //

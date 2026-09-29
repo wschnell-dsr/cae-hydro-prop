@@ -8,6 +8,7 @@ from scipy.interpolate import CubicSpline
 from enum import IntEnum
 
 from salome.geom import geomBuilder
+import GEOM
 from typing import Any, List, Optional, Tuple, TypedDict, TypeAlias, Union
 
 from .profile import Profile, ProfileFactory, ProfileCnfVariant
@@ -110,13 +111,11 @@ class ThicknessDistributionCnf(TypedDict):
 class BladeCnf(TypedDict):
     key: str
     debug: bool
-    eps: float
     rotation_direction: str
     profile_pnts: int
     radius_hub: float
     radius_tip: float
     radius_pnts: int
-    radius_eps: float
     profile_cnf: ProfileCnfVariant
     pitch_cnf: PitchCnfVariant
     thickness_distribution_cnf: ThicknessDistributionCnf
@@ -135,6 +134,8 @@ class Blade:
     __pitch_angle: Optional[numpy.ndarray]
     __chord: Optional[numpy.ndarray]
     __thickness: Optional[numpy.ndarray]
+    __hub_face: Optional[Any]
+    __tip_face: Optional[Any]
     blade: Any
 
     def __init__(self, arg_cnf: BladeCnf, arg_geompy: geomBuilder, arg_ref_pnt: Any, arg_ref_axis: Any):
@@ -152,6 +153,8 @@ class Blade:
         self.__thickness = None
         self.blade = None
         self.blade_shell = None
+        self.__hub_face = None
+        self.__tip_face = None
         self.__radii = numpy.linspace(self.radius_hub, self.radius_tip, self.radius_pnts)
 
         if self.pitch_type == PitchDistributionType.LINEAR.name:
@@ -239,11 +242,25 @@ class Blade:
                 profile_wires.append(profile_wire)
                 if self.debug:
                     self.geompy.addToStudy(profile_wire, self.key+"_profile_wire_"+str(ridx))
+                if ridx == 0:
+                    self.__hub_face = self.geompy.MakeFaceWires([profile_wire], 0)
+                    if self.debug:
+                        self.geompy.addToStudy(self.__hub_face, self.key+"_hub_face")
+                if ridx == len(self.__radii) - 1:
+                    self.__tip_face = self.geompy.MakeFaceWires([profile_wire], 0)
+                    if self.debug:
+                        self.geompy.addToStudy(self.__tip_face, self.key+"_tip_face")
 
             path = self.geompy.MakePolyline(path_pnts)
             if self.debug:
                 self.geompy.addToStudy(path, self.key+"_path")
+
             self.blade_shell = self.geompy.MakePipeWithDifferentSections(profile_wires, path_pnts, path, False, False, False)
+            if self.blade_shell.GetShapeType() != GEOM.SHELL:
+                tmp_faces = self.geompy.ExtractShapes(self.blade_shell, self.geompy.ShapeType["FACE"], True)
+                self.blade_shell = self.geompy.MakeShell(tmp_faces)
+                self.__tip_face = None
+
             if self.debug:
                 self.geompy.addToStudy(self.blade_shell, self.key+"_blade_shell")
         except Exception as e:
@@ -251,36 +268,11 @@ class Blade:
 
     def gen_solid(self):
         try:
-            pipe_shell_bbox = self.geompy.MakeBoundingBox(self.blade_shell, True)
-            if self.debug:
-                self.geompy.addToStudy(pipe_shell_bbox, self.key+"_pipe_shell_bbox")
-
-            pipe_shell_bbox = self.geompy.BoundingBox(self.blade_shell, True)
-            ccut = self.geompy.MakeTranslationVectorDistance(
-                self.geompy.MakeCutList(
-                    self.geompy.MakeCylinder(self.__ref_pnt, self.__ref_axis, self.radius_tip-self.radius_eps, pipe_shell_bbox[1]-pipe_shell_bbox[0]+2.0*self.eps),
-                    [self.geompy.MakeCylinder(self.__ref_pnt, self.__ref_axis, self.radius_hub+self.radius_eps, pipe_shell_bbox[1]-pipe_shell_bbox[0]+2.0*self.eps)],
-                    True
-                ), self.__ref_axis, -self.eps
-            )
-            if self.debug:
-                self.geompy.addToStudy(ccut, self.key+"_ccut")
-            part = self.geompy.MakePartition([ccut], [self.blade_shell], [], [], self.geompy.ShapeType["SOLID"], 0, [], 0)
-            if self.debug:
-                self.geompy.addToStudy(part, self.key+"_part")
-            solids = self.geompy.ExtractShapes(part, self.geompy.ShapeType["SOLID"], True)
-
-            for solid in solids:
-                solid_bbox = self.geompy.BoundingBox(solid, True)
-                if (
-                    abs(pipe_shell_bbox[0] - solid_bbox[0]) < self.eps and
-                    abs(pipe_shell_bbox[1] - solid_bbox[1]) < self.eps and
-                    abs(pipe_shell_bbox[2] - solid_bbox[2]) < self.eps and
-                    abs(pipe_shell_bbox[3] - solid_bbox[3]) < self.eps and
-                    abs(pipe_shell_bbox[4] - solid_bbox[4]) < self.eps and
-                    abs(pipe_shell_bbox[5] - solid_bbox[5]) < self.eps
-                ):
-                    self.blade = solid
+            tmp_list = [self.blade_shell, self.__hub_face]
+            if self.__tip_face is not None:
+                tmp_list.append(self.__tip_face)
+            self.blade_shell_closed = self.geompy.MakeShell(tmp_list)
+            self.blade = self.geompy.MakeSolid([self.blade_shell_closed])
         except Exception as e:
             print(e)
 
@@ -291,10 +283,6 @@ class Blade:
     @property
     def debug(self) -> bool:
         return self.__cnf["debug"]
-
-    @property
-    def eps(self) -> float:
-        return self.__cnf["eps"]
 
     @property
     def rotation_direction(self) -> float:
@@ -313,10 +301,6 @@ class Blade:
     @property
     def radius_tip(self) -> float:
         return self.__cnf["radius_tip"]
-
-    @property
-    def radius_eps(self) -> float:
-        return self.__cnf["radius_eps"]
 
     @property
     def radius_pnts(self) -> int:

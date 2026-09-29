@@ -28,11 +28,6 @@ class NACA4Profile(NACAProfile):
                 self._max_camber = 0.0
                 self._camber_position = 0.0
                 raise ValueError("NACA-Profilcode inconsitant related to camber")
-            self._logger.debug(f"Parsed profile code {self.profile_code}")
-            self._logger.debug(f"max_camber {self._max_camber}")
-            self._logger.debug(f"camber_position {self._camber_position}")
-            self._logger.debug(f"max_thickness {self._max_thickness}")
-            self._logger.debug(f"symmetric {self._symmetric}")
         else:
             raise ValueError("NACA-Profilcode has not 4 digits")
 

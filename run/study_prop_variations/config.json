@@ -16,12 +16,10 @@
                 "blade_cnf": {
                     "key": "blade_1",
                     "debug": 0,
-                    "eps": 0.01,
                     "rotation_direction": "RIGHT",
-                    "profile_pnts": 100,
+                    "profile_pnts": 200,
                     "radius_hub": 0.0073,
                     "radius_tip": 0.050,
-                    "radius_eps": 0.0001,
                     "radius_pnts": 30,
                     "chord_center": 0.5,
                     "profile_cnf": {
@@ -39,6 +37,10 @@
                         "radius":  [0.0, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.0455, 0.0475, 0.05],
                         "chord": [0.016, 0.016, 0.01818, 0.02024, 0.02196, 0.02305, 0.02311, 0.02173, 0.01806, 0.01387, 1e-05]
                     },
+                    "thickness_distribution_cnf": {
+                        "radius": [ 0.0, 1.0],
+                        "thickness": [ 1.0, 1.0]
+                    },
                     "skew_cnf": {
                         "exponent": 1.0,
                         "skew_max": 0.0
@@ -50,10 +52,10 @@
                 }
             },
             "mesh_cnf": {
-                "algorithm": "NETGEN_1D2D3D",
+                "algorithm": "GMSH",
                 "min_size": 0.0001,
                 "max_size": 0.0010,
-                "fineness": "COARSE",
+                "fineness": "FINE",
                 "optimize": 1,
                 "second_order": 0,
                 "gmsh_3d_algo": "DELAUNAY",
@@ -76,18 +78,16 @@
                 "blade_offset": 0.0075,
                 "hub_cap_cnf": {
                     "form": "ELLIPTIC",
-                    "length": 0.02
+                    "length": 0.06
                 },
                 "blade_cnf": {
                     "key": "blade_1",
                     "debug": 0,
-                    "eps": 0.01,
                     "rotation_direction": "LEFT",
-                    "profile_pnts": 100,
-                    "radius_hub": 0.0070,
+                    "profile_pnts": 200,
+                    "radius_hub": 0.0073,
                     "radius_tip": 0.050,
-                    "radius_eps": 0.0001,
-                    "radius_pnts": 20,
+                    "radius_pnts": 30,
                     "chord_center": 0.10,
                     "profile_cnf": {
                         "key": "NACA 0012",
@@ -104,6 +104,10 @@
                         "chord_hub":  0.02,
                         "chord_tip": 0.001
                     },
+                    "thickness_distribution_cnf": {
+                        "radius": [ 0.0, 1.0],
+                        "thickness": [ 1.0, 1.0]
+                    },
                     "skew_cnf": {
                         "exponent": 1.0,
                         "skew_max": 0.0
@@ -115,10 +119,10 @@
                 }
             },
             "mesh_cnf": {
-                "algorithm": "NETGEN_1D2D3D",
+                "algorithm": "GMSH",
                 "min_size": 0.0001,
                 "max_size": 0.0010,
-                "fineness": "COARSE",
+                "fineness": "FINE",
                 "optimize": 1,
                 "second_order": 0,
                 "gmsh_3d_algo": "DELAUNAY",
@@ -126,7 +130,7 @@
                 "gmsh_remesh_algo": "NO_SPLIT",
                 "gmsh_remesh_param": "HARMONIC",
                 "smouth_steps": 10,
-                "size_factor": 0.6,
+                "size_factor": 0.8,
                 "curvature": 5
             }
         },
@@ -146,13 +150,11 @@
                 "blade_cnf": {
                     "key": "blade_1",
                     "debug": 0,
-                    "eps": 0.01,
                     "rotation_direction": "RIGHT",
-                    "profile_pnts": 100,
+                    "profile_pnts": 200,
                     "radius_hub": 0.0073,
                     "radius_tip": 0.050,
-                    "radius_eps": 0.0001,
-                    "radius_pnts": 20,
+                    "radius_pnts": 30,
                     "chord_center": 0.0,
                     "profile_cnf": {
                         "key": "NACA 23012",
@@ -169,6 +171,10 @@
                         "chord_hub":  0.02,
                         "chord_tip": 0.001
                     },
+                    "thickness_distribution_cnf": {
+                        "radius": [ 0.0, 1.0],
+                        "thickness": [ 1.0, 1.0]
+                    },
                     "skew_cnf": {
                         "exponent": 1.0,
                         "skew_max": 0.0
@@ -180,10 +186,10 @@
                 }
             },
             "mesh_cnf": {
-                "algorithm": "NETGEN_1D2D3D",
+                "algorithm": "GMSH",
                 "min_size": 0.0001,
                 "max_size": 0.0010,
-                "fineness": "COARSE",
+                "fineness": "FINE",
                 "optimize": 1,
                 "second_order": 0,
                 "gmsh_3d_algo": "DELAUNAY",
@@ -211,13 +217,11 @@
                 "blade_cnf": {
                     "key": "blade_1",
                     "debug": 0,
-                    "eps": 0.01,
                     "rotation_direction": "RIGHT",
-                    "profile_pnts": 100,
-                    "radius_hub": 0.0070,
+                    "profile_pnts": 200,
+                    "radius_hub": 0.0073,
                     "radius_tip": 0.020,
-                    "radius_eps": 0.0001,
-                    "radius_pnts": 20,
+                    "radius_pnts": 30,
                     "chord_center": 0.25,
                     "profile_cnf": {
                         "key": "NACA 23012",
@@ -234,6 +238,10 @@
                         "chord_hub":  0.02,
                         "chord_tip": 0.015
                     },
+                    "thickness_distribution_cnf": {
+                        "radius": [ 0.0, 1.0],
+                        "thickness": [ 1.0, 1.0]
+                    },
                     "skew_cnf": {
                         "exponent": 1.0,
                         "skew_max": 0.0
@@ -245,10 +253,10 @@
                 }
             },
             "mesh_cnf": {
-                "algorithm": "NETGEN_1D2D3D",
+                "algorithm": "GMSH",
                 "min_size": 0.0001,
                 "max_size": 0.0010,
-                "fineness": "COARSE",
+                "fineness": "FINE",
                 "optimize": 1,
                 "second_order": 0,
                 "gmsh_3d_algo": "DELAUNAY",

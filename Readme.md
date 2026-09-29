@@ -54,6 +54,8 @@ python3 -m  hydro_prop.run_openfoam --study run/study_example_1/ --type cases
 ## Propeller modeling
 
 For parametrization options for the propeller you find here more information [propeller](./doc/propeller.md)
+In the eaxample studies you will find the the top level section 'meshing' and the sub dictionary prop_cnf,
+where propeller is defined.
 
 ## Development
 

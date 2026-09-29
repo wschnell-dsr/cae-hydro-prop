@@ -59,10 +59,9 @@ class TestPropellerSalome(unittest.TestCase):
                 "blade_cnf": {
                     "key": "blade_1",
                     "debug": 1,
-                    "eps": 0.01,
                     "rotation_direction": "RIGHT",
                     "profile_pnts": 100,
-                    "radius_hub": 0.0070,
+                    "radius_hub": 0.0075,
                     "radius_tip": 0.030,
                     "radius_eps": 0.0001,
                     "radius_pnts": 20,
