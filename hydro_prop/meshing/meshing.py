@@ -46,6 +46,11 @@ class MeshParameters(TypedDict):
     fineness: Optional[str]
     optimize: Optional[Union[str, bool]]
     second_order: Optional[Union[str, bool]]
+    use_surface_curvature: Optional[int]
+    chordal_error: Optional[float]
+    chordal_error_enabled: Optional[int]
+    fuse_edges: Optional[int]
+    quad_allowed: Optional[int]
     # gmnsh
     gmsh_3d_algo: Optional[str]
     gmsh_sub_div_algo: Optional[str]
@@ -87,6 +92,16 @@ def create_mesh(
             params.SetSecondOrder(arg_params["optimize"])
         if arg_params["second_order"] is not None and arg_params["second_order"] != "None":
             params.SetOptimize(arg_params["second_order"])
+        if arg_params["use_surface_curvature"] is not None and arg_params["use_surface_curvature"] != "None":
+            params.SetUseSurfaceCurvature(arg_params["use_surface_curvature"])
+        if arg_params["chordal_error"] is not None and arg_params["chordal_error"] != "None":
+            params.SetChordalError(arg_params["chordal_error"])
+        if arg_params["chordal_error_enabled"] is not None and arg_params["chordal_error_enabled"] != "None":
+            params.SetChordalErrorEnabled(arg_params["chordal_error_enabled"])
+        if arg_params["fuse_edges"] is not None and arg_params["fuse_edges"] != "None":
+            params.SetFuseEdges(arg_params["fuse_edges"])
+        if arg_params["quad_allowed"] is not None and arg_params["quad_allowed"] != "None":
+            params.SetQuadAllowed(arg_params["quad_allowed"])
     elif arg_params["algorithm"] == smeshBuilder.GMSH:
         params.SetSmouthSteps(arg_params["smouth_steps"])
         params.SetSizeFactor(arg_params["size_factor"])

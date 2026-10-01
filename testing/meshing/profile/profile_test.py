@@ -64,6 +64,21 @@ class TestProfile(unittest.TestCase):
                     "max_thickness": 0.08
                 },
             }
+        },
+        {
+            "key": "MIXED_PARABOLIC_ELLIPTIC",
+            "profile_type": ProfileType.MIXED.name,
+            "mixed_cnf":
+            {
+                "camber_line_cnf": {
+                    "camber_line_type": "PARABOLIC",
+                    "camber": 5.0
+                },
+                "thickness_distribution_cnf": {
+                    "thickness_distribution_type": "ELLIPTIC",
+                    "max_thickness": 0.2056
+                },
+            }
         }
     ]
 

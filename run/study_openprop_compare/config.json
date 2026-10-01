@@ -16,12 +16,10 @@
                 "blade_cnf": {
                     "key": "blade_1",
                     "debug": 0,
-                    "eps": 0.01,
                     "rotation_direction": "RIGHT",
                     "profile_pnts": 200,
                     "radius_hub": 0.0074,
                     "radius_tip": 0.050,
-                    "radius_eps": 0.0001,
                     "radius_pnts": 50,
                     "chord_center": 0.5,
                     "profile_cnf": {
@@ -31,7 +29,7 @@
                         {
                             "camber_line_cnf": {
                                 "camber_line_type": "PARABOLIC",
-                                "camber": 0.2
+                                "camber": 0.75
                             },
                             "thickness_distribution_cnf": {
                                 "thickness_distribution_type": "ELLIPTIC",
@@ -40,7 +38,7 @@
                         }
                     },
                     "pitch_cnf": {
-                        "pitch_type": "LINEAR_TABULATED",
+                        "pitch_type": "CUBIC_SPLINE_TABULATED",
                         "radius":  [
                             0.0000,
                             0.0075,
@@ -91,7 +89,7 @@
                         ]
                     },
                     "chord_cnf": {
-                        "chord_type": "LINEAR_TABULATED",
+                        "chord_type": "CUBIC_SPLINE_TABULATED",
                         "radius":  [
                             0.0000,
                             0.0075,
@@ -138,7 +136,7 @@
                             0.00939,
                             0.00613,
                             0.00298,
-                            0.0001
+                            0.001
                         ]
                     },
                     "thickness_distribution_cnf": {
@@ -188,7 +186,7 @@
                             0.133268482490272,
                             0.0963035019455253,
                             0.0510700389105058,
-                            0.0001
+                            0.000
                         ]
                     },
                     "skew_cnf": {
@@ -203,18 +201,23 @@
             },
             "mesh_cnf": {
                 "algorithm": "NETGEN_1D2D3D",
-                "min_size": 0.00005,
-                "max_size": 0.00025,
+                "min_size": 4.01216e-05,
+                "max_size": 0.0005,
                 "fineness": "VERY_FINE",
                 "optimize": 1,
                 "second_order": 0,
+                "use_surface_curvature": 1,
+                "chordal_error": -1,
+                "chordal_error_enabled": 0,
+                "fuse_edges": 1,
+                "quad_allowed": 0,
                 "gmsh_3d_algo": "DELAUNAY",
                 "gmsh_sub_div_algo": "AUTOMATIC",
                 "gmsh_remesh_algo": "NO_SPLIT",
                 "gmsh_remesh_param": "HARMONIC",
-                "smouth_steps": 1,
-                "size_factor": 1.0,
-                "curvature": 2
+                "smouth_steps": 10,
+                "size_factor": 0.4,
+                "curvature": 6
             }
         }
     },
@@ -265,7 +268,7 @@
                             "addLayersControls":
                             {
                                 "relativeSizes": "true",
-                                "addLayers": "true",
+                                "addLayers": "false",
                                 "layers": {
                                     "blades": 3,
                                     "hub": 3,
@@ -288,11 +291,11 @@
                             ],
                             "snapControls":
                             {
-                                "nSmoothPatch": 5,
+                                "nSmoothPatch": 10,
                                 "tolerance": 8.0,
-                                "nSolveIter": 100,
-                                "nRelaxIter": 10,
-                                "nFeatureSnapIter": 15,
+                                "nSolveIter": 200,
+                                "nRelaxIter": 25,
+                                "nFeatureSnapIter": 25,
                                 "implicitFeatureSnap": "true",
                                 "explicitFeatureSnap": "true"
                             },
@@ -308,13 +311,13 @@
                             "xmin_shaft" : -0.1,
                             "xmax_shaft" : 0.0,
                             "r_shaft" :  0.0075,
-                            "propeller_level_feature": 5,
+                            "propeller_level_feature": 6,
                             "propeller_level_min": 4,
-                            "propeller_level_max": 4,
+                            "propeller_level_max": 5,
                             "propeller_level_hub_min": 5,
                             "propeller_level_hub_max": 5,
                             "propeller_level_blades_min": 5,
-                            "propeller_level_blades_max": 5,
+                            "propeller_level_blades_max": 6,
                             "shaft_level_min": 5,
                             "shaft_level_max": 5,
                             "propeller_frame_level_min": 5,
@@ -477,10 +480,10 @@
                     {
                         "key": "forces",
                         "type": "parse_regex",
-                        "glob": "postProcessing/forcesIncompressible/*/forces.dat",
+                        "glob": "postProcessing/forces/*/forces.dat",
                         "pattern": "^(\\d+)\\s+\\(\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\s+\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\)\\s+\\(\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\s+\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\)",
                         "columns": ["step", "f_p_x", "f_p_y", "f_p_z", "f_v_x", "f_v_y", "f_v_z", "m_p_x", "m_p_y", "m_p_z", "m_v_x", "m_v_y", "m_v_z"],
-                        "output": "postProcessing/forcesIncompressible/forces.csv",
+                        "output": "postProcessing/forces/forces.csv",
                         "expressions": {
                             "d": "0.1",
                             "rpm": "9000.0",
@@ -490,8 +493,8 @@
                             "f_x": "-(f_p_x + f_v_x)",
                             "m_x": "(m_p_x + m_v_x)",
                             "j": "v_a / (freq * d)",
-                            "k_t": "-f_x / (rho * freq**2 * d**4)",
-                            "k_q": "m_x / (rho * freq**2 * d**5 )",
+                            "k_t": "f_x / (rho * freq**2 * d**4)",
+                            "k_q": "m_x / (rho * freq**2 * d**5)",
                             "p_shaft": "2.0 * 3.1416 * m_x * freq",
                             "eff": "(f_x * v_a) / p_shaft"
                         }
