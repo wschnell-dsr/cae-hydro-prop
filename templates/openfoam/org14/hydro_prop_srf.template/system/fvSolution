@@ -19,8 +19,8 @@ solvers
     p
     {
         solver          GAMG;
-        tolerance       1e-06;
-        relTol          0.1;
+        tolerance       1e-07;
+        relTol          0.01;
         smoother        GaussSeidel;
     }
 
@@ -28,15 +28,16 @@ solvers
     {
         solver          smoothSolver;
         smoother        symGaussSeidel;
-        tolerance       1e-05;
-        relTol          0.1;
+        tolerance       1e-07;
+        relTol          0.01;
     }
 }
 
-SIMPLE
+PIMPLE
 {
+    momentumPredictor   yes;
     nNonOrthogonalCorrectors 0;
-    consistent      yes;
+    nCorrectors       1;
 
     residualControl
     {
@@ -48,13 +49,18 @@ SIMPLE
 
 relaxationFactors
 {
+    fields
+    {
+        rho             1.00;
+        p               0.70;
+    }
     equations
     {
-        U               0.95;
-        p               0.95;
-        h               0.95;
-        e               0.95;
-        ".*"            0.3;
+        p               0.70;
+        U               0.30;
+        h               0.10;
+        e               0.10;
+        ".*"            0.70;
     }
 }
 

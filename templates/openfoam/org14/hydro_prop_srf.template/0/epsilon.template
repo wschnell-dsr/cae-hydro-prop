@@ -16,7 +16,13 @@ FoamFile
 
 dimensions      [turbulentEpsilon];
 
-internalField   uniform {{ internalField }};
+{% set Re = (rho*U*d)/mu %}
+{% set intens = 0.16*Re**(-1.0/8.0) %}
+{% set length = 0.07*d %}
+{% set kappa = 3.0/2*(U*intens)**2 %}
+{% set epsilon = C_mu**(3/4)*kappa**(3/2)/length %}
+
+internalField   uniform {{ epsilon }};
 
 boundaryField
 {

@@ -268,7 +268,7 @@
                             "addLayersControls":
                             {
                                 "relativeSizes": "true",
-                                "addLayers": "false",
+                                "addLayers": "true",
                                 "layers": {
                                     "blades": 3,
                                     "hub": 3,
@@ -291,9 +291,9 @@
                             ],
                             "snapControls":
                             {
-                                "nSmoothPatch": 10,
+                                "nSmoothPatch": 20,
                                 "tolerance": 8.0,
-                                "nSolveIter": 200,
+                                "nSolveIter": 300,
                                 "nRelaxIter": 25,
                                 "nFeatureSnapIter": 25,
                                 "implicitFeatureSnap": "true",
@@ -312,16 +312,16 @@
                             "xmax_shaft" : 0.0,
                             "r_shaft" :  0.0075,
                             "propeller_level_feature": 6,
-                            "propeller_level_min": 4,
-                            "propeller_level_max": 5,
+                            "propeller_level_min": 5,
+                            "propeller_level_max": 6,
                             "propeller_level_hub_min": 5,
-                            "propeller_level_hub_max": 5,
+                            "propeller_level_hub_max": 6,
                             "propeller_level_blades_min": 5,
                             "propeller_level_blades_max": 6,
                             "shaft_level_min": 5,
-                            "shaft_level_max": 5,
+                            "shaft_level_max": 6,
                             "propeller_frame_level_min": 5,
-                            "propeller_frame_level_max": 5,
+                            "propeller_frame_level_max": 6,
                             "outer_cylinder_level_min": 3,
                             "outer_cylinder_level_max": 3
                         }
@@ -356,6 +356,19 @@
                         "placeholder": {
                             "numberOfSubdomains": 8
                         }
+                    },
+                    {
+                        "file": "system/controlDict",
+                        "placeholder": {
+                            "startFrom": "latestTime",
+                            "stopAt": "endTime",
+                            "startTime": 0,
+                            "endTime": 1000,
+                            "deltaT": 1,
+                            "writeControl": "runTime",
+                            "writeInterval": 1,
+                            "purgeWrite": 5
+                        }
                     }
                 ],
                 "template_files": [
@@ -383,7 +396,7 @@
                         {
                             "simulationType": "RAS",
                             "simulationTypeOptions": {
-                                "model": "kEpsilon",
+                                "model": "kOmegaSST",
                                 "turbulence": "on",
                                 "printCoeffs": "on"
                             }
@@ -428,8 +441,12 @@
                         "template_target_file": "0/epsilon",
                         "placeholder":
                         {
-                            "internalField": 1.8e-3,
-                            "mixingLength": 0.1
+                            "mixingLength": 0.01,
+                            "rho": 998.19,
+                            "d": 0.06,
+                            "U": 4.5,
+                            "mu": 1.0005e-3,
+                            "C_mu" : 0.09
                         }
                     },
                     {
@@ -438,8 +455,11 @@
                         "template_target_file": "0/k",
                         "placeholder":
                         {
-                            "internalField": 3.75e-3,
-                            "intensity": 0.1
+                            "intensity": 0.1,
+                            "rho": 998.19,
+                            "d": 0.06,
+                            "U": 4.5,
+                            "mu": 1.0005e-3
                         }
                     },
                     {
@@ -448,8 +468,12 @@
                         "template_target_file": "0/omega",
                         "placeholder":
                         {
-                            "internalField": 5.33333,
-                            "mixingLength": 0.1
+                            "mixingLength": 0.01,
+                            "rho": 998.19,
+                            "d": 0.06,
+                            "U": 4.5,
+                            "mu": 1.0005e-3,
+                            "C_mu" : 0.09
                         }
                     },
                     {

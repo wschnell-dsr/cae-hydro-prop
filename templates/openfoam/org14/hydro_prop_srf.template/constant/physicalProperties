@@ -38,6 +38,7 @@ mixture
     }
     thermodynamics
     {
+        Cp          4200;       // [J/kg/K]
         Cv          4150;       // [J/kg/K]
         hf          0;
     }
