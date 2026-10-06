@@ -54,8 +54,8 @@ class Propeller:
     hub: Any
     propeller: Any
 
-    __DETECT_SELF_INTERSECTIONS: bool = False
-    __REMOVE_EXTRA_EDGES: bool = False
+    __DETECT_SELF_INTERSECTIONS: bool = True
+    __REMOVE_EXTRA_EDGES: bool = True
     __BB_TOL: float = 1e-5
 
     def __init__(self, arg_cnf: PropCnf, arg_geompy: geomBuilder, arg_smesh: smeshBuilder, arg_ref_pnt: Any, arg_ref_axis: Any, arg_norm_axis: Any):
@@ -119,14 +119,23 @@ class Propeller:
     def gen_geom_prop(self, arg_key: Optional[str]):
         # Cutting
         self.__logger.debug('Cutting blades')
-        for tmp_blade_idx in range(len(self.blades)):
-            self.blades[tmp_blade_idx] = self.geompy.MakeCutList(self.blades[tmp_blade_idx], [self.hub])
+
+        try:
+            for tmp_blade_idx in range(len(self.blades)):
+                self.blades[tmp_blade_idx] = self.geompy.MakeCut(self.blades[tmp_blade_idx], self.hub)
+                self.blades[tmp_blade_idx] = self.geompy.MakeCut(self.blades[tmp_blade_idx], self.hub_cap)
+        except Exception:
+            tmp_blade_brep_file = os.path.join("blade.brep")
+            self.geompy.ExportBREP(self.blade.blade, tmp_blade_brep_file)
+            self.__logger.exception('Exception in cutting blades')
+
         # Fuse
-        fuse_list = [self.hub, self.hub_cap]
-        for tmp_blade_idx in range(len(self.blades)):
-            fuse_list.append(self.blades[tmp_blade_idx])
         self.__logger.debug('Fuse')
-        self.propeller = self.geompy.MakeFuseList(fuse_list, self.__DETECT_SELF_INTERSECTIONS, self.__REMOVE_EXTRA_EDGES)
+        self.propeller = self.geompy.MakeFuse(self.hub, self.hub_cap)
+        self.propeller = self.geompy.RemoveInternalFaces(self.propeller)
+        for tmp_blade_idx in range(len(self.blades)):
+            self.propeller = self.geompy.MakeFuse(self.propeller, self.blades[tmp_blade_idx])
+            self.propeller = self.geompy.RemoveInternalFaces(self.propeller)
         if arg_key:
             self.geompy.addToStudy(self.propeller, arg_key)
             self.geompy.addToStudy(self.hub, f"{arg_key}_hub")
@@ -175,6 +184,8 @@ class Propeller:
             self.geompy.addToStudyInFather(self.propeller, self.boundary_grps[key], key)
 
     def export_geo(self, arg_dir: str):
+        tmp_blade_brep_file = os.path.join(arg_dir, "blade.brep")
+        self.geompy.ExportBREP(self.blade.blade, tmp_blade_brep_file)
         tmp_brep_file = os.path.join(arg_dir, "propeller.brep")
         self.geompy.ExportBREP(self.propeller, tmp_brep_file)
         tmp_step_file = os.path.join(arg_dir, "propeller.step")

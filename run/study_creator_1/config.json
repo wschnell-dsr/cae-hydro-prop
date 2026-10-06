@@ -1,0 +1,1378 @@
+{
+    "meshing": {
+        "mesh_p10_c5": {
+            "ref_pnt": [0,0,0],
+            "ref_axis": [1,0,0],
+            "norm_axis": [0,1,0],
+            "prop_cnf": {
+                "n_blades": 2,
+                "hub_length": 0.01,
+                "hub_radius": 0.00225,
+                "blade_offset": 0.005,
+                "hub_cap_cnf": {
+                    "form": "ELLIPTIC",
+                    "length": 0.01
+                },
+                "blade_cnf": {
+                    "key": "blade_1",
+                    "debug": 0,
+                    "rotation_direction": "RIGHT",
+                    "profile_pnts": 250,
+                    "radius_hub": 0.0019,
+                    "radius_tip": 0.025,
+                    "radius_pnts": 30,
+                    "chord_center": 0.5,
+                    "profile_cnf": {
+                        "key": "NACA0012",
+                        "profile_type": "NACA",
+                        "profile_code": "0012"
+                    },
+                    "pitch_cnf": {
+                        "pitch_type": "LINEAR",
+                        "pitch_hub": 0.01,
+                        "pitch_tip": 0.01
+                    },
+                    "chord_cnf": {
+                        "chord_type": "ELLIPTIC",
+                        "chord_hub": 0.005,
+                        "chord_tip": 0.0025
+                    },
+                    "thickness_distribution_cnf": {
+                        "radius": [ 0.0, 0.0125, 0.025],
+                        "thickness": [ 1.0, 1.0, 0.0]
+                    },
+                    "skew_cnf": {
+                        "exponent": 1.0,
+                        "skew_max": 0.0
+                    },
+                    "rake_cnf": {
+                        "exponent": 1.0,
+                        "rake_max": 0.0
+                    }
+                }
+            },
+            "mesh_cnf": {
+                "algorithm": "NETGEN_1D2D3D",
+                "min_size": 1.0e-06,
+                "max_size": 0.00025,
+                "fineness": "VERY_FINE",
+                "optimize": 1,
+                "second_order": 0,
+                "use_surface_curvature": 1,
+                "chordal_error": -1,
+                "chordal_error_enabled": 0,
+                "fuse_edges": 1,
+                "quad_allowed": 0,
+                "gmsh_3d_algo": "DELAUNAY",
+                "gmsh_sub_div_algo": "AUTOMATIC",
+                "gmsh_remesh_algo": "NO_SPLIT",
+                "gmsh_remesh_param": "HARMONIC",
+                "smouth_steps": 10,
+                "size_factor": 0.4,
+                "curvature": 6
+            }
+        },
+        "mesh_p10_c7": {
+            "ref_pnt": [0,0,0],
+            "ref_axis": [1,0,0],
+            "norm_axis": [0,1,0],
+            "prop_cnf": {
+                "n_blades": 2,
+                "hub_length": 0.01,
+                "hub_radius": 0.00225,
+                "blade_offset": 0.005,
+                "hub_cap_cnf": {
+                    "form": "ELLIPTIC",
+                    "length": 0.01
+                },
+                "blade_cnf": {
+                    "key": "blade_1",
+                    "debug": 0,
+                    "rotation_direction": "RIGHT",
+                    "profile_pnts": 250,
+                    "radius_hub": 0.00175,
+                    "radius_tip": 0.025,
+                    "radius_pnts": 30,
+                    "chord_center": 0.5,
+                    "profile_cnf": {
+                        "key": "NACA0012",
+                        "profile_type": "NACA",
+                        "profile_code": "0012"
+                    },
+                    "pitch_cnf": {
+                        "pitch_type": "LINEAR",
+                        "pitch_hub": 0.01,
+                        "pitch_tip": 0.01
+                    },
+                    "chord_cnf": {
+                        "chord_type": "ELLIPTIC",
+                        "chord_hub": 0.007,
+                        "chord_tip": 0.0035
+                    },
+                    "thickness_distribution_cnf": {
+                        "radius": [ 0.0, 0.0125, 0.025],
+                        "thickness": [ 1.0, 1.0, 0.0]
+                    },
+                    "skew_cnf": {
+                        "exponent": 1.0,
+                        "skew_max": 0.0
+                    },
+                    "rake_cnf": {
+                        "exponent": 1.0,
+                        "rake_max": 0.0
+                    }
+                }
+            },
+            "mesh_cnf": {
+                "algorithm": "NETGEN_1D2D3D",
+                "min_size": 1.0e-06,
+                "max_size": 0.00025,
+                "fineness": "VERY_FINE",
+                "optimize": 1,
+                "second_order": 0,
+                "use_surface_curvature": 1,
+                "chordal_error": -1,
+                "chordal_error_enabled": 0,
+                "fuse_edges": 1,
+                "quad_allowed": 0,
+                "gmsh_3d_algo": "DELAUNAY",
+                "gmsh_sub_div_algo": "AUTOMATIC",
+                "gmsh_remesh_algo": "NO_SPLIT",
+                "gmsh_remesh_param": "HARMONIC",
+                "smouth_steps": 10,
+                "size_factor": 0.4,
+                "curvature": 6
+            }
+        },
+        "mesh_p15_c5": {
+            "ref_pnt": [0,0,0],
+            "ref_axis": [1,0,0],
+            "norm_axis": [0,1,0],
+            "prop_cnf": {
+                "n_blades": 2,
+                "hub_length": 0.01,
+                "hub_radius": 0.00225,
+                "blade_offset": 0.005,
+                "hub_cap_cnf": {
+                    "form": "ELLIPTIC",
+                    "length": 0.01
+                },
+                "blade_cnf": {
+                    "key": "blade_1",
+                    "debug": 0,
+                    "rotation_direction": "RIGHT",
+                    "profile_pnts": 250,
+                    "radius_hub": 0.00175,
+                    "radius_tip": 0.025,
+                    "radius_pnts": 30,
+                    "chord_center": 0.5,
+                    "profile_cnf": {
+                        "key": "NACA0012",
+                        "profile_type": "NACA",
+                        "profile_code": "0012"
+                    },
+                    "pitch_cnf": {
+                        "pitch_type": "LINEAR",
+                        "pitch_hub": 0.015,
+                        "pitch_tip": 0.015
+                    },
+                    "chord_cnf": {
+                        "chord_type": "ELLIPTIC",
+                        "chord_hub": 0.005,
+                        "chord_tip": 0.0025
+                    },
+                    "thickness_distribution_cnf": {
+                        "radius": [ 0.0, 0.0125, 0.025],
+                        "thickness": [ 1.0, 1.0, 0.0]
+                    },
+                    "skew_cnf": {
+                        "exponent": 1.0,
+                        "skew_max": 0.0
+                    },
+                    "rake_cnf": {
+                        "exponent": 1.0,
+                        "rake_max": 0.0
+                    }
+                }
+            },
+            "mesh_cnf": {
+                "algorithm": "NETGEN_1D2D3D",
+                "min_size": 1.0e-06,
+                "max_size": 0.00025,
+                "fineness": "VERY_FINE",
+                "optimize": 1,
+                "second_order": 0,
+                "use_surface_curvature": 1,
+                "chordal_error": -1,
+                "chordal_error_enabled": 0,
+                "fuse_edges": 1,
+                "quad_allowed": 0,
+                "gmsh_3d_algo": "DELAUNAY",
+                "gmsh_sub_div_algo": "AUTOMATIC",
+                "gmsh_remesh_algo": "NO_SPLIT",
+                "gmsh_remesh_param": "HARMONIC",
+                "smouth_steps": 10,
+                "size_factor": 0.4,
+                "curvature": 6
+            }
+        },
+        "mesh_p15_c7": {
+            "ref_pnt": [0,0,0],
+            "ref_axis": [1,0,0],
+            "norm_axis": [0,1,0],
+            "prop_cnf": {
+                "n_blades": 2,
+                "hub_length": 0.01,
+                "hub_radius": 0.00225,
+                "blade_offset": 0.005,
+                "hub_cap_cnf": {
+                    "form": "ELLIPTIC",
+                    "length": 0.01
+                },
+                "blade_cnf": {
+                    "key": "blade_1",
+                    "debug": 0,
+                    "rotation_direction": "RIGHT",
+                    "profile_pnts": 250,
+                    "radius_hub": 0.00175,
+                    "radius_tip": 0.025,
+                    "radius_pnts": 30,
+                    "chord_center": 0.5,
+                    "profile_cnf": {
+                        "key": "NACA0012",
+                        "profile_type": "NACA",
+                        "profile_code": "0012"
+                    },
+                    "pitch_cnf": {
+                        "pitch_type": "LINEAR",
+                        "pitch_hub": 0.015,
+                        "pitch_tip": 0.015
+                    },
+                    "chord_cnf": {
+                        "chord_type": "ELLIPTIC",
+                        "chord_hub": 0.007,
+                        "chord_tip": 0.0035
+                    },
+                    "thickness_distribution_cnf": {
+                        "radius": [ 0.0, 0.0125, 0.025],
+                        "thickness": [ 1.0, 1.0, 0.0]
+                    },
+                    "skew_cnf": {
+                        "exponent": 1.0,
+                        "skew_max": 0.0
+                    },
+                    "rake_cnf": {
+                        "exponent": 1.0,
+                        "rake_max": 0.0
+                    }
+                }
+            },
+            "mesh_cnf": {
+                "algorithm": "NETGEN_1D2D3D",
+                "min_size": 1.0e-06,
+                "max_size": 0.00025,
+                "fineness": "VERY_FINE",
+                "optimize": 1,
+                "second_order": 0,
+                "use_surface_curvature": 1,
+                "chordal_error": -1,
+                "chordal_error_enabled": 0,
+                "fuse_edges": 1,
+                "quad_allowed": 0,
+                "gmsh_3d_algo": "DELAUNAY",
+                "gmsh_sub_div_algo": "AUTOMATIC",
+                "gmsh_remesh_algo": "NO_SPLIT",
+                "gmsh_remesh_param": "HARMONIC",
+                "smouth_steps": 10,
+                "size_factor": 0.4,
+                "curvature": 6
+            }
+        }
+    },
+    "openfoam": {
+        "meshes": {
+            "mesh_p10_c5": {
+                "case_template": "../../templates/openfoam/org14/snappy_hydro_prop_srf.template",
+                "case_target": "openfoam/meshes/mesh_p10_c5",
+                "resources": [],
+                "resources": [
+                    {
+                        "source": "meshes/mesh_p10_c5/mesh/propeller.stl",
+                        "target": "constant/geometry/propeller.stl"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "engine": "pyFoamTemplate",
+                        "template_file": "system/blockMeshDict.template",
+                        "template_target_file": "system/blockMeshDict",
+                        "placeholder":
+                        {
+                            "xmin" : -0.025,
+                            "xmax" :  0.100,
+                            "ymin" : -0.06,
+                            "ymax" :  0.06,
+                            "zmin" : -0.06,
+                            "zmax" :  0.06,
+                            "dx"   :  5.0e-3,
+                            "dy"   :  5.0e-3,
+                            "dz"   :  5.0e-3
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "system/snappyHexMeshDict.template",
+                        "template_target_file": "system/snappyHexMeshDict",
+                        "placeholder":
+                        {
+                            "addLayersControls":
+                            {
+                                "relativeSizes": "true",
+                                "addLayers": "true",
+                                "layers": {
+                                    "blades": 3,
+                                    "hub": 3,
+                                    "hub_cap": 3
+                                }
+                            },
+                            "blades": [
+                                {
+                                    "key": "blade_0"
+                                },
+                                {
+                                    "key": "blade_1"
+                                }
+                            ],
+                            "snapControls":
+                            {
+                                "nSmoothPatch": 10,
+                                "tolerance": 10.0,
+                                "nSolveIter": 300,
+                                "nRelaxIter": 15,
+                                "nFeatureSnapIter": 255,
+                                "implicitFeatureSnap": "true",
+                                "explicitFeatureSnap": "true"
+                            },
+                            "x_inside_point" : 0.09999,
+                            "y_inside_point" : 0.00001,
+                            "z_inside_point" : 0.00001,
+                            "xmin" : -0.06,
+                            "xmax" :  0.11,
+                            "rmax" :  0.05,
+                            "xmin_prop_frame" : 0.0,
+                            "xmax_prop_frame" : 0.025,
+                            "r_prop_frame" :  0.03,
+                            "xmin_shaft" : -0.1,
+                            "xmax_shaft" : 0.0,
+                            "r_shaft" :  0.00225,
+                            "propeller_level_feature": 8,
+                            "propeller_level_min": 4,
+                            "propeller_level_max": 4,
+                            "propeller_level_hub_min": 5,
+                            "propeller_level_hub_max": 8,
+                            "propeller_level_blades_min": 5,
+                            "propeller_level_blades_max": 8,
+                            "shaft_level_min": 5,
+                            "shaft_level_max": 5,
+                            "propeller_frame_level_min": 5,
+                            "propeller_frame_level_max": 5,
+                            "outer_cylinder_level_min": 3,
+                            "outer_cylinder_level_max": 3
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["blockMesh"],
+                    ["surfaceFeatures"],
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "snappyHexMesh"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ]
+            },
+            "mesh_p10_c7": {
+                "case_template": "../../templates/openfoam/org14/snappy_hydro_prop_srf.template",
+                "case_target": "openfoam/meshes/mesh_p10_c7",
+                "resources": [],
+                "resources": [
+                    {
+                        "source": "meshes/mesh_p10_c7/mesh/propeller.stl",
+                        "target": "constant/geometry/propeller.stl"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "engine": "pyFoamTemplate",
+                        "template_file": "system/blockMeshDict.template",
+                        "template_target_file": "system/blockMeshDict",
+                        "placeholder":
+                        {
+                            "xmin" : -0.025,
+                            "xmax" :  0.100,
+                            "ymin" : -0.06,
+                            "ymax" :  0.06,
+                            "zmin" : -0.06,
+                            "zmax" :  0.06,
+                            "dx"   :  5.0e-3,
+                            "dy"   :  5.0e-3,
+                            "dz"   :  5.0e-3
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "system/snappyHexMeshDict.template",
+                        "template_target_file": "system/snappyHexMeshDict",
+                        "placeholder":
+                        {
+                            "addLayersControls":
+                            {
+                                "relativeSizes": "true",
+                                "addLayers": "true",
+                                "layers": {
+                                    "blades": 3,
+                                    "hub": 3,
+                                    "hub_cap": 3
+                                }
+                            },
+                            "blades": [
+                                {
+                                    "key": "blade_0"
+                                },
+                                {
+                                    "key": "blade_1"
+                                }
+                            ],
+                            "snapControls":
+                            {
+                                "nSmoothPatch": 10,
+                                "tolerance": 10.0,
+                                "nSolveIter": 300,
+                                "nRelaxIter": 15,
+                                "nFeatureSnapIter": 255,
+                                "implicitFeatureSnap": "true",
+                                "explicitFeatureSnap": "true"
+                            },
+                            "x_inside_point" : 0.09999,
+                            "y_inside_point" : 0.00001,
+                            "z_inside_point" : 0.00001,
+                            "xmin" : -0.06,
+                            "xmax" :  0.11,
+                            "rmax" :  0.05,
+                            "xmin_prop_frame" : 0.0,
+                            "xmax_prop_frame" : 0.025,
+                            "r_prop_frame" :  0.03,
+                            "xmin_shaft" : -0.1,
+                            "xmax_shaft" : 0.0,
+                            "r_shaft" :  0.00225,
+                            "propeller_level_feature": 8,
+                            "propeller_level_min": 4,
+                            "propeller_level_max": 4,
+                            "propeller_level_hub_min": 5,
+                            "propeller_level_hub_max": 8,
+                            "propeller_level_blades_min": 5,
+                            "propeller_level_blades_max": 8,
+                            "shaft_level_min": 5,
+                            "shaft_level_max": 5,
+                            "propeller_frame_level_min": 5,
+                            "propeller_frame_level_max": 5,
+                            "outer_cylinder_level_min": 3,
+                            "outer_cylinder_level_max": 3
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["blockMesh"],
+                    ["surfaceFeatures"],
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "snappyHexMesh"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ]
+            },
+            "mesh_p15_c5": {
+                "case_template": "../../templates/openfoam/org14/snappy_hydro_prop_srf.template",
+                "case_target": "openfoam/meshes/mesh_p15_c5",
+                "resources": [],
+                "resources": [
+                    {
+                        "source": "meshes/mesh_p15_c5/mesh/propeller.stl",
+                        "target": "constant/geometry/propeller.stl"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "engine": "pyFoamTemplate",
+                        "template_file": "system/blockMeshDict.template",
+                        "template_target_file": "system/blockMeshDict",
+                        "placeholder":
+                        {
+                            "xmin" : -0.025,
+                            "xmax" :  0.100,
+                            "ymin" : -0.06,
+                            "ymax" :  0.06,
+                            "zmin" : -0.06,
+                            "zmax" :  0.06,
+                            "dx"   :  5.0e-3,
+                            "dy"   :  5.0e-3,
+                            "dz"   :  5.0e-3
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "system/snappyHexMeshDict.template",
+                        "template_target_file": "system/snappyHexMeshDict",
+                        "placeholder":
+                        {
+                            "addLayersControls":
+                            {
+                                "relativeSizes": "true",
+                                "addLayers": "true",
+                                "layers": {
+                                    "blades": 3,
+                                    "hub": 3,
+                                    "hub_cap": 3
+                                }
+                            },
+                            "blades": [
+                                {
+                                    "key": "blade_0"
+                                },
+                                {
+                                    "key": "blade_1"
+                                }
+                            ],
+                            "snapControls":
+                            {
+                                "nSmoothPatch": 10,
+                                "tolerance": 10.0,
+                                "nSolveIter": 300,
+                                "nRelaxIter": 15,
+                                "nFeatureSnapIter": 255,
+                                "implicitFeatureSnap": "true",
+                                "explicitFeatureSnap": "true"
+                            },
+                            "x_inside_point" : 0.09999,
+                            "y_inside_point" : 0.00001,
+                            "z_inside_point" : 0.00001,
+                            "xmin" : -0.06,
+                            "xmax" :  0.11,
+                            "rmax" :  0.05,
+                            "xmin_prop_frame" : 0.0,
+                            "xmax_prop_frame" : 0.025,
+                            "r_prop_frame" :  0.03,
+                            "xmin_shaft" : -0.1,
+                            "xmax_shaft" : 0.0,
+                            "r_shaft" :  0.00225,
+                            "propeller_level_feature": 8,
+                            "propeller_level_min": 4,
+                            "propeller_level_max": 4,
+                            "propeller_level_hub_min": 5,
+                            "propeller_level_hub_max": 8,
+                            "propeller_level_blades_min": 5,
+                            "propeller_level_blades_max": 8,
+                            "shaft_level_min": 5,
+                            "shaft_level_max": 5,
+                            "propeller_frame_level_min": 5,
+                            "propeller_frame_level_max": 5,
+                            "outer_cylinder_level_min": 3,
+                            "outer_cylinder_level_max": 3
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["blockMesh"],
+                    ["surfaceFeatures"],
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "snappyHexMesh"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ]
+            },
+            "mesh_p15_c7": {
+                "case_template": "../../templates/openfoam/org14/snappy_hydro_prop_srf.template",
+                "case_target": "openfoam/meshes/mesh_p15_c7",
+                "resources": [],
+                "resources": [
+                    {
+                        "source": "meshes/mesh_p15_c7/mesh/propeller.stl",
+                        "target": "constant/geometry/propeller.stl"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "engine": "pyFoamTemplate",
+                        "template_file": "system/blockMeshDict.template",
+                        "template_target_file": "system/blockMeshDict",
+                        "placeholder":
+                        {
+                            "xmin" : -0.025,
+                            "xmax" :  0.100,
+                            "ymin" : -0.06,
+                            "ymax" :  0.06,
+                            "zmin" : -0.06,
+                            "zmax" :  0.06,
+                            "dx"   :  5.0e-3,
+                            "dy"   :  5.0e-3,
+                            "dz"   :  5.0e-3
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "system/snappyHexMeshDict.template",
+                        "template_target_file": "system/snappyHexMeshDict",
+                        "placeholder":
+                        {
+                            "addLayersControls":
+                            {
+                                "relativeSizes": "true",
+                                "addLayers": "true",
+                                "layers": {
+                                    "blades": 3,
+                                    "hub": 3,
+                                    "hub_cap": 3
+                                }
+                            },
+                            "blades": [
+                                {
+                                    "key": "blade_0"
+                                },
+                                {
+                                    "key": "blade_1"
+                                }
+                            ],
+                            "snapControls":
+                            {
+                                "nSmoothPatch": 10,
+                                "tolerance": 10.0,
+                                "nSolveIter": 300,
+                                "nRelaxIter": 15,
+                                "nFeatureSnapIter": 255,
+                                "implicitFeatureSnap": "true",
+                                "explicitFeatureSnap": "true"
+                            },
+                            "x_inside_point" : 0.09999,
+                            "y_inside_point" : 0.00001,
+                            "z_inside_point" : 0.00001,
+                            "xmin" : -0.06,
+                            "xmax" :  0.11,
+                            "rmax" :  0.05,
+                            "xmin_prop_frame" : 0.0,
+                            "xmax_prop_frame" : 0.025,
+                            "r_prop_frame" :  0.03,
+                            "xmin_shaft" : -0.1,
+                            "xmax_shaft" : 0.0,
+                            "r_shaft" :  0.00225,
+                            "propeller_level_feature": 8,
+                            "propeller_level_min": 4,
+                            "propeller_level_max": 4,
+                            "propeller_level_hub_min": 5,
+                            "propeller_level_hub_max": 8,
+                            "propeller_level_blades_min": 5,
+                            "propeller_level_blades_max": 8,
+                            "shaft_level_min": 5,
+                            "shaft_level_max": 5,
+                            "propeller_frame_level_min": 5,
+                            "propeller_frame_level_max": 5,
+                            "outer_cylinder_level_min": 3,
+                            "outer_cylinder_level_max": 3
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["blockMesh"],
+                    ["surfaceFeatures"],
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "snappyHexMesh"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ]
+            }
+        },
+        "cases": {
+            "case_9000rpm_4p5ms": {
+                "case_template": "../../templates/openfoam/org14/hydro_prop_srf.template",
+                "case_target": "openfoam/cases/case_9000rpm_4p5ms",
+                "resources": [
+                    {
+                        "source": "openfoam/meshes/mesh_p10_c5/constant/polyMesh",
+                        "target": "constant/polyMesh"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "engine": "jinja2",
+                        "template_file": "constant/MRFProperties.template",
+                        "template_target_file": "constant/MRFProperties",
+                        "placeholder":
+                        {
+                            "rpm": 9000,
+                            "axis": [-1, 0, 0],
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "constant/momentumTransport.template",
+                        "template_target_file": "constant/momentumTransport",
+                        "placeholder":
+                        {
+                            "simulationType": "RAS",
+                            "simulationTypeOptions": {
+                                "model": "kEpsilon",
+                                "turbulence": "on",
+                                "printCoeffs": "on"
+                            }
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/U.template",
+                        "template_target_file": "0/U",
+                        "placeholder":
+                        {
+                            "Uinlet": 4.5,
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/T.template",
+                        "template_target_file": "0/T",
+                        "placeholder":
+                        {
+                            "TInlet": 293.15
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/p.template",
+                        "template_target_file": "0/p",
+                        "placeholder":
+                        {
+                            "pOutlet": 0.0
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/epsilon.template",
+                        "template_target_file": "0/epsilon",
+                        "placeholder":
+                        {
+                            "internalField": 1.8e-3,
+                            "mixingLength": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/k.template",
+                        "template_target_file": "0/k",
+                        "placeholder":
+                        {
+                            "internalField": 3.75e-3,
+                            "intensity": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/omega.template",
+                        "template_target_file": "0/omega",
+                        "placeholder":
+                        {
+                            "internalField": 5.33333,
+                            "mixingLength": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "system/forces.template",
+                        "template_target_file": "system/forces",
+                        "placeholder":
+                        {
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "foamRun"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ],
+                "post_pro": [
+                    {
+                        "key": "forces",
+                        "type": "parse_regex",
+                        "glob": "postProcessing/forces/*/forces.dat",
+                        "pattern": "^(\\d+)\\s+\\(\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\s+\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\)\\s+\\(\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\s+\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\)",
+                        "columns": ["step", "f_p_x", "f_p_y", "f_p_z", "f_v_x", "f_v_y", "f_v_z", "m_p_x", "m_p_y", "m_p_z", "m_v_x", "m_v_y", "m_v_z"],
+                        "output": "postProcessing/forces/forces.csv",
+                        "expressions": {
+                            "d": "0.1",
+                            "rpm": "9000.0",
+                            "freq": "rpm/60",
+                            "rho": "1000.0",
+                            "v_a": "4.5",
+                            "f_x": "-(f_p_x + f_v_x)",
+                            "m_x": "(m_p_x + m_v_x)",
+                            "j": "v_a / (freq * d)",
+                            "k_t": "-f_x / (rho * freq**2 * d**4)",
+                            "k_q": "m_x / (rho * freq**2 * d**5)",
+                            "p_shaft": "2.0 * 3.1416 * m_x * freq",
+                            "eff": "(f_x * v_a) / p_shaft"
+                        }
+                    }
+                ]
+            },
+            "case_9000rpm_4p5ms": {
+                "case_template": "../../templates/openfoam/org14/hydro_prop_srf.template",
+                "case_target": "openfoam/cases/case_9000rpm_4p5ms",
+                "resources": [
+                    {
+                        "source": "openfoam/meshes/mesh_p10_c7/constant/polyMesh",
+                        "target": "constant/polyMesh"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "engine": "jinja2",
+                        "template_file": "constant/MRFProperties.template",
+                        "template_target_file": "constant/MRFProperties",
+                        "placeholder":
+                        {
+                            "rpm": 9000,
+                            "axis": [-1, 0, 0],
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "constant/momentumTransport.template",
+                        "template_target_file": "constant/momentumTransport",
+                        "placeholder":
+                        {
+                            "simulationType": "RAS",
+                            "simulationTypeOptions": {
+                                "model": "kEpsilon",
+                                "turbulence": "on",
+                                "printCoeffs": "on"
+                            }
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/U.template",
+                        "template_target_file": "0/U",
+                        "placeholder":
+                        {
+                            "Uinlet": 4.5,
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/T.template",
+                        "template_target_file": "0/T",
+                        "placeholder":
+                        {
+                            "TInlet": 293.15
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/p.template",
+                        "template_target_file": "0/p",
+                        "placeholder":
+                        {
+                            "pOutlet": 0.0
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/epsilon.template",
+                        "template_target_file": "0/epsilon",
+                        "placeholder":
+                        {
+                            "internalField": 1.8e-3,
+                            "mixingLength": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/k.template",
+                        "template_target_file": "0/k",
+                        "placeholder":
+                        {
+                            "internalField": 3.75e-3,
+                            "intensity": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/omega.template",
+                        "template_target_file": "0/omega",
+                        "placeholder":
+                        {
+                            "internalField": 5.33333,
+                            "mixingLength": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "system/forces.template",
+                        "template_target_file": "system/forces",
+                        "placeholder":
+                        {
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "foamRun"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ],
+                "post_pro": [
+                    {
+                        "key": "forces",
+                        "type": "parse_regex",
+                        "glob": "postProcessing/forces/*/forces.dat",
+                        "pattern": "^(\\d+)\\s+\\(\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\s+\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\)\\s+\\(\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\s+\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\)",
+                        "columns": ["step", "f_p_x", "f_p_y", "f_p_z", "f_v_x", "f_v_y", "f_v_z", "m_p_x", "m_p_y", "m_p_z", "m_v_x", "m_v_y", "m_v_z"],
+                        "output": "postProcessing/forces/forces.csv",
+                        "expressions": {
+                            "d": "0.1",
+                            "rpm": "9000.0",
+                            "freq": "rpm/60",
+                            "rho": "1000.0",
+                            "v_a": "4.5",
+                            "f_x": "-(f_p_x + f_v_x)",
+                            "m_x": "(m_p_x + m_v_x)",
+                            "j": "v_a / (freq * d)",
+                            "k_t": "-f_x / (rho * freq**2 * d**4)",
+                            "k_q": "m_x / (rho * freq**2 * d**5)",
+                            "p_shaft": "2.0 * 3.1416 * m_x * freq",
+                            "eff": "(f_x * v_a) / p_shaft"
+                        }
+                    }
+                ]
+            },
+            "case_9000rpm_4p5ms": {
+                "case_template": "../../templates/openfoam/org14/hydro_prop_srf.template",
+                "case_target": "openfoam/cases/case_9000rpm_4p5ms",
+                "resources": [
+                    {
+                        "source": "openfoam/meshes/mesh_p15_c5/constant/polyMesh",
+                        "target": "constant/polyMesh"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "engine": "jinja2",
+                        "template_file": "constant/MRFProperties.template",
+                        "template_target_file": "constant/MRFProperties",
+                        "placeholder":
+                        {
+                            "rpm": 9000,
+                            "axis": [-1, 0, 0],
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "constant/momentumTransport.template",
+                        "template_target_file": "constant/momentumTransport",
+                        "placeholder":
+                        {
+                            "simulationType": "RAS",
+                            "simulationTypeOptions": {
+                                "model": "kEpsilon",
+                                "turbulence": "on",
+                                "printCoeffs": "on"
+                            }
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/U.template",
+                        "template_target_file": "0/U",
+                        "placeholder":
+                        {
+                            "Uinlet": 4.5,
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/T.template",
+                        "template_target_file": "0/T",
+                        "placeholder":
+                        {
+                            "TInlet": 293.15
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/p.template",
+                        "template_target_file": "0/p",
+                        "placeholder":
+                        {
+                            "pOutlet": 0.0
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/epsilon.template",
+                        "template_target_file": "0/epsilon",
+                        "placeholder":
+                        {
+                            "internalField": 1.8e-3,
+                            "mixingLength": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/k.template",
+                        "template_target_file": "0/k",
+                        "placeholder":
+                        {
+                            "internalField": 3.75e-3,
+                            "intensity": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/omega.template",
+                        "template_target_file": "0/omega",
+                        "placeholder":
+                        {
+                            "internalField": 5.33333,
+                            "mixingLength": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "system/forces.template",
+                        "template_target_file": "system/forces",
+                        "placeholder":
+                        {
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "foamRun"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ],
+                "post_pro": [
+                    {
+                        "key": "forces",
+                        "type": "parse_regex",
+                        "glob": "postProcessing/forces/*/forces.dat",
+                        "pattern": "^(\\d+)\\s+\\(\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\s+\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\)\\s+\\(\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\s+\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\)",
+                        "columns": ["step", "f_p_x", "f_p_y", "f_p_z", "f_v_x", "f_v_y", "f_v_z", "m_p_x", "m_p_y", "m_p_z", "m_v_x", "m_v_y", "m_v_z"],
+                        "output": "postProcessing/forces/forces.csv",
+                        "expressions": {
+                            "d": "0.1",
+                            "rpm": "9000.0",
+                            "freq": "rpm/60",
+                            "rho": "1000.0",
+                            "v_a": "4.5",
+                            "f_x": "-(f_p_x + f_v_x)",
+                            "m_x": "(m_p_x + m_v_x)",
+                            "j": "v_a / (freq * d)",
+                            "k_t": "-f_x / (rho * freq**2 * d**4)",
+                            "k_q": "m_x / (rho * freq**2 * d**5)",
+                            "p_shaft": "2.0 * 3.1416 * m_x * freq",
+                            "eff": "(f_x * v_a) / p_shaft"
+                        }
+                    }
+                ]
+            },
+            "case_9000rpm_4p5ms": {
+                "case_template": "../../templates/openfoam/org14/hydro_prop_srf.template",
+                "case_target": "openfoam/cases/case_9000rpm_4p5ms",
+                "resources": [
+                    {
+                        "source": "openfoam/meshes/mesh_p15_c7/constant/polyMesh",
+                        "target": "constant/polyMesh"
+                    }
+                ],
+                "parsed_parameter_files": [
+                    {
+                        "file": "system/decomposeParDict",
+                        "placeholder": {
+                            "numberOfSubdomains": 8
+                        }
+                    }
+                ],
+                "template_files": [
+                    {
+                        "engine": "jinja2",
+                        "template_file": "constant/MRFProperties.template",
+                        "template_target_file": "constant/MRFProperties",
+                        "placeholder":
+                        {
+                            "rpm": 9000,
+                            "axis": [-1, 0, 0],
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "constant/momentumTransport.template",
+                        "template_target_file": "constant/momentumTransport",
+                        "placeholder":
+                        {
+                            "simulationType": "RAS",
+                            "simulationTypeOptions": {
+                                "model": "kEpsilon",
+                                "turbulence": "on",
+                                "printCoeffs": "on"
+                            }
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/U.template",
+                        "template_target_file": "0/U",
+                        "placeholder":
+                        {
+                            "Uinlet": 4.5,
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/T.template",
+                        "template_target_file": "0/T",
+                        "placeholder":
+                        {
+                            "TInlet": 293.15
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/p.template",
+                        "template_target_file": "0/p",
+                        "placeholder":
+                        {
+                            "pOutlet": 0.0
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/epsilon.template",
+                        "template_target_file": "0/epsilon",
+                        "placeholder":
+                        {
+                            "internalField": 1.8e-3,
+                            "mixingLength": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/k.template",
+                        "template_target_file": "0/k",
+                        "placeholder":
+                        {
+                            "internalField": 3.75e-3,
+                            "intensity": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "0/omega.template",
+                        "template_target_file": "0/omega",
+                        "placeholder":
+                        {
+                            "internalField": 5.33333,
+                            "mixingLength": 0.1
+                        }
+                    },
+                    {
+                        "engine": "jinja2",
+                        "template_file": "system/forces.template",
+                        "template_target_file": "system/forces",
+                        "placeholder":
+                        {
+                            "blades": [
+                                "blade_0",
+                                "blade_1",
+                                "blade_2",
+                                "blade_3"
+                            ]
+                        }
+                    }
+                ],
+                "pre_pro_runner_args": [
+                    ["decomposePar"]
+                ],
+                "runner_args": [
+                    ["--proc=8", "foamRun"]
+                ],
+                "post_pro_runner_args": [
+                    ["reconstructPar"]
+                ],
+                "post_pro": [
+                    {
+                        "key": "forces",
+                        "type": "parse_regex",
+                        "glob": "postProcessing/forces/*/forces.dat",
+                        "pattern": "^(\\d+)\\s+\\(\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\s+\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\)\\s+\\(\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\s+\\(([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\s+([-+]?[0-9]*\\.?[0-9]*e?[-+]?\\d*)\\)\\)",
+                        "columns": ["step", "f_p_x", "f_p_y", "f_p_z", "f_v_x", "f_v_y", "f_v_z", "m_p_x", "m_p_y", "m_p_z", "m_v_x", "m_v_y", "m_v_z"],
+                        "output": "postProcessing/forces/forces.csv",
+                        "expressions": {
+                            "d": "0.1",
+                            "rpm": "9000.0",
+                            "freq": "rpm/60",
+                            "rho": "1000.0",
+                            "v_a": "4.5",
+                            "f_x": "-(f_p_x + f_v_x)",
+                            "m_x": "(m_p_x + m_v_x)",
+                            "j": "v_a / (freq * d)",
+                            "k_t": "-f_x / (rho * freq**2 * d**4)",
+                            "k_q": "m_x / (rho * freq**2 * d**5)",
+                            "p_shaft": "2.0 * 3.1416 * m_x * freq",
+                            "eff": "(f_x * v_a) / p_shaft"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

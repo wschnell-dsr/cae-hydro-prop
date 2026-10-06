@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """ """
-
+import argparse
+import json
 import logging
-import os
 import logging.config
+import os
 import unittest
 
 from hydro_prop.meshing.propeller import PropCnf, Propeller
@@ -20,16 +21,26 @@ LOGGER_CONFIG = {
     "version": 1,
     "disable_existing_loggers": 0,
     "formatters": {"standard": {"format": "%(asctime)s %(module)s %(relativeCreated)5d %(name)-15s %(levelname)-8s %(message)s"}},
-    "handlers": {"default": {"level": "INFO", "formatter": "standard", "class": "logging.StreamHandler"}},
+    "handlers": {"default": {"level": "DEBUG", "formatter": "standard", "class": "logging.StreamHandler"}},
     "loggers": {
         "": {"handlers": ["default"], "level": "DEBUG"},
         "matplotlib": {"handlers": ["default"], "level": "INFO"},
-        "hydro_prop.meshing.profile": {"handlers": ["default"], "level": "DEBUG", "propagate": False}
+        "hydro_prop.meshing": {"handlers": ["default"], "level": "DEBUG", "propagate": False}
     },
 }
 
 
 class TestPropellerSalome(unittest.TestCase):
+
+    def setUp(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--study', required=True)
+        parser.add_argument('--mesh', required=True)
+        self.options, _ = parser.parse_known_args()
+
+        with open(os.path.join(self.options.study, "config.json"), 'r') as f:
+            self.study_data = json.load(f)
+        self.mesh_data = self.study_data["meshing"][self.options.mesh]
 
     def test_propeller_salome(self):
         logging.config.dictConfig(LOGGER_CONFIG)
@@ -46,80 +57,20 @@ class TestPropellerSalome(unittest.TestCase):
         self.geompy.addToStudy(OX, 'OX')
         self.geompy.addToStudy(OY, 'OY')
         self.geompy.addToStudy(OZ, 'OZ')
+        ref_pnt = self.geompy.MakeVertex(*self.mesh_data["ref_pnt"])
+        ref_axis = self.geompy.MakeVectorDXDYDZ(*self.mesh_data["ref_axis"])
+        norm_axis = self.geompy.MakeVectorDXDYDZ(*self.mesh_data["norm_axis"])
 
-        tmp_prop_cnf: PropCnf = {
-                "n_blades": 5,
-                "hub_length": 0.02,
-                "hub_radius": 0.0075,
-                "blade_offset": 0.0075,
-                "hub_cap_cnf": {
-                    "form": "ELLIPTIC",
-                    "length": 0.015
-                },
-                "blade_cnf": {
-                    "key": "blade_1",
-                    "debug": 1,
-                    "rotation_direction": "RIGHT",
-                    "profile_pnts": 100,
-                    "radius_hub": 0.0075,
-                    "radius_tip": 0.030,
-                    "radius_eps": 0.0001,
-                    "radius_pnts": 20,
-                    "chord_center": 0.25,
-                    "profile_cnf": {
-                        "key": "NACA 23012",
-                        "profile_type": "NACA",
-                        "profile_code": "23012"
-                    },
-                    "pitch_cnf": {
-                        "pitch_type": "LINEAR",
-                        "pitch_hub": 0.03,
-                        "pitch_tip": 0.02
-                    },
-                    "chord_cnf": {
-                        "chord_type": "ELLIPTIC",
-                        "chord_hub":  0.02,
-                        "chord_tip": 0.010
-                    },
-                    "thickness_distribution_cnf": {
-                        "radius": [0.0, 1.0],
-                        "thickness": [1.0, 1.0],
-                    },
-                    "skew_cnf": {
-                        "exponent": 1.0,
-                        "skew_max": 0.0
-                    },
-                    "rake_cnf": {
-                        "exponent": 1.0,
-                        "rake_max": 0.0
-                    }
-                }
-            }
+        tmp_prop_cnf = self.mesh_data["prop_cnf"]
 
-        mesh_cnf: MeshParameters = {
-            "algorithm": "NETGEN_1D2D3D",
-            "min_size": 0.0001,
-            "max_size": 0.0010,
-            "fineness": "COARSE",
-            "optimize": 1,
-            "second_order": 0,
-            "gmsh_3d_algo": "DELAUNAY",
-            "gmsh_sub_div_algo": "AUTOMATIC",
-            "gmsh_remesh_algo": "NO_SPLIT",
-            "gmsh_remesh_param": "HARMONIC",
-            "smouth_steps": 10,
-            "size_factor": 0.6,
-            "curvature": 5
-        }
-
-        tmp_propeller = Propeller(tmp_prop_cnf, self.geompy, self.smesh, OO, OX, OY)
+        tmp_propeller = Propeller(tmp_prop_cnf, self.geompy, self.smesh, ref_pnt, ref_axis, norm_axis)
         tmp_propeller.gen_geom("propeller")
         os.makedirs("testing/data/geo/", exist_ok=True)
         tmp_propeller.export_geo("testing/data/geo/")
 
-        tmp_propeller.gen_mesh("propeller", mesh_cnf)
-        os.makedirs("testing/data/mesh/", exist_ok=True)
-        tmp_propeller.export_mesh("testing/data/mesh/")
+        #tmp_propeller.gen_mesh("propeller", mesh_cnf)
+        #os.makedirs("testing/data/mesh/", exist_ok=True)
+        #tmp_propeller.export_mesh("testing/data/mesh/")
 
 
 if __name__ == "__main__":
