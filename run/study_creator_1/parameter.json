@@ -1,0 +1,55 @@
+{
+    "meshing_params":
+    {
+        "pitch": [
+            {
+                "key": "_p10",
+                "pitch_hub": 0.01,
+                "pitch_tip": 0.01
+            },
+            {
+                "key": "_p15",
+                "pitch_hub": 0.015,
+                "pitch_tip": 0.015
+            }
+        ],
+        "chord": [
+            {
+                "key": "_c5",
+                "chord_hub": 0.005,
+                "chord_tip": 0.0025
+            },
+            {
+                "key": "_c7",
+                "chord_hub": 0.007,
+                "chord_tip": 0.0035
+            }
+        ],
+        "blade_radius_hub": {
+            "_p10": {
+                "_c5": 0.00190,
+                "_c7": 0.00175
+            },
+            "_p15": {
+                "_c5": 0.00175,
+                "_c7": 0.00175
+            }
+        }
+    },
+    "openfoam": {
+        "case_params": {
+            "_3000_4p5": {
+                "rpm": 3000,
+                "UInlet": 4.5
+            },
+            "_6000_4p5": {
+                "rpm": 6000,
+                "UInlet": 4.5
+            },
+            "_9000_4p5": {
+                "rpm": 9000,
+                "UInlet": 4.5
+            }
+        }
+    }
+}

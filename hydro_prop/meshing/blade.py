@@ -193,6 +193,7 @@ class Blade:
             "p [m]": self.__pitch,
             "p/D []": 0.5*self.__pitch/self.__radii[-1],
             "p [deg]": 90.0 - self.__pitch_angle,
+            "t [rel]": self.__thickness,
             "rake[deg]": self.get_rake(self.__radii),
             "skew[deg]": self.get_skew(self.__radii),
         })

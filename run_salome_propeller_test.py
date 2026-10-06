@@ -4,20 +4,15 @@
 import os
 import sys
 import unittest
-import argparse
 
 os.chdir(os.environ["HYDRO_PROP_ROOT"])
 sys.path.append(os.environ["HYDRO_PROP_ROOT"])
 
-sys.argv = ["run_salome_test.py", "--test-dir=testing", "--test-pattern=*propeller_salome_test.py"]
+sys.argv = ["run_salome_propeller_test.py", "--study=run/study_creator_1", "--mesh=mesh_p10_c7"]
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--test-dir", type=str, help="")
-    parser.add_argument("--test-pattern", type=str, help="")
-    args = parser.parse_args()
 
     test_loader = unittest.TestLoader()
-    test_suite = test_loader.discover(args.test_dir, pattern=args.test_pattern, top_level_dir=".")
+    test_suite = test_loader.discover("testing", pattern="*propeller_salome_test.py", top_level_dir=".")
 
     unittest.TextTestRunner().run(test_suite)
